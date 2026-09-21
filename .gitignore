@@ -1,0 +1,49 @@
+# Estado local del workspace de Vitis / Eclipse
+/.metadata/
+/.analytics
+/RemoteSystemsTempFiles/
+
+# Directorios de compilacion de aplicaciones y proyectos de sistema
+Debug/
+Release/
+
+# Productos de compilacion y dependencias generadas
+*.o
+*.d
+*.a
+*.elf
+*.elf.size
+
+# Logs y archivos temporales de las herramientas Xilinx
+*.log
+/Platform/.log/
+/Platform/logs/
+/Platform/tempdsa/
+/xicom_zynq_bin*
+
+# Exportacion generada de la plataforma. Conservar el XSA referenciado
+# por platHandOff en Platform/platform.spr.
+/Platform/export/*
+!/Platform/export/design_1_wrapper.xsa
+
+# Copias del hardware e inicializacion generadas para cada aplicacion
+/CPU0/_ide/bitstream/
+/CPU0/_ide/psinit/
+/CPU0/_ide/hwspec.checksum
+/CPU1/_ide/bitstream/
+/CPU1/_ide/psinit/
+/CPU1/_ide/hwspec.checksum
+
+# Imagenes de arranque generadas. Mantener las recetas .bif.
+/Both_CPUs_system/_ide/bootimage/BOOT.bin
+/Both_CPUs_system/_ide/bootimage/Flash_v2_0_8.bin
+/CPU1_system/_ide/bootimage/BOOT.bin
+
+# Copias de respaldo del editor
+*.bak
+*~
+
+# No excluir globalmente .xsa, .bit, .bin ni _ide/: contienen entradas
+# hardware externas, scripts de depuracion y configuraciones necesarias.
+# Conservar CPU1_system/_ide/bootimage/BIN/ hasta normalizar sus paquetes.
+# Conservar fuentes y configuracion de BSP/FSBL hasta revisar cambios propios.

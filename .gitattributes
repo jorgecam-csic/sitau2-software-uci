@@ -1,0 +1,23 @@
+# Normalizar texto a LF en Git y en nuevos checkouts.
+# Estas reglas no convierten la codificacion de caracteres.
+* text=auto eol=lf
+
+# Scripts nativos de Windows.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Artefactos binarios: conservar sus bytes sin conversiones.
+*.xsa binary
+*.bit binary
+*.bin binary
+*.BIN binary
+*.bin_old binary
+*.binmal binary
+*.elf binary
+*.o binary
+*.a binary
+*.zip binary
+*.rar binary
+*.7z binary
+*.xlsx binary
+

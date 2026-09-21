@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<systemproject:SystemProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdkproject="http://www.xilinx.com/sdkproject" xmlns:systemproject="http://www.xilinx.com/systemproject" name="Both_CPUs_system" platform="C:/PV/UCI_SITAU2_enclustra_repository/UCI_SITAU2.sdk/Platform/export/Platform/Platform.xpfm" platformUID="xilinx:mini_module_plus_7z100_rev_c::0.0(custom)" sysConfig="Platform" runtime="cpp" dimmRepoPath="" rootFSLocation="" linuxImage="" sysroot="">
+  <configuration name="Debug" id="com.xilinx.sdx.system.managedbuilder.debugConfiguration.1511768303">
+    <configBuildOptions xsi:type="systemproject:SystemOptions">
+      <applications name="CPU0" domainName="standalone_domain" domainPrettyName="standalone on ps7_cortexa9_0" appBuildConfig="Debug"/>
+      <options xsi:type="sdkproject:SdkOptions" generateSdCard="true"/>
+    </configBuildOptions>
+    <lastBuildOptions xsi:type="systemproject:SystemOptions">
+      <applications name="CPU0" domainName="standalone_domain" domainPrettyName="standalone on ps7_cortexa9_0" appBuildConfig="Debug"/>
+      <options xsi:type="sdkproject:SdkOptions" generateSdCard="true"/>
+    </lastBuildOptions>
+  </configuration>
+  <configuration name="Release" id="com.xilinx.sdx.system.managedbuilder.releaseConfiguration.2092246253">
+    <configBuildOptions xsi:type="systemproject:SystemOptions">
+      <applications name="CPU0" domainName="red_domain" domainPrettyName="red_domain" appBuildConfig="Release"/>
+      <options xsi:type="sdkproject:SdkOptions" generateSdCard="true"/>
+    </configBuildOptions>
+  </configuration>
+</systemproject:SystemProject>

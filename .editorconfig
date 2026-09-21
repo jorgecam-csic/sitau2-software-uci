@@ -1,0 +1,14 @@
+root = true
+
+[*]
+end_of_line = lf
+# El proyecto contiene codificaciones heredadas pendientes de identificar.
+# No imponer UTF-8 a los fuentes existentes ni heredar un charset externo.
+charset = unset
+
+[*.{bat,cmd}]
+end_of_line = crlf
+
+# Los archivos de politicas del repositorio usan UTF-8 sin BOM.
+[{.gitignore,.gitattributes,.editorconfig}]
+charset = utf-8
