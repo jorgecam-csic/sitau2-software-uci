@@ -1,0 +1,37 @@
+{
+  "repo": "D:\\sitau2\\sitau2-software-uci-validation",
+  "workspace": "D:\\sitau2\\sitau2-software-uci-validation-work\\workspace",
+  "xsaSha256": "3ed161d88aff0e0c9244fbacf1fc15ac816d9b40662f01281b2efc3adf6b8286",
+  "linkedResources": {
+    "CPU0": 58,
+    "CPU1": 7
+  },
+  "oldBuildPaths": [],
+  "outputs": [
+    {
+      "path": "CPU0/Debug/CPU0.elf",
+      "sha256": "7fe23965aad30fdd7e889aec24828629593f3ebc3eeea3bece97986f7e968011",
+      "size": 1334600
+    },
+    {
+      "path": "CPU1/Debug/CPU1.elf",
+      "sha256": "4a3480269c49372989002eb00cd251d685d4feb159cfc4dc3473036925675324",
+      "size": 1285500
+    },
+    {
+      "path": "Platform/zynq_fsbl/fsbl.elf",
+      "sha256": "c24290786a0f40fee08a65b6cfb7530175dee501053dd0bdedf306000008c98e",
+      "size": 461464
+    },
+    {
+      "path": "Both_CPUs_system/Debug/sd_card/BOOT.BIN",
+      "sha256": "8038d493041694781083a6e63bed997b62c091e4226bc41d0399c18ccf63f6cf",
+      "size": 13622280
+    },
+    {
+      "path": "CPU1_system/Debug/sd_card/BOOT.BIN",
+      "sha256": "adc11f402d6d6e40d22a23a8c41dbaad9cc2c2507ab2d63d62fcc8ade5261edc",
+      "size": 13786128
+    }
+  ]
+}

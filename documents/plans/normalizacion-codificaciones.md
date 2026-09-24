@@ -5,6 +5,13 @@
 - **Estado:** propuesta pendiente de ejecución. No se han convertido los fuentes.
 - **Referencia inicial:** commit `751b302cb8e8ca2e7d21f8cfb4f437a6ca66fe09`.
 
+**Actualización del 22 de septiembre:** ya está instalado Vitis Classic 2022.2 y se ha
+obtenido una [compilación de referencia](../reports/referencia-compilacion.md). El refactor
+traslada `CPU0/src` y `CPU1/src` a `src/cpu0` y `src/cpu1`; mantiene las personalizaciones
+BSP en `config/lwip211`. Las reglas `-text` de esas rutas conservan los bytes originales,
+incluidos sus finales de línea. Las cifras y rutas del análisis siguiente describen el
+estado inicial. La normalización sigue pendiente y no se ejecuta como parte del refactor.
+
 ## 1. Objetivo y decisión actual
 
 Establecer una política de texto uniforme para trabajar en Windows, Vitis y GitHub, preservando el comportamiento del firmware y los bytes de sus interfaces externas.

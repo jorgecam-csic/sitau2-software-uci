@@ -1,0 +1,16 @@
+{
+  "identical": 2601,
+  "missing": [
+    "ps7_cortexa9_1/ps7_cortex_a0_1/bsp/system_1.mss"
+  ],
+  "equivalent": [
+    "zynq_fsbl/zynq_fsbl_bsp/system.mss",
+    "zynq_fsbl/zynq_fsbl_bsp/ps7_cortexa9_0/include/xparameters.h",
+    "ps7_cortexa9_1/ps7_cortex_a0_1/bsp/system.mss",
+    "ps7_cortexa9_1/ps7_cortex_a0_1/bsp/ps7_cortexa9_1/include/xparameters.h",
+    "ps7_cortexa9_0/standalone_domain/bsp/system.mss",
+    "ps7_cortexa9_0/standalone_domain/bsp/system_0.mss",
+    "ps7_cortexa9_0/standalone_domain/bsp/ps7_cortexa9_0/include/xparameters.h"
+  ],
+  "note": "Compared maintained reference Platform files (.c/.h/.s/.ld/.mss) against generated Platform. Equivalence ignores MSS block order and xparameters declaration order/comments."
+}

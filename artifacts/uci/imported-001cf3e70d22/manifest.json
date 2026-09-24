@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "imported-001cf3e70d22",
+  "producer": "Vivado 2022.2.2",
+  "producerCommit": null,
+  "originalPaths": [
+    "Platform/resources/design_1_wrapper.xsa"
+  ],
+  "files": [
+    {
+      "path": "design_1_wrapper.xsa",
+      "sha256": "001cf3e70d225843f370a690234267ac825517597ba467143eab7a8280a4a413"
+    }
+  ],
+  "hardwareValidated": false
+}

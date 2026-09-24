@@ -1,0 +1,786 @@
+[
+  {
+    "path": "Both_CPUs_system/_ide/bootimage/BOOT.bin",
+    "size": 13622280,
+    "sha256": "62ff4e08b5ff53f58b26714ac23a50f940a454566b58fb35fde34ac542441178",
+    "status": "pending-review",
+    "tracked": false
+  },
+  {
+    "path": "Both_CPUs_system/_ide/bootimage/Both_CPUs_system.bif",
+    "size": 348,
+    "sha256": "3586f02925c8dcbee4b9b843b192d1cc2c65b30d93ffd9eed2caa7880b69c66b",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "Both_CPUs_system/_ide/bootimage/Flash_v2_0_8.bin",
+    "size": 13622280,
+    "sha256": "85d2ec8e46c0b5e0cb793785ea6d653a9d6ef88a4dbceea261e3091b783e7ab1",
+    "status": "pending-review",
+    "tracked": false
+  },
+  {
+    "path": "Both_CPUs_system/_ide/bootimage/writebif.log",
+    "size": 845,
+    "sha256": "75b170e46066512e58abf91ef4ab090fc2d3d3666ef9fe66dcd4663185a8ec01",
+    "status": "pending-review",
+    "tracked": false
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BOOT.bin",
+    "size": 349968,
+    "sha256": "88e63509656b64d020c11735da729c2f058d6d1bab67b23b4423b5074e279b24",
+    "status": "pending-review",
+    "tracked": false
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/CPU1_system.bif",
+    "size": 135,
+    "sha256": "18aea56b62394870e5623961dbf4cfb06b65c74f09a44e774b79faa6230a4aea",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/writebif.log",
+    "size": 835,
+    "sha256": "63fde4937934b9000e10d62345262dbf477b918a46bc6d237fbf809f776bcfe1",
+    "status": "pending-review",
+    "tracked": false
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/BOOT.bin",
+    "size": 349968,
+    "sha256": "9acb0d5f70e4ef9d46adb0b268400fe0e0521337b0c7ff8e8d64f668d0707aea",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/BOOT.binmal",
+    "size": 349968,
+    "sha256": "89c9b116902aceb773270d7faf77ad376711c5c701f9e2b8e09d4040aa3de24d",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/BOOT.bin_old",
+    "size": 349968,
+    "sha256": "cd842051051f5079d62c479dfd2e1205127e0d09748a031b22704597d34d09d2",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/BOOT_old.bin",
+    "size": 317200,
+    "sha256": "199b6e21ed7ea9d6b554a6ffe4d27c9721ee668261721171820c75a056c6a8c6",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/BOOT_UCI.bin",
+    "size": 317200,
+    "sha256": "d7ce4d795de5f08d94ab57d97bc92d453996c629572a3a768593f12083ffaea1",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/impl_1.rar",
+    "size": 4873660,
+    "sha256": "09d6bd467d92cc00e176f39e5610ee22a7c61fd64800c0ecbfd64bdca77ac42f",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/impl_1.zip",
+    "size": 4758903,
+    "sha256": "82e5569b419b0701866082d7c91f1862598bc26253b6a6adfa059b7860bb39c2",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/LOG_SERVER_SEND.TXT",
+    "size": 1975417,
+    "sha256": "c7a4a8c6a4e7036f03f7b80d0159c4b19adf88571549539681a898563ced6048",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "51c4097777358061a5f0bc37d091946bafa83e6574583afefbec03eb238daf82",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "dcd88f6c880cc74239df734637c86df34410d06fd8e2df735f7ba3c6066c6811",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32CH_basics_wrapper.ltx",
+    "size": 369653,
+    "sha256": "75ba1420ebea56d65bef2cb31b8235b654f335b9711c96a98adfa9575ed7f1fe",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/orden_canales.csv",
+    "size": 750,
+    "sha256": "ace9534b0b1d349d1cf2d9a1f676614168ddcf6fb99467451b5b29ba5e7a0b8c",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/output_dasel_2024-03-11T14-23-36.csv",
+    "size": 861112,
+    "sha256": "fa9f0d0b6464a635c0d459cb58c5f22a6f0eb8cb8aa9838deb906eddf4a9abd9",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/SITAU.TXT",
+    "size": 15582,
+    "sha256": "6a6fffd9c1fbeaea51ae741688e70e62c3a10f175ae9f988b75b2c4990935d41",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/SITAU.XML",
+    "size": 1938,
+    "sha256": "950e1394a9af820779fe42cb8a45cf7521cd1215969cc1d1af4f733855ef2eaf",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/SITAU_daqsonics.XML",
+    "size": 25511,
+    "sha256": "98c26597660e1a89b96419b655ca8f47d2516a94a0049b0557d41bb9d1ec09b5",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/SITAU_hypertronix.XML",
+    "size": 25511,
+    "sha256": "7dfe34c579d36e9c909d2851bb28bda4cf23d143f587a5c07770ce696f3cffcc",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/SITAU_NoAssignment.XML",
+    "size": 25094,
+    "sha256": "91bbb386886054fc1f83ac3248ec375d2adeb50de759dc9c70ebd9c9969bb882",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/SITAU_vernom.XML",
+    "size": 27385,
+    "sha256": "94cb2288e86088b50feee69baa65fc616a023583bc18c9dfa3f0fe2a4705db98",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/Table.xlsx",
+    "size": 4069,
+    "sha256": "92dacef318d42c558ea73fd882f86fc22f3e516539d47cff868088fe33c44945",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/_SITAU.XML",
+    "size": 25511,
+    "sha256": "7dfe34c579d36e9c909d2851bb28bda4cf23d143f587a5c07770ce696f3cffcc",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/Bitstream_mod_beamformers/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "8817868fb6c9cec7e168ebe25671427d797d0ce59b5fc7319b74d6b185d18bc2",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/Bitstream_mod_beamformers/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "dc23edd61578a61a52ecef613561b9034adb8a7ef68f655e1d42b1cf680aa837",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/Bitstream_mod_beamformers/MK32CH_basics_wrapper.ltx",
+    "size": 231307,
+    "sha256": "8bf369d6f84424a9083155bfe88c41c9a87e16b19507fe401b752657c75f0812",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/impl_1/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "48c32d376caf6aa63ead803c9d6d3ae4110bd2ff5041874d7e45d04ec8493d70",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/impl_1/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "f3e105d12a77c28176c60da974064f6627dbb5c75b3108fef9a7f60bfc030ef5",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/impl_1/MK32CH_basics_wrapper.ltx",
+    "size": 223503,
+    "sha256": "7bab51eb5f0b231cd5df911b6555e27de32fc2dbea1c47949598054641fce8ed",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/impl_1_zip/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "81ee94f6b85fd0b129f5788b5d1a58756a0e46ca4d073b1915249c1a16cdd6d2",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/impl_1_zip/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "9b468d10d4dfa608a52c093643206cd42ad886c449caab6afc963a20f6e7bd25",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/impl_1_zip/MK32CH_basics_wrapper.ltx",
+    "size": 137079,
+    "sha256": "4ff309e9dc602ad3c86169ce38673a8a22e69be765fd8fe128889ec417ba393c",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/Mailyn/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "45af77f2b4b469789c7f16270862b82defd6a0034e95562e22acf692f128159e",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/Mailyn/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "01c1cbd3f1237aae50c546e99b10b3ddd34df1a017fd23cf1d9701c1db4966ab",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/Mailyn/MK32CH_basics_wrapper.ltx",
+    "size": 158784,
+    "sha256": "12fa2695c2c74357a1cd3c4e9c91de28aef4b87a3e82fedb5d59e0b195465dec",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK2_mucho_Debug/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "62af265f83ab7584a6490d7f1828a8a80c85bc5acf943bc566f213b62a80620a",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK2_mucho_Debug/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "5091b0c0224f14f9d0c753988b79c4ab92567e9d99debd558a1f15367320b566",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK2_mucho_Debug/MK32CH_basics_wrapper.ltx",
+    "size": 305297,
+    "sha256": "f48bf4b8a68462a2fb295a5da6bd1ce762dcfb156259cd833a7b735e4492beba",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_arreglos y debug conformadores/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "06e596755ec4c6857d82634c798f4042028784113659e18d95be0a9daa64014c",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_arreglos y debug conformadores/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "7b037faa41f915bd614c4446d0b9ede4cf504296d260c3733c878c5c37a0523d",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_arreglos y debug conformadores/MK32CH_basics_wrapper.ltx",
+    "size": 236937,
+    "sha256": "c393a72c2593c2765cb1362ee2d5f9aaa40ccef951abf5398833ffbce57ddfc8",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_a_ver/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "1f202a3c8e0d30d1c358a12b7781d5121f1fa81bbb897fb7c8d0b72a89abfe38",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_a_ver/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "048ff832e7b1eb08d7d11a686408a1addddb932cd143afba8df01642780b270d",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_a_ver/MK32CH_basics_wrapper.ltx",
+    "size": 174776,
+    "sha256": "ca1d2ecb5e0ec44d732103da6f4de25177ab41e0c5836513d4f136671454cf11",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "89535fad25d32b03f5e707e0aad03996c2bf14ce63a6d37916a01d61205af83b",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "3174b76eb61affe1b28d29b6e72cb8658357e9c24656f2791ecc937c38352eaf",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer/MK32CH_basics_wrapper.ltx",
+    "size": 192065,
+    "sha256": "159ccf73e6e2de581f8afc45fe660cf09b768b1d5e70df13c211ef57697a4707",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer_debug_4fallostemporales/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "2bbe75cc1bc63b3834bd9b0c9189a16f68c46e4ae6bb27ea8e493ee024bab94d",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer_debug_4fallostemporales/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "4044ced6e29cc1abece723c505025b19f25ce7620875d28de900829fa1c0afcf",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer_debug_4fallostemporales/MK32CH_basics_wrapper.ltx",
+    "size": 227396,
+    "sha256": "c12929674e4f9388fa9ba638f6354bb9974d321bbefd38f1faa1f95bf9bf23d1",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_con2DMAs/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "527ac7827fe48b14600778c9ea08f19aa4f5c24bd7747f7fcc89371f8eb2ccca",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_con2DMAs/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "5bac540b36923d8e1002d7986aa19a1b38baff0b1f745726c829bb6f5c38771e",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_con2DMAs/MK32CH_basics_wrapper.ltx",
+    "size": 319765,
+    "sha256": "4b13e55c1380bf8edc5d48c219fd533eec4657364aea51cfc53467aeee433541",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_confarreglado/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "83199a2aa5a202335ccf52d14607a9d7c9c1b4903fd78f6b2ab73af421413a51",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_confarreglado/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "b396815dcb00388ed7ac534719c02d7c886b34b1937009d27a429925b4113cf8",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_confarreglado/MK32CH_basics_wrapper.ltx",
+    "size": 210430,
+    "sha256": "ea4327ca56e03e408b7cf53c4ac32a3f9fd2baec287df404232ff3712e9e485d",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_conformador_arreglado_error_datos_entrada_acabados/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "5ea300d338aaa7cd4a90683b20b10fbf415120c8bb7679a1db8710da49595469",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_conformador_arreglado_error_datos_entrada_acabados/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "62b128d3b8103be443fc5f10f710114f5015071e57e62241af93ff47f64b7fe9",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_conformador_arreglado_error_datos_entrada_acabados/MK32CH_basics_wrapper.ltx",
+    "size": 211955,
+    "sha256": "8f94a45ab27a042d6934ca9c764d3f5aec7dbeda1a2605607ba5fb783a76531c",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_alineamiento/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "1a8e206dc88fd91cb4962c5df51ad9d80d9526c2425144b5afb00062505dc2da",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_alineamiento/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "d62cc543a3a61d1f285b93d9bf55b90334807bc4616fdadfff1f8a75bbb16913",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_alineamiento/MK32CH_basics_wrapper.ltx",
+    "size": 309191,
+    "sha256": "37bdc7cad9ea0a587494e78e1bd8002acdb6bb3862cf64ef19b580a3e3d02dab",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_conformador_sin_fallos/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "a1128d84ad9b06ee5793cf0dadd53a6c281ade256c2b3ab462485cc4c679e0e2",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_conformador_sin_fallos/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "deee71c0728ebcb9d2ae588b9339df5b9e29e0e27a96ba3d1983ef53f1a2de1b",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_conformador_sin_fallos/MK32CH_basics_wrapper.ltx",
+    "size": 319573,
+    "sha256": "177c82a092797a61d6e64ef3e48177d693562048e8149ed81c54936255256184",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_DATAMOVER_PARA_TFM_8_FALLOS/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "0905638d7ebe430bad93a5b48f74cf6833829c864ed35c696c29384417fd848d",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_DATAMOVER_PARA_TFM_8_FALLOS/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "aec58e75d956a6fb13f6254a1a0a0dad7289d35843bef9a8b29d408267df79e7",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_DATAMOVER_PARA_TFM_8_FALLOS/MK32CH_basics_wrapper.ltx",
+    "size": 226365,
+    "sha256": "79151d4b188f0e4952fa07301e5a09ac6c95317179581252dd9e3c59497adccd",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debugprom2lineasmal/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "eefcbe86f322c339af15692ede4bc9d728e215ec5edd0642c21f543140ed516d",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debugprom2lineasmal/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "c0eb0a75f3ffb9b37e014909d6bc79dca91773c0004f5e5577a2821e80ed2eb2",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debugprom2lineasmal/MK32CH_basics_wrapper.ltx",
+    "size": 262111,
+    "sha256": "b9214ca240cd3787254f93794031fb4ad7488443677b20441900938f09f78254",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debugpromediado/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "48c32d376caf6aa63ead803c9d6d3ae4110bd2ff5041874d7e45d04ec8493d70",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debugpromediado/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "f3e105d12a77c28176c60da974064f6627dbb5c75b3108fef9a7f60bfc030ef5",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debugpromediado/MK32CH_basics_wrapper.ltx",
+    "size": 223503,
+    "sha256": "7bab51eb5f0b231cd5df911b6555e27de32fc2dbea1c47949598054641fce8ed",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_512bits/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "d275ec0e9ddb23745b2fa42328e1f6cfb13cc456075fc02c41c1b18b7694b877",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_512bits/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "027e14d4d07e860282479005135633e7a917def6b64bda15e731974885cdc359",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_512bits/MK32CH_basics_wrapper.ltx",
+    "size": 433637,
+    "sha256": "be8ec3f08851e24ad25e2eb78e79d22048ba8f5319f31f81e3f80eb902f262b7",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_addr_ida_0fallos/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "fd9165414cb1a77450714a5114f801fd393eb1ecaccf2338a82174a5ec3f6e22",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_addr_ida_0fallos/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "7803dec627a60a46853f2caadd4f72173ca525e700a22f852b0c395f6c3a1d78",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_addr_ida_0fallos/MK32CH_basics_wrapper.ltx",
+    "size": 174776,
+    "sha256": "ca1d2ecb5e0ec44d732103da6f4de25177ab41e0c5836513d4f136671454cf11",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_mem/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "51c4097777358061a5f0bc37d091946bafa83e6574583afefbec03eb238daf82",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_mem/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "dcd88f6c880cc74239df734637c86df34410d06fd8e2df735f7ba3c6066c6811",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_mem/MK32CH_basics_wrapper.ltx",
+    "size": 369653,
+    "sha256": "75ba1420ebea56d65bef2cb31b8235b654f335b9711c96a98adfa9575ed7f1fe",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_T0_I/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "8e61d870afde91a12914c0d8d970b0fe98408e858e51d61a70a57c900aa92368",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_T0_I/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "cb46791969ec20411ffee887b2f0ab77bfd51a1aa2661883b505a09f9abdf939",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_T0_I/MK32CH_basics_wrapper.ltx",
+    "size": 207705,
+    "sha256": "7bd5094ed446b5b98d06e87f418582d2ecf6a2aa4e20e97d3223415b43175d7c",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_funciona_ulti/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "0905638d7ebe430bad93a5b48f74cf6833829c864ed35c696c29384417fd848d",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_funciona_ulti/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "aec58e75d956a6fb13f6254a1a0a0dad7289d35843bef9a8b29d408267df79e7",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_funciona_ulti/MK32CH_basics_wrapper.ltx",
+    "size": 226365,
+    "sha256": "79151d4b188f0e4952fa07301e5a09ac6c95317179581252dd9e3c59497adccd",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_intento_arreglo_promediado/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "2437b32ffcc09e3d2cfab4fb7372fbf469f62bf1dd69410f06dba017ff25b929",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_intento_arreglo_promediado/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "38007ba832fe78bc7d2786fbe738c0cfb81f371d77393aeb3b922c67b00cd891",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_intento_arreglo_promediado/MK32CH_basics_wrapper.ltx",
+    "size": 236937,
+    "sha256": "c393a72c2593c2765cb1362ee2d5f9aaa40ccef951abf5398833ffbce57ddfc8",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_mem_ida_0fallos/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "120d8fa2e9dab8cf3e1ba746b843624fdc46549d824cd5ab6d725f4e5697399b",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_mem_ida_0fallos/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "9ca8ba117f6993bfccc3be9d8e4975032fc5bb9fd15b597d2b80b3d96558dfce",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_mem_ida_0fallos/MK32CH_basics_wrapper.ltx",
+    "size": 174776,
+    "sha256": "ca1d2ecb5e0ec44d732103da6f4de25177ab41e0c5836513d4f136671454cf11",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_1lineamal/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "45af77f2b4b469789c7f16270862b82defd6a0034e95562e22acf692f128159e",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_1lineamal/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "01c1cbd3f1237aae50c546e99b10b3ddd34df1a017fd23cf1d9701c1db4966ab",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_1lineamal/MK32CH_basics_wrapper.ltx",
+    "size": 158784,
+    "sha256": "12fa2695c2c74357a1cd3c4e9c91de28aef4b87a3e82fedb5d59e0b195465dec",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_7lineamal/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "5638c9b6d6c3c5187c0de03ebcbd8fe31725052ade07929b813541ad17e5f607",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_7lineamal/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "3bc0c5bf10b00aa3d4c9a0be337f05fc44aaed7c0bfc032468119fc4cecf6854",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_7lineamal/MK32CH_basics_wrapper.ltx",
+    "size": 177696,
+    "sha256": "c39a20f93fe84e7d480ff1a64993dec8b4ed4475fa0809f22bdb2c9fd3741788",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_previo_a_arregloconformadores/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "48c32d376caf6aa63ead803c9d6d3ae4110bd2ff5041874d7e45d04ec8493d70",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_previo_a_arregloconformadores/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "f3e105d12a77c28176c60da974064f6627dbb5c75b3108fef9a7f60bfc030ef5",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/MK32_previo_a_arregloconformadores/MK32CH_basics_wrapper.ltx",
+    "size": 223503,
+    "sha256": "7bab51eb5f0b231cd5df911b6555e27de32fc2dbea1c47949598054641fce8ed",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/tmp/MK32CH_basics_wrapper.bin",
+    "size": 6692572,
+    "sha256": "0905638d7ebe430bad93a5b48f74cf6833829c864ed35c696c29384417fd848d",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/tmp/MK32CH_basics_wrapper.bit",
+    "size": 6692692,
+    "sha256": "aec58e75d956a6fb13f6254a1a0a0dad7289d35843bef9a8b29d408267df79e7",
+    "status": "pending-review",
+    "tracked": true
+  },
+  {
+    "path": "CPU1_system/_ide/bootimage/BIN/tmp/MK32CH_basics_wrapper.ltx",
+    "size": 226365,
+    "sha256": "79151d4b188f0e4952fa07301e5a09ac6c95317179581252dd9e3c59497adccd",
+    "status": "pending-review",
+    "tracked": true
+  }
+]

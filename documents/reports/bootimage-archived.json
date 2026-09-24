@@ -1,0 +1,37 @@
+[
+  {
+    "original": "Both_CPUs_system/_ide/bootimage/BOOT.bin",
+    "archive": "D:\\sitau2\\sitau2-software-uci-work\\reference\\bootimage-legacy-20260923\\Both_CPUs_system\\_ide\\bootimage\\BOOT.bin",
+    "sha256": "62FF4E08B5FF53F58B26714AC23A50F940A454566B58FB35FDE34AC542441178"
+  },
+  {
+    "original": "Both_CPUs_system/_ide/bootimage/Flash_v2_0_8.bin",
+    "archive": "D:\\sitau2\\sitau2-software-uci-work\\reference\\bootimage-legacy-20260923\\Both_CPUs_system\\_ide\\bootimage\\Flash_v2_0_8.bin",
+    "sha256": "85D2EC8E46C0B5E0CB793785EA6D653A9D6EF88A4DBCEEA261E3091B783E7AB1"
+  },
+  {
+    "original": "Both_CPUs_system/_ide/bootimage/Both_CPUs_system.bif",
+    "archive": "D:\\sitau2\\sitau2-software-uci-work\\reference\\bootimage-legacy-20260923\\Both_CPUs_system\\_ide\\bootimage\\Both_CPUs_system.bif",
+    "sha256": "3586F02925C8DCBEE4B9B843B192D1CC2C65B30D93FFD9EED2CAA7880B69C66B"
+  },
+  {
+    "original": "Both_CPUs_system/_ide/bootimage/writebif.log",
+    "archive": "D:\\sitau2\\sitau2-software-uci-work\\reference\\bootimage-legacy-20260923\\Both_CPUs_system\\_ide\\bootimage\\writebif.log",
+    "sha256": "75B170E46066512E58ABF91EF4AB090FC2D3D3666EF9FE66DCD4663185A8EC01"
+  },
+  {
+    "original": "CPU1_system/_ide/bootimage/BOOT.bin",
+    "archive": "D:\\sitau2\\sitau2-software-uci-work\\reference\\bootimage-legacy-20260923\\CPU1_system\\_ide\\bootimage\\BOOT.bin",
+    "sha256": "88E63509656B64D020C11735DA729C2F058D6D1BAB67B23B4423B5074E279B24"
+  },
+  {
+    "original": "CPU1_system/_ide/bootimage/CPU1_system.bif",
+    "archive": "D:\\sitau2\\sitau2-software-uci-work\\reference\\bootimage-legacy-20260923\\CPU1_system\\_ide\\bootimage\\CPU1_system.bif",
+    "sha256": "18AEA56B62394870E5623961DBF4CFB06B65C74F09A44E774B79FAA6230A4AEA"
+  },
+  {
+    "original": "CPU1_system/_ide/bootimage/writebif.log",
+    "archive": "D:\\sitau2\\sitau2-software-uci-work\\reference\\bootimage-legacy-20260923\\CPU1_system\\_ide\\bootimage\\writebif.log",
+    "sha256": "63FDE4937934B9000E10D62345262DBF477B918A46BC6D237FBF809F776BCFE1"
+  }
+]

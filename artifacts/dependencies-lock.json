@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "toolchain": "2022.2",
+  "uci": {
+    "package": "uci/imported-3ed161d88aff",
+    "file": "design_1_wrapper.xsa",
+    "sha256": "3ed161d88aff0e0c9244fbacf1fc15ac816d9b40662f01281b2efc3adf6b8286"
+  }
+}

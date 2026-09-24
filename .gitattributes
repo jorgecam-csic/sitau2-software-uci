@@ -21,3 +21,13 @@
 *.7z binary
 *.xlsx binary
 
+# Mantener los bytes heredados durante el refactor. Normalizacion aplazada.
+src/** -text
+config/lwip211/*.c -text
+
+# Paquetes externos: todos los payloads deben conservar el SHA-256 del productor.
+# Incluye LTX y ps7_init (C/H/Tcl/HTML), aunque sean texto.
+artifacts/** -text
+artifacts/**/README.md text eol=lf
+artifacts/**/manifest.json text eol=lf
+artifacts/dependencies-lock.json text eol=lf
