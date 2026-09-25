@@ -78,6 +78,7 @@ try {
     $manifest = [ordered]@{
         schemaVersion=2; version=$Version; createdUtc=[DateTime]::UtcNow.ToString('o')
         software=[ordered]@{commit=$record.commit;dirty=$false;buildCompletedUtc=$record.completedUtc;inputs=$record.inputs}
+        packaging=[ordered]@{commit=(Get-RepoCommit $repo);inputs=(Get-PackagingInputs $repo)}
         toolchain=$record.toolchain
         hardware=(Get-Content -LiteralPath (Join-Path $repo 'artifacts/dependencies-lock.json') -Raw | ConvertFrom-Json)
         inputs=$inputHashes; products=$packageManifest.products; artifacts=$packageManifest.artifacts

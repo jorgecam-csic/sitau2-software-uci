@@ -40,14 +40,9 @@ if ((Get-FileHash -LiteralPath $xsa -Algorithm SHA256).Hash -ne $lock.uci.sha256
 if (@($manifest.files | Where-Object { $_.path -eq $lock.uci.file -and $_.sha256 -eq $lock.uci.sha256 }).Count -ne 1) { throw 'Lock y manifiesto no coinciden.' }
 Write-Host "Dependencia verificada: $($manifest.id)"
 if ($Action -eq 'Verify') { return }
-# La huella incluye recetas y configuracion; los fuentes pueden editarse normalmente.
-$inputs = @(Get-InputFiles @((Join-Path $repo 'config'),$PSScriptRoot) | Sort-Object FullName)
-$recipe = @($lockPath) + @($inputs.FullName)
-$sourcePaths = @(Get-InputFiles @((Join-Path $repo 'src')) | ForEach-Object { $_.FullName.Substring($repo.Length) } | Sort-Object)
-$fingerprintText = (($recipe | ForEach-Object { $_.Substring($repo.Length) + ':' + (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash }) -join "`n")
-$fingerprintText += "`n" + ($sourcePaths -join "`n")
-$sha = [Security.Cryptography.SHA256]::Create()
-try { $fingerprint = ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($fingerprintText)))).Replace('-','') } finally { $sha.Dispose() }
+# La huella solo cubre la estructura generada. El contenido de los fuentes exige
+# Build, no Setup; empaquetado, publicacion y flash tampoco regeneran el workspace.
+$fingerprint = Get-WorkspaceFingerprint $repo
 function Assert-CustomLwip {
     $libraryRoot = Join-Path $workspace 'software-repository/sw_services/lwip211_v1_08_s'
     $metadataPath = Join-Path $libraryRoot 'data/lwip211.mld'
@@ -71,7 +66,17 @@ function Assert-CustomLwip {
 }
 if ($Action -eq 'Check') {
     $checkState = Get-Content -LiteralPath (Join-Path $workspace '.sitau-workspace.json') -Raw | ConvertFrom-Json
-    if (!$checkState.ready -or $checkState.repo -ne $repo -or $checkState.fingerprint -ne $fingerprint) {
+    $stateSchema = if ($null -ne $checkState.PSObject.Properties['schemaVersion']) { [int]$checkState.schemaVersion } else { 1 }
+    $compatible = $checkState.ready -and $checkState.repo -eq $repo -and $checkState.fingerprint -eq $fingerprint
+    if (!$compatible -and $stateSchema -eq 1 -and $checkState.ready -and $checkState.repo -eq $repo) {
+        $legacyRecordPath = Join-Path $workspace '.sitau-build.json'
+        if (Test-Path -LiteralPath $legacyRecordPath -PathType Leaf) {
+            $legacyRecord = Get-Content -LiteralPath $legacyRecordPath -Raw | ConvertFrom-Json
+            $compatible = Test-LegacyWorkspaceCompatibility $repo $legacyRecord.inputs
+            if ($compatible) { Write-Host 'Workspace anterior compatible: solo cambiaron entradas ajenas a su estructura.' }
+        }
+    }
+    if (!$compatible) {
         throw 'Workspace desactualizado. Cierra Vitis y ejecuta generar-workspace.bat.'
     }
     Assert-CustomLwip
@@ -119,7 +124,7 @@ try {
     } else {
         if ($Action -ne 'Setup') { throw 'No existe el workspace. Ejecuta primero generar-workspace.bat.' }
         New-Item -ItemType Directory -Path $workspace | Out-Null
-        @{repo=$repo;fingerprint=$fingerprint;ready=$false} | ConvertTo-Json | Set-Content -LiteralPath $statePath -Encoding UTF8
+        @{schemaVersion=2;repo=$repo;fingerprint=$fingerprint;ready=$false} | ConvertTo-Json | Set-Content -LiteralPath $statePath -Encoding UTF8
     }
     $env:PATH = "$VitisHome\gnuwin\bin;$env:SystemRoot\System32;$env:SystemRoot;$env:SystemRoot\System32\Wbem;$(Split-Path $script:SitauGit)"
     $logs = Join-Path $WorkRoot 'logs'
@@ -146,7 +151,7 @@ try {
     if ($create) {
         Invoke-Recipe 'setup'
         Assert-CustomLwip
-        @{repo=$repo;fingerprint=$fingerprint;ready=$true;xsaSha256=$lock.uci.sha256} | ConvertTo-Json | Set-Content -LiteralPath $statePath -Encoding UTF8
+        @{schemaVersion=2;repo=$repo;fingerprint=$fingerprint;ready=$true;xsaSha256=$lock.uci.sha256} | ConvertTo-Json | Set-Content -LiteralPath $statePath -Encoding UTF8
     }
     if (!$create) { Assert-CustomLwip }
     if ($create) {
@@ -176,7 +181,7 @@ endif
         Assert-SameMap $buildInputs (Get-BuildInputs $repo) 'Entradas modificadas durante Build; repetir compilacion'
         if ($buildCommit -ne (Get-RepoCommit $repo)) { throw 'Git cambio durante Build; repetir compilacion.' }
         $buildRecord = [ordered]@{
-            schemaVersion=1;commit=$buildCommit;completedUtc=[DateTime]::UtcNow.ToString('o')
+            schemaVersion=2;commit=$buildCommit;completedUtc=[DateTime]::UtcNow.ToString('o')
             inputs=$buildInputs;products=(Get-BuildProducts $workspace)
             toolchain=[ordered]@{version='2022.2';versionFileSha256=(Get-FileHash -LiteralPath (Join-Path $VitisHome 'data/version.bat') -Algorithm SHA256).Hash.ToLowerInvariant()}
         }

@@ -24,15 +24,106 @@ function Get-InputFiles([string[]]$Roots) {
         !$_.Name.EndsWith('~')
     }
 }
-function Get-BuildInputs([string]$Repo) {
+function Get-HashMap([string]$Repo, $Files) {
     $result = [ordered]@{}
-    foreach ($root in @('src','config','scripts','artifacts')) {
-        foreach ($file in (Get-InputFiles @((Join-Path $Repo $root)) | Sort-Object FullName)) {
-            $name = $file.FullName.Substring($Repo.Length+1).Replace('\','/')
-            $result[$name] = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+    foreach ($file in @($Files | Sort-Object FullName -Unique)) {
+        $name = $file.FullName.Substring($Repo.Length+1).Replace('\','/')
+        $result[$name] = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+    }
+    return $result
+}
+function Get-WorkspaceRecipeFiles([string]$Repo) {
+    # Solo entradas que cambian la plataforma, BSP, enlaces de fuentes o
+    # biblioteca lwIP copiada. Empaquetado, publicacion y flash no pertenecen
+    # a la estructura del workspace.
+    $explicit = @(
+        (Join-Path $Repo 'artifacts/dependencies-lock.json'),
+        (Join-Path $Repo 'config/applications.tcl'),
+        (Join-Path $Repo 'scripts/create-workspace.tcl')
+    )
+    $files = @()
+    foreach ($path in $explicit) {
+        if (!(Test-Path -LiteralPath $path -PathType Leaf)) { throw "Falta entrada de workspace: $path" }
+        $files += Get-Item -LiteralPath $path
+    }
+    $files += @(Get-InputFiles @((Join-Path $Repo 'config/bsp'),(Join-Path $Repo 'config/lwip211')))
+    return @($files | Sort-Object FullName -Unique)
+}
+function Get-SourceRelativeNames([string]$Repo) {
+    return @(Get-InputFiles @((Join-Path $Repo 'src')) | ForEach-Object { $_.FullName.Substring($Repo.Length+1).Replace('\','/') } | Sort-Object)
+}
+function Get-WorkspaceFingerprint([string]$Repo) {
+    $recipe = Get-HashMap $Repo (Get-WorkspaceRecipeFiles $Repo)
+    $lines = @('workspace-recipe-schema:2')
+    foreach ($key in $recipe.Keys) { $lines += "$key`:$($recipe[$key])" }
+    $lines += 'source-paths:'
+    $lines += @(Get-SourceRelativeNames $Repo)
+    $sha = [Security.Cryptography.SHA256]::Create()
+    try { return ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes(($lines -join "`n"))))).Replace('-','') }
+    finally { $sha.Dispose() }
+}
+function Get-ActiveHardwareFiles([string]$Repo) {
+    $artifacts = [IO.Path]::GetFullPath((Join-Path $Repo 'artifacts'))
+    $lockPath = Join-Path $artifacts 'dependencies-lock.json'
+    $lock = Get-Content -LiteralPath $lockPath -Raw | ConvertFrom-Json
+    $package = [IO.Path]::GetFullPath((Join-Path $artifacts ([string]$lock.uci.package)))
+    if (!$package.StartsWith($artifacts.TrimEnd('\') + '\',[StringComparison]::OrdinalIgnoreCase) -or
+        !(Test-Path -LiteralPath $package -PathType Container)) { throw 'Paquete hardware activo no valido.' }
+    return @((Get-Item -LiteralPath $lockPath)) + @(Get-InputFiles @($package))
+}
+function Get-BuildInputs([string]$Repo) {
+    $files = @(Get-InputFiles @((Join-Path $Repo 'src')))
+    $files += @(Get-WorkspaceRecipeFiles $Repo)
+    $files += @(Get-ActiveHardwareFiles $Repo)
+    return Get-HashMap $Repo $files
+}
+function Get-PackagingInputs([string]$Repo) {
+    $files = @(Get-InputFiles @((Join-Path $Repo 'config/bootimage')))
+    foreach ($relative in @('scripts/package.ps1','scripts/generar-nueva-version.ps1')) {
+        $path = Join-Path $Repo $relative
+        if (!(Test-Path -LiteralPath $path -PathType Leaf)) { throw "Falta receta de empaquetado: $path" }
+        $files += Get-Item -LiteralPath $path
+    }
+    return Get-HashMap $Repo $files
+}
+function ConvertTo-Map($Value) {
+    $result = @{}
+    if ($Value -is [System.Collections.IDictionary]) {
+        foreach ($key in $Value.Keys) { $result[$key] = $Value[$key] }
+    } else {
+        foreach ($property in $Value.PSObject.Properties) { $result[$property.Name] = $property.Value }
+    }
+    return $result
+}
+function Get-LegacyScopedBuildInputs([string]$Repo, $Inputs) {
+    $all = ConvertTo-Map $Inputs
+    $lock = Get-Content -LiteralPath (Join-Path $Repo 'artifacts/dependencies-lock.json') -Raw | ConvertFrom-Json
+    $activePrefix = ('artifacts/' + ([string]$lock.uci.package).Trim('/').Replace('\','/') + '/')
+    $result = [ordered]@{}
+    foreach ($key in @($all.Keys | Sort-Object)) {
+        if ($key -like 'src/*' -or $key -ceq 'config/applications.tcl' -or
+            $key -like 'config/bsp/*' -or $key -like 'config/lwip211/*' -or
+            $key -ceq 'scripts/create-workspace.tcl' -or
+            $key -ceq 'artifacts/dependencies-lock.json' -or $key.StartsWith($activePrefix,[StringComparison]::OrdinalIgnoreCase)) {
+            $result[$key] = $all[$key]
         }
     }
     return $result
+}
+function Test-LegacyWorkspaceCompatibility([string]$Repo, $Inputs) {
+    try {
+        $legacy = ConvertTo-Map $Inputs
+        $currentRecipe = Get-HashMap $Repo (Get-WorkspaceRecipeFiles $Repo)
+        $legacyRecipe = [ordered]@{}
+        foreach ($key in $currentRecipe.Keys) {
+            if (!$legacy.ContainsKey($key)) { return $false }
+            $legacyRecipe[$key] = $legacy[$key]
+        }
+        Assert-SameMap $legacyRecipe $currentRecipe 'Receta de workspace cambiada'
+        $legacySources = @($legacy.Keys | Where-Object { $_ -like 'src/*' } | Sort-Object)
+        $currentSources = @(Get-SourceRelativeNames $Repo)
+        return (($legacySources -join "`n") -ceq ($currentSources -join "`n"))
+    } catch { return $false }
 }
 function Get-PackageInputs([string]$Workspace) {
     return [ordered]@{
@@ -51,12 +142,7 @@ function Get-BuildProducts([string]$Workspace) {
     return $result
 }
 function Assert-SameMap($Expected, $Actual, [string]$Message) {
-    $expectedMap = @{}
-    if ($Expected -is [System.Collections.IDictionary]) {
-        foreach ($key in $Expected.Keys) { $expectedMap[$key] = $Expected[$key] }
-    } else {
-        foreach ($property in $Expected.PSObject.Properties) { $expectedMap[$property.Name] = $property.Value }
-    }
+    $expectedMap = ConvertTo-Map $Expected
     if ($expectedMap.Count -ne $Actual.Count) { throw $Message }
     foreach ($key in $Actual.Keys) {
         if (!$expectedMap.ContainsKey($key) -or $expectedMap[$key] -cne $Actual[$key]) { throw "$Message ($key)" }
@@ -73,14 +159,15 @@ function Assert-BuildRecord([string]$Repo, [string]$Workspace, [string]$VitisHom
     $path = Join-Path $Workspace '.sitau-build.json'
     if (!(Test-Path -LiteralPath $path -PathType Leaf)) { throw 'Falta registro de compilacion. Ejecuta setup.ps1 -Action Build.' }
     $record = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
-    if ($record.schemaVersion -ne 1 -or $record.commit -ne (Get-RepoCommit $Repo)) { throw 'La compilacion pertenece a otro commit. Ejecuta Build despues del commit.' }
+    if ($record.schemaVersion -notin @(1,2)) { throw 'Version de registro de compilacion no soportada.' }
+    $recordInputs = if ($record.schemaVersion -eq 1) { Get-LegacyScopedBuildInputs $Repo $record.inputs } else { ConvertTo-Map $record.inputs }
     $tracked = @{}
     $trackedText = [string](Invoke-RepoGit $Repo @('ls-files','-z'))
     foreach ($name in $trackedText.Split([char]0)) { $tracked[$name] = $true }
-    foreach ($property in $record.inputs.PSObject.Properties) {
-        if (!$tracked.ContainsKey($property.Name)) { throw "Entrada de compilacion no versionada: $($property.Name)" }
+    foreach ($name in $recordInputs.Keys) {
+        if (!$tracked.ContainsKey($name)) { throw "Entrada de compilacion no versionada: $name" }
     }
-    Assert-SameMap $record.inputs (Get-BuildInputs $Repo) 'Entradas cambiadas desde la compilacion. Ejecuta Build'
+    Assert-SameMap $recordInputs (Get-BuildInputs $Repo) 'Entradas de firmware cambiadas desde la compilacion. Ejecuta Build'
     Assert-SameMap $record.products (Get-BuildProducts $Workspace) 'Binarios cambiados desde la compilacion. Ejecuta Build'
     $toolHash = (Get-FileHash -LiteralPath (Join-Path $VitisHome 'data/version.bat') -Algorithm SHA256).Hash.ToLowerInvariant()
     if ($record.toolchain.versionFileSha256 -ne $toolHash) { throw 'Instalacion Xilinx distinta de la registrada.' }
