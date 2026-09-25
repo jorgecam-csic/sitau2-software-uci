@@ -75,9 +75,10 @@ try {
         $inputHashes[$key] = $packageManifest.inputs.$key.sha256.ToLowerInvariant()
     }
     Assert-SameMap $record.products $inputHashes 'El paquete no corresponde al build registrado'
+    $softwareInputs = if ($record.schemaVersion -eq 1) { Get-LegacyScopedBuildInputs $repo $record.inputs } else { ConvertTo-Map $record.inputs }
     $manifest = [ordered]@{
         schemaVersion=2; version=$Version; createdUtc=[DateTime]::UtcNow.ToString('o')
-        software=[ordered]@{commit=$record.commit;dirty=$false;buildCompletedUtc=$record.completedUtc;inputs=$record.inputs}
+        software=[ordered]@{commit=$record.commit;dirty=$false;buildCompletedUtc=$record.completedUtc;inputs=$softwareInputs}
         packaging=[ordered]@{commit=(Get-RepoCommit $repo);inputs=(Get-PackagingInputs $repo)}
         toolchain=$record.toolchain
         hardware=(Get-Content -LiteralPath (Join-Path $repo 'artifacts/dependencies-lock.json') -Raw | ConvertFrom-Json)

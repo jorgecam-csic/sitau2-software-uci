@@ -7,8 +7,8 @@ Automatización mantenida para Windows PowerShell 5.1 y Vitis Classic 2022.2. Aq
 | Archivo | Función |
 | --- | --- |
 | [build-record.ps1](build-record.ps1) | Funciones de procedencia de build, hashes, Git limpio, estado de IDE y comparación numérica de versiones. |
-| [generar-nueva-version.ps1](generar-nueva-version.ps1) | Publica una entrega validada en output/versión, con Git limpio y registro de build coincidente. No compila ni hace commit. |
-| [grabar-flash.ps1](grabar-flash.ps1) | Selecciona y verifica una entrega autocontenida y programa `cpu0-boot.bin` en la QSPI mediante JTAG tras confirmacion explicita. |
+| [generar-nueva-version.ps1](generar-nueva-version.ps1) | Publica una entrega validada en output/versión, con Git limpio y entradas/productos del Build coincidentes. No compila ni hace commit. |
+| [grabar-flash.ps1](grabar-flash.ps1) | Selecciona y verifica una entrega autocontenida y programa `cpu0-boot.bin` en la QSPI mediante JTAG tras confirmación explícita. |
 | [create-workspace.tcl](create-workspace.tcl) | Receta XSCT: crea plataforma, BSP/FSBL, lwIP personalizada y aplicaciones con fuentes enlazados; en modo build compila y comprueba los ELF. Invocarla mediante setup.ps1. |
 | [generar-workspace.ps1](generar-workspace.ps1) | Entrada de generación sin parámetros, utilizada por el BAT de la raíz. |
 | [setup.ps1](setup.ps1) | Motor de acciones y controles: paquetes, huella del entorno, integridad lwIP, bloqueo de ejecuciones y lanzamiento Xilinx. |
@@ -37,7 +37,7 @@ Los lanzadores habituales están en la raíz:
 - `generar-workspace.bat`: genera el entorno desde cero.
 - `compilar.bat`: ejecuta `setup.ps1 -Action Build` sobre el workspace existente y genera los paquetes de desarrollo.
 - `generar_nueva_version.bat`: prepara una entrega numerada en output, sin compilar.
-- `grabar-flash.bat`: permite elegir una entrega, verifica sus hashes y programa CPU0 en la QSPI tras confirmacion.
+- `grabar-flash.bat`: permite elegir una entrega, verifica sus hashes y programa CPU0 en la QSPI tras confirmación.
 - `abrir-vitis.bat`: abre el IDE y permite pasar opciones para un entorno alternativo.
 
 Todos salvo `abrir-vitis.bat` se usan sin parametros y hacen una pausa al terminar. Para automatizacion sin pausa o rutas alternativas, usar directamente los PS1. `setup.ps1` sigue siendo el motor interno de varias acciones, no solo de compilación.
@@ -66,10 +66,11 @@ Se resuelven las plantillas de [config/bootimage](../config/bootimage/README.md)
 
 ## Controles y mantenimiento
 
-- La huella incluye `dependencies-lock.json` y las entradas de `config` y `scripts`, además de la lista de entradas de src. Modificar recetas/configuración o añadir, retirar o mover una entrada de src requiere regenerar; editar su contenido requiere recompilar.
-- Tanto la huella como el registro de build excluyen `*.md`, `*.markdown`, `README.txt`, `*.bak`, `*.log`, `*.tmp`, `*.swp`, `*.swo`, nombres terminados en `~`, `.DS_Store`, `Thumbs.db` y `desktop.ini`, sin distinguir mayúsculas. Se conservan en disco y no deben utilizarse como dependencias del código. Añadir, editar o retirar documentación ya no invalida la huella del workspace.
+- La huella del workspace incluye `dependencies-lock.json`, `config/applications.tcl`, `config/bsp`, `config/lwip211`, `scripts/create-workspace.tcl` y la lista de rutas de `src`. Añadir, retirar o mover una entrada de `src` requiere regenerar; editar solo su contenido requiere recompilar.
+- El registro de Build añade el contenido de `src` y del paquete hardware seleccionado. `config/bootimage`, las recetas de empaquetado/publicación, el flasheador, documentación y paquetes hardware inactivos no invalidan el firmware compilado.
+- Los controles excluyen `*.md`, `*.markdown`, `README.txt`, `*.bak`, `*.log`, `*.tmp`, `*.swp`, `*.swo`, nombres terminados en `~`, `.DS_Store`, `Thumbs.db` y `desktop.ini`, sin distinguir mayúsculas. Se conservan en disco y no deben utilizarse como dependencias del código.
 - No se excluyen formatos ambiguos o desconocidos: `.txt` distintos de README.txt, `.json`, `.html`, `.in`, fuentes, linker scripts, recetas y artefactos siguen comprobándose. Tampoco se descarta todo lo ignorado por Git: una cabecera ignorada y no versionada debe bloquear una entrega.
-- Esta selección no cambia la política de publicación: se exige Git limpio y el mismo commit del build. Un commit solo documental no exige regenerar el workspace, pero sí repetir Build para publicar desde ese nuevo commit.
+- Para publicar se exige Git limpio, pero no que HEAD sea el commit exacto del Build. Se reutilizan los binarios únicamente si entradas de firmware, productos y herramienta coinciden; el manifiesto separa el commit del software del commit y las recetas de empaquetado.
 - lwIP debe ser exactamente `lwip211 1.08.s`; se verifican el MLD, los dos MSS y los parches del repositorio software y del BSP. Los makefiles de las aplicaciones/sistemas incluyen el mismo control para las compilaciones GUI.
 - Se auditan los archivos originales de la instalación Xilinx antes de construir la variante; no se escribe sobre Vitis.
 - Setup no archiva workspaces ajenos ni abiertos. `workflow.lock` evita operaciones simultáneas del motor; además debe cerrarse la GUI al usar XSCT por consola.
@@ -84,7 +85,7 @@ El BAT de raíz `generar_nueva_version.bat` no admite parámetros y pregunta la 
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generar-nueva-version.ps1 -Version 0.1.0
 ```
 
-Admite `-VitisHome` y `-WorkRoot` con los mismos valores que Setup/Build; si se omite Version, pregunta. Requiere Git limpio, workspace coherente, Vitis cerrado y `.sitau-build.json` con commit, entradas y productos coincidentes. Todos los archivos de entrada deben estar versionados. El registro se elimina al comenzar Build y solo se escribe tras una compilación correcta con entradas estables. No editarlo ni copiar uno de otro entorno.
+Admite `-VitisHome` y `-WorkRoot` con los mismos valores que Setup/Build; si se omite Version, pregunta. Requiere Git limpio, workspace coherente, Vitis cerrado y `.sitau-build.json` con entradas de firmware, productos y herramienta coincidentes. Todos los archivos de entrada deben estar versionados. El registro se elimina al comenzar Build y solo se escribe tras una compilación correcta con entradas estables. No editarlo ni copiar uno de otro entorno.
 
 Build elimina los objetos `.o` y dependencias `.d` de las aplicaciones y exige un ELF nuevo, conservando sus BSP. No utiliza `app clean`, que puede invalidar la plataforma en Vitis 2022.2; las compilaciones GUI pueden seguir siendo incrementales para desarrollo. El empaquetador interno mantiene `workspace/packages` y admite `-PassThru` para devolver al publicador el directorio que acaba de generar. Las entregas oficiales se guardan en [output](../output/README.md), con números estrictamente crecientes.
 
@@ -92,6 +93,6 @@ Las comprobaciones rápidas de versiones y procedencia están en [tests](../test
 
 ## Grabar una entrega en QSPI
 
-`grabar-flash.ps1` acepta `-Version`, `-VitisHome`, `-TargetId`, `-Url` y `-Check`. Sin `-Version` muestra un selector interactivo; `-Check` valida el manifiesto, la lista exacta de archivos, sus hashes y la instalacion de Vitis sin enumerar JTAG ni escribir la placa. La grabacion utiliza el `programming/fsbl.elf` de la propia entrega, offset cero, tipo `qspi-x2-single` y verificacion posterior. Sin `-TargetId`, muestra los destinos y permite indicar uno; una respuesta vacia deja que Vitis seleccione el primero. La escritura exige confirmar literalmente `PROGRAMAR`.
+`grabar-flash.ps1` acepta `-Version`, `-VitisHome`, `-TargetId`, `-Url` y `-Check`. Sin `-Version` muestra un selector interactivo; `-Check` valida el manifiesto, la lista exacta de archivos, sus hashes y la instalación de Vitis sin enumerar JTAG ni escribir la placa. La grabación utiliza el `programming/fsbl.elf` de la propia entrega, offset cero, tipo `qspi-x2-single` y verificación posterior. Sin `-TargetId`, muestra los destinos y permite indicar uno; una respuesta vacía deja que Vitis seleccione el primero. La escritura exige confirmar literalmente `PROGRAMAR`.
 
 [Guía completa de uso](../README.md) · [Volver](../README.md)

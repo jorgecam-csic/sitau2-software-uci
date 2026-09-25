@@ -43,6 +43,19 @@ if ($Action -eq 'Verify') { return }
 # La huella solo cubre la estructura generada. El contenido de los fuentes exige
 # Build, no Setup; empaquetado, publicacion y flash tampoco regeneran el workspace.
 $fingerprint = Get-WorkspaceFingerprint $repo
+function Test-WorkspaceState($State) {
+    $stateSchema = if ($null -ne $State.PSObject.Properties['schemaVersion']) { [int]$State.schemaVersion } else { 1 }
+    $compatible = $State.ready -and $State.repo -eq $repo -and $State.fingerprint -eq $fingerprint
+    if (!$compatible -and $stateSchema -eq 1 -and $State.ready -and $State.repo -eq $repo) {
+        $legacyRecordPath = Join-Path $workspace '.sitau-build.json'
+        if (Test-Path -LiteralPath $legacyRecordPath -PathType Leaf) {
+            $legacyRecord = Get-Content -LiteralPath $legacyRecordPath -Raw | ConvertFrom-Json
+            $compatible = Test-LegacyWorkspaceCompatibility $repo $legacyRecord.inputs
+            if ($compatible) { Write-Host 'Workspace anterior compatible: solo cambiaron entradas ajenas a su estructura.' }
+        }
+    }
+    return $compatible
+}
 function Assert-CustomLwip {
     $libraryRoot = Join-Path $workspace 'software-repository/sw_services/lwip211_v1_08_s'
     $metadataPath = Join-Path $libraryRoot 'data/lwip211.mld'
@@ -66,17 +79,7 @@ function Assert-CustomLwip {
 }
 if ($Action -eq 'Check') {
     $checkState = Get-Content -LiteralPath (Join-Path $workspace '.sitau-workspace.json') -Raw | ConvertFrom-Json
-    $stateSchema = if ($null -ne $checkState.PSObject.Properties['schemaVersion']) { [int]$checkState.schemaVersion } else { 1 }
-    $compatible = $checkState.ready -and $checkState.repo -eq $repo -and $checkState.fingerprint -eq $fingerprint
-    if (!$compatible -and $stateSchema -eq 1 -and $checkState.ready -and $checkState.repo -eq $repo) {
-        $legacyRecordPath = Join-Path $workspace '.sitau-build.json'
-        if (Test-Path -LiteralPath $legacyRecordPath -PathType Leaf) {
-            $legacyRecord = Get-Content -LiteralPath $legacyRecordPath -Raw | ConvertFrom-Json
-            $compatible = Test-LegacyWorkspaceCompatibility $repo $legacyRecord.inputs
-            if ($compatible) { Write-Host 'Workspace anterior compatible: solo cambiaron entradas ajenas a su estructura.' }
-        }
-    }
-    if (!$compatible) {
+    if (!(Test-WorkspaceState $checkState)) {
         throw 'Workspace desactualizado. Cierra Vitis y ejecuta generar-workspace.bat.'
     }
     Assert-CustomLwip
@@ -120,7 +123,7 @@ try {
     if (!$create) {
         if (!(Test-Path -LiteralPath $statePath)) { throw 'Workspace ajeno. Usa otro WorkRoot.' }
         $state = Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json
-        if ($state.repo -ne $repo -or $state.fingerprint -ne $fingerprint -or !$state.ready) { throw 'Workspace desactualizado o incompleto. Cierra Vitis y ejecuta generar-workspace.bat.' }
+        if (!(Test-WorkspaceState $state)) { throw 'Workspace desactualizado o incompleto. Cierra Vitis y ejecuta generar-workspace.bat.' }
     } else {
         if ($Action -ne 'Setup') { throw 'No existe el workspace. Ejecuta primero generar-workspace.bat.' }
         New-Item -ItemType Directory -Path $workspace | Out-Null

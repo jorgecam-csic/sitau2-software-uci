@@ -12,6 +12,7 @@ Firmware bare-metal para los dos Cortex-A9 de la unidad de control e interfaz (U
 - [Compilar y empaquetar](#compilar-y-empaquetar)
 - [Recorrido completo sin GUI](#recorrido-completo-sin-gui)
 - [Generar una versión para entregar](#generar-una-versión-para-entregar)
+- [Grabar CPU0 en la QSPI](#grabar-cpu0-en-la-qspi)
 - [Trabajar desde Vitis](#trabajar-desde-vitis)
 - [Trabajo diario y cambios de rama](#trabajo-diario-y-cambios-de-rama)
 - [Dependencias hardware y lwIP](#dependencias-hardware-y-lwip)
@@ -170,7 +171,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generar-nueva-versio
 
 Ejecutar cada orden después de comprobar el éxito de la anterior. `0.1.0` es un ejemplo: elegir un número superior a todas las versiones existentes. Con un clon nuevo Setup no pregunta nada; si el workspace ya existe pide confirmación antes de archivarlo. La orden `setup.ps1 -Action Build` equivale a `compilar.bat`, sin su pausa final. El número pasado con `-Version` evita la pregunta de versión. Así el primer recorrido puede ejecutarse completamente por consola sin interacción con el IDE. Para otra instalación, repetir `-VitisHome` en Setup, Build y generación de versión.
 
-Si se han editado fuentes o recetas después de clonar, **hacer commit antes de Build**. La creación de una versión exige Git limpio y un build del mismo commit. No pasar por `git commit` entre Build y la creación de la versión: incluso un commit documental distinto exige un nuevo Build para identificar inequívocamente su origen.
+Si se han editado entradas del firmware después de clonar, **hacer commit antes de Build**. La creación de una versión exige Git limpio, pero puede reutilizar un build anterior cuando sus entradas de firmware, productos y versión de Vitis siguen siendo exactamente los registrados. Un commit solo documental o de herramientas de entrega no obliga a recompilar.
 
 ## Generar una versión para entregar
 
@@ -182,7 +183,7 @@ Los paquetes de `workspace/packages` son resultados de trabajo. Para crear una e
 
 El BAT pregunta `mayor.menor.parche` y reutiliza el empaquetador interno, sin compilar. Acepta únicamente tres componentes numéricos, sin prefijos, sufijos ni ceros iniciales. **No permite una versión igual o inferior a ninguna existente**; 0.10.0 es posterior a 0.9.0. No sobrescribe carpetas.
 
-Para publicar exige: Git limpio, workspace coherente, Vitis cerrado, registro `.sitau-build.json` del mismo commit y hashes de entradas/ELF/FSBL/bitstream sin cambios desde Build. Un cambio posterior, una compilación GUI que altere el ELF o un build fallido obligan a ejecutar de nuevo Build. El registro se genera automáticamente, no se debe editar a mano.
+Para publicar exige: Git limpio, workspace coherente, Vitis cerrado y un registro `.sitau-build.json` válido. Los hashes de las entradas reales de firmware, ELF, FSBL y bitstream deben coincidir con el Build, y debe utilizarse la misma instalación Vitis. Cambiar documentación, flash o empaquetado no invalida esos binarios; cambiar fuentes, BSP, lwIP, hardware activo, un ELF desde la GUI o sufrir un Build fallido sí obliga a ejecutar de nuevo Build. El registro se genera automáticamente y no se debe editar a mano.
 
 La entrega se prepara temporalmente y solo aparece en su ubicación definitiva al terminar las validaciones:
 
@@ -199,7 +200,7 @@ output/
     README.md
 ```
 
-**output se incluye en Git.** El manifiesto registra versión, fecha, commit de origen, entradas y salidas por hash, versión de herramientas, lock hardware y particiones. No certifica el funcionamiento en placa.
+**output se incluye en Git.** El manifiesto distingue el commit que compiló el software del commit limpio utilizado para empaquetarlo; registra además sus entradas por hash, salidas, herramientas, lock hardware y particiones. No certifica el funcionamiento en placa.
 
 Después de revisar la entrega:
 
@@ -208,17 +209,17 @@ git add output/0.1.0
 git commit -m "Publica entrega 0.1.0"
 ```
 
-Ese segundo commit guarda la entrega; el manifiesto referencia el commit anterior que produjo el software. El script no hace commit, push ni tag. Actualizar la rama antes de elegir una versión, conservar inmutables las entregas compartidas y resolver versiones concurrentes entre colaboradores antes de integrarlas. [Política y contenido de output](output/README.md).
+Ese segundo commit guarda la entrega; el manifiesto referencia tanto el commit del Build como el commit desde el que se generó la carpeta. El script no hace commit, push ni tag. Actualizar la rama antes de elegir una versión, conservar inmutables las entregas compartidas y resolver versiones concurrentes entre colaboradores antes de integrarlas. [Política y contenido de output](output/README.md).
 
-### Grabar CPU0 en la QSPI
+## Grabar CPU0 en la QSPI
 
-Conectar una unica placa por JTAG y ejecutar desde la raiz:
+Conectar una única placa por JTAG y ejecutar el BAT de la raíz:
 
 ```powershell
 .\grabar-flash.bat
 ```
 
-El lanzador ordena numericamente las entregas de `output`, permite elegir una, verifica los hashes de la imagen, el FSBL auxiliar y los ELF, detecta Vitis 2022.2 y muestra los destinos JTAG. Solo borra y programa la QSPI despues de escribir `PROGRAMAR`. Graba `cpu0-boot.bin` en el offset cero como `qspi-x2-single` y verifica el contenido; nunca ofrece `cpu1-network.bin` para flash. Tras el exito, configurar la placa en modo de arranque QSPI y reiniciarla. La posicion fisica de los selectores depende de la placa y debe comprobarse en su documentacion.
+El lanzador ordena numéricamente las entregas de `output`, permite elegir una, verifica el manifiesto y los hashes de la imagen, el FSBL auxiliar y los ELF, detecta Vitis 2022.2 y muestra los destinos JTAG. Solo borra y programa la QSPI después de escribir `PROGRAMAR`. Graba `cpu0-boot.bin` en el offset cero como `qspi-x2-single` y verifica el contenido; nunca ofrece `cpu1-network.bin` para flash. Tras el éxito, configurar la placa en modo de arranque QSPI y reiniciarla. La posición física de los selectores depende de la placa y debe comprobarse en su documentación.
 
 Para validar una entrega sin acceder a la placa:
 
@@ -259,20 +260,20 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package.ps1 -Workspa
 - Conservar las codificaciones y finales de línea de los fuentes existentes. El proyecto establece Cp1252 en Vitis; `.gitattributes` protege los bytes heredados y `.editorconfig` no fuerza UTF-8 en el código. Los README nuevos se escriben en UTF-8. La normalización del firmware tiene un [plan separado](documents/plans/normalizacion-codificaciones.md).
 - No subir workspaces, objetos, ELF ni logs. Los paquetes de desarrollo quedan en el workspace; solo las entregas numeradas de `output` se incorporan a Git. Los XSA/BIT/BIN de `artifacts` son entradas hardware mantenidas y sí se versionan.
 
-### Cuándo regenerar
+### Cuándo regenerar o recompilar
 
-| Cambio | Acción |
+| Cambio | Acción necesaria antes de una entrega |
 | --- | --- |
-| Editar un C/H existente | Guardar y recompilar las aplicaciones afectadas; volver a empaquetar. |
-| Añadir, eliminar o mover fuentes | Regenerar para reconstruir los enlaces y después compilar. |
-| Cambiar `config`, `scripts` o `dependencies-lock.json` | Cerrar Vitis, generar desde cero y compilar. |
-| Cambiar includes, bibliotecas o mapa de memoria | Modificar la receta o linker script correspondiente y validar una generación/compilación nueva. |
-| Mover o renombrar el clon | Generar un workspace nuevo en la ubicación final; los enlaces antiguos apuntan a la ruta anterior. |
-| Cambiar solo documentación fuera de `config` y `scripts` | No requiere regeneración. |
+| Editar el contenido de un fuente o linker script existente | No regenerar; ejecutar Build y crear una entrega nueva. |
+| Añadir, eliminar o mover archivos de `src` | Regenerar para reconstruir los enlaces, ejecutar Build y crear la entrega. |
+| Cambiar `config/applications.tcl`, `config/bsp`, `config/lwip211`, `scripts/create-workspace.tcl`, el lock o el paquete hardware activo | Regenerar, ejecutar Build y crear la entrega. |
+| Cambiar `config/bootimage`, `scripts/package.ps1` o `scripts/generar-nueva-version.ps1` | No regenerar ni recompilar; crear la entrega con el Build validado. Las recetas de empaquetado quedan registradas aparte. |
+| Cambiar `grabar-flash.bat`, `scripts/grabar-flash.ps1` o documentación | No regenerar ni recompilar. Hacer commit para dejar Git limpio. |
+| Mover o renombrar el clon | Generar un workspace nuevo en la ubicación final y compilar; los enlaces antiguos apuntan a la ruta anterior. |
 
-La huella del entorno incluye las entradas de `config` y `scripts`, el lock hardware y la lista de entradas de `src`. Cambiar recetas, configuración o la estructura de fuentes exige regenerar. **Markdown, README.txt, respaldos, logs y temporales conocidos quedan fuera de la huella y del registro de compilación**; su edición no obliga a regenerar. La [lista exacta de exclusiones](scripts/README.md#controles-y-mantenimiento) es conservadora: fuentes, configuración, recursos y formatos ambiguos siguen comprobándose.
+La huella del workspace solo cubre lo que determina la plataforma, los BSP, la lwIP copiada y los enlaces de fuentes. El registro del Build añade el contenido de `src` y el paquete hardware activo. Las recetas de Bootgen y publicación se registran por separado en el manifiesto de entrega. **Markdown, README.txt, respaldos, logs y temporales conocidos quedan fuera de estos controles**; la [lista exacta de exclusiones](scripts/README.md#controles-y-mantenimiento) es conservadora y no excluye fuentes ni recursos por el mero hecho de estar ignorados por Git.
 
-Los workspaces creados con el criterio anterior necesitan una regeneración para adoptar esta regla. Se mantiene la política de publicación: Git limpio y build del mismo commit. Hacer un commit documental requiere repetir Build antes de publicar, aunque no requiera regenerar el workspace.
+Los workspaces anteriores se aceptan sin regenerar cuando el registro existente demuestra que las recetas estructurales y la lista de fuentes siguen coincidiendo. Si falta esa evidencia o cambió una entrada estructural, `Check` solicita una generación nueva.
 
 Después de `git pull` o `git switch`, revisar qué cambió y ejecutar:
 
@@ -280,7 +281,7 @@ Después de `git pull` o `git switch`, revisar qué cambió y ejecutar:
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1 -Action Check
 ```
 
-Si aparece `Workspace desactualizado`, cerrar Vitis y ejecutar `generar-workspace.bat`. No reutilizar productos de otra rama para una entrega. Para trabajar simultáneamente en varias ramas, utilizar clones/worktrees en carpetas distintas con sus propios workspaces externos; no compartir un workspace activo.
+Si aparece `Workspace desactualizado`, cerrar Vitis y ejecutar `generar-workspace.bat`. No reutilizar productos de otra rama a ciegas: el flujo solo los acepta cuando entradas de firmware, productos y herramientas coinciden por hash. Para trabajar simultáneamente en varias ramas, utilizar clones/worktrees en carpetas distintas con sus propios workspaces externos; no compartir un workspace activo.
 
 ## Dependencias hardware y lwIP
 
@@ -310,8 +311,8 @@ Regenerar el BSP recupera los cambios desde esa biblioteca personalizada. Los co
 | Mensajes rojos `NativeCommandError` o `RemoteException` | PowerShell 5 puede envolver notas/avisos enviados a stderr. Leer el diagnóstico real y comprobar el marcador final y el código de salida; el color no determina el resultado. |
 | `Nothing to be done` | Un build incremental no encontró tareas; no acredita una recompilación desde cero. |
 | Error al generar | Conservar el log, corregir la causa y generar de nuevo; un workspace incompleto no debe marcarse manualmente como listo. |
-| Git sucio al generar una versión | Revisar y hacer commit de los cambios. Si cambia el commit, repetir Build antes de generar la versión. |
-| Falta registro o cambió el commit/ELF | Ejecutar Build desde consola con el workspace coherente y Vitis cerrado. No editar el registro para saltar el control. |
+| Git sucio al generar una versión | Revisar y hacer commit de los cambios. Repetir Build solo si cambiaron entradas de firmware o sus productos. |
+| Falta registro o cambió una entrada/ELF | Ejecutar Build desde consola con el workspace coherente y Vitis cerrado. No editar el registro para saltar el control. |
 | Entrada de compilación no versionada | Versionar la entrada real y repetir Build después del commit. Los respaldos `*.bak` se excluyen; si aparecen en un registro antiguo, regenerar el workspace y compilar con las recetas actuales. No basta con ignorar una cabecera utilizada por el código. |
 | Versión existente o inferior | Elegir una versión superior a todas las entregas de output; no borrar carpetas para reutilizar números. |
 
