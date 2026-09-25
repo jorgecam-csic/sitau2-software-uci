@@ -289,6 +289,7 @@ Regenerar el BSP recupera los cambios desde esa biblioteca personalizada. Los co
 | Error al generar | Conservar el log, corregir la causa y generar de nuevo; un workspace incompleto no debe marcarse manualmente como listo. |
 | Git sucio al generar una versión | Revisar y hacer commit de los cambios. Si cambia el commit, repetir Build antes de generar la versión. |
 | Falta registro o cambió el commit/ELF | Ejecutar Build desde consola con el workspace coherente y Vitis cerrado. No editar el registro para saltar el control. |
+| Entrada de compilación no versionada | Versionar la entrada real y repetir Build después del commit. Los respaldos `*.bak` se excluyen; si aparecen en un registro antiguo, regenerar el workspace y compilar con las recetas actuales. No basta con ignorar una cabecera utilizada por el código. |
 | Versión existente o inferior | Elegir una versión superior a todas las entregas de output; no borrar carpetas para reutilizar números. |
 
 Los logs del motor están en `<repo>-work/logs`; Vitis también escribe `workspace/IDE.log` y `workspace/.metadata/.log`. Los avisos heredados conocidos se describen en los informes de validación.

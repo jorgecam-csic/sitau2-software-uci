@@ -64,7 +64,8 @@ Se resuelven las plantillas de [config/bootimage](../config/bootimage/README.md)
 
 ## Controles y mantenimiento
 
-- La huella incluye `dependencies-lock.json` y todos los archivos de `config` y `scripts`, incluidos sus README. Modificarlos requiere generar otra vez. La huella incluye también la lista de archivos de src: un alta, baja o movimiento exige regenerar sus enlaces.
+- La huella incluye `dependencies-lock.json` y los archivos de `config` y `scripts`, incluidos sus README, salvo respaldos `*.bak`. Modificarlos requiere generar otra vez. La huella incluye también la lista de archivos de src sin `*.bak`: un alta, baja o movimiento de entradas exige regenerar sus enlaces.
+- Los respaldos `*.bak` se conservan en disco pero no se registran como entradas de compilación ni de la huella. No deben incluirse desde el código ni utilizarse como dependencias. El resto de entradas sigue verificándose, aunque Git las ignore: una cabecera ignorada y no versionada debe bloquear una entrega.
 - lwIP debe ser exactamente `lwip211 1.08.s`; se verifican el MLD, los dos MSS y los parches del repositorio software y del BSP. Los makefiles de las aplicaciones/sistemas incluyen el mismo control para las compilaciones GUI.
 - Se auditan los archivos originales de la instalación Xilinx antes de construir la variante; no se escribe sobre Vitis.
 - Setup no archiva workspaces ajenos ni abiertos. `workflow.lock` evita operaciones simultáneas del motor; además debe cerrarse la GUI al usar XSCT por consola.

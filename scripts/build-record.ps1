@@ -12,10 +12,15 @@ function Assert-CleanRepo([string]$Repo) {
     $status = @(Invoke-RepoGit $Repo @('status','--porcelain','--untracked-files=all'))
     if ($status.Count) { throw 'Git tiene cambios pendientes. Haz commit de los cambios antes de generar una version (incluidas entregas anteriores).' }
 }
+function Get-InputFiles([string[]]$Roots) {
+    # Los respaldos *.bak no son entradas del proyecto. No excluir de forma
+    # general lo ignorado por Git: una cabecera ignorada si puede compilarse.
+    Get-ChildItem -LiteralPath $Roots -Recurse -File | Where-Object { $_.Extension -ine '.bak' }
+}
 function Get-BuildInputs([string]$Repo) {
     $result = [ordered]@{}
     foreach ($root in @('src','config','scripts','artifacts')) {
-        foreach ($file in (Get-ChildItem -LiteralPath (Join-Path $Repo $root) -Recurse -File | Sort-Object FullName)) {
+        foreach ($file in (Get-InputFiles @((Join-Path $Repo $root)) | Sort-Object FullName)) {
             $name = $file.FullName.Substring($Repo.Length+1).Replace('\','/')
             $result[$name] = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
         }

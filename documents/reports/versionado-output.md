@@ -38,4 +38,10 @@ Logs locales: `D:\sitau2\release-setup-fixed-20260925.log`, `D:\sitau2\release-b
 
 [Flujo completo por consola](../../README.md) · [Política de entregas](../../output/README.md)
 
+## Corrección de respaldos locales
+
+En el repositorio de trabajo aparecieron cuatro `*.bak` heredados, ignorados por Git. El registro los recogía como entradas y la publicación los rechazaba por no estar versionados. El inventario y la huella ahora utilizan una enumeración común que excluye exclusivamente la extensión `.bak`; no se excluyen indiscriminadamente los archivos ignorados por Git.
+
+Los cuatro respaldos se conservan y sus hashes coinciden con el registro anterior. La suite ampliada pasa 29 pruebas: añadir, modificar o retirar respaldos no afecta a las entradas; una cabecera ignorada sin versionar sigue bloqueando la publicación. `Verify` del paquete hardware también pasa. No se ha repetido un build nativo tras esta corrección: el workspace habitual debe regenerarse y compilarse para producir un registro con el nuevo criterio. No se modifican los registros anteriores para hacerlos pasar.
+
 [Volver](README.md)

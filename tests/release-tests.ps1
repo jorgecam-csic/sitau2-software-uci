@@ -30,6 +30,7 @@ try {
     $workspace = Join-Path $root 'work/workspace'
     $vitis = Join-Path $root 'vitis'
     foreach ($name in @('src','config','scripts','artifacts')) { Write-Text (Join-Path $repo "$name/input.txt") $name }
+    Write-Text (Join-Path $repo '.gitignore') "*.bak`nhidden.h`n"
     $null = Invoke-RepoGit $repo @('init','-q')
     $null = Invoke-RepoGit $repo @('add','.')
     $null = Invoke-RepoGit $repo @('-c','user.name=Test','-c','user.email=test@example.invalid','commit','-qm','fixture')
@@ -43,6 +44,13 @@ try {
     $recordPath = Join-Path $workspace '.sitau-build.json'
     $record = @{schemaVersion=1;commit=(Get-RepoCommit $repo);inputs=(Get-BuildInputs $repo);products=(Get-BuildProducts $workspace);toolchain=@{versionFileSha256=(Get-FileHash (Join-Path $vitis 'data/version.bat')).Hash.ToLowerInvariant()}}
     $record | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $recordPath -Encoding UTF8
+    $null = Assert-BuildRecord $repo $workspace $vitis; $count++
+    foreach ($name in @('src','config','scripts','artifacts')) { Write-Text (Join-Path $repo "$name/input.txt.bak") 'backup' }
+    Assert-CleanRepo $repo
+    $null = Assert-BuildRecord $repo $workspace $vitis; $count++
+    Write-Text (Join-Path $repo 'src/input.txt.bak') 'changed backup'
+    $null = Assert-BuildRecord $repo $workspace $vitis; $count++
+    foreach ($name in @('src','config','scripts','artifacts')) { Remove-Item -LiteralPath (Join-Path $repo "$name/input.txt.bak") }
     $null = Assert-BuildRecord $repo $workspace $vitis; $count++
     Write-Text (Join-Path $repo 'src/input.txt') 'changed'
     Expect-Failure { Assert-BuildRecord $repo $workspace $vitis } 'Entradas cambiadas'
@@ -62,11 +70,12 @@ try {
     $handle = [IO.File]::Open($ideLock,'Open','ReadWrite','None')
     try { Expect-Failure { Assert-ClosedIde $workspace } 'Cierra Vitis' } finally { $handle.Dispose() }
     Assert-ClosedIde $workspace; $count++
-    Write-Text (Join-Path $repo 'src/hidden.bak') 'untracked'
+    Write-Text (Join-Path $repo 'src/hidden.h') 'untracked header'
+    Assert-CleanRepo $repo
     $withUntracked = @{schemaVersion=1;commit=(Get-RepoCommit $repo);inputs=(Get-BuildInputs $repo);products=(Get-BuildProducts $workspace);toolchain=$record.toolchain}
     $withUntracked | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $recordPath -Encoding UTF8
     Expect-Failure { Assert-BuildRecord $repo $workspace $vitis } 'no versionada'
-    Remove-Item -LiteralPath (Join-Path $repo 'src/hidden.bak')
+    Remove-Item -LiteralPath (Join-Path $repo 'src/hidden.h')
     $record | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $recordPath -Encoding UTF8
     $null = Invoke-RepoGit $repo @('-c','user.name=Test','-c','user.email=test@example.invalid','commit','--allow-empty','-qm','another commit')
     Expect-Failure { Assert-BuildRecord $repo $workspace $vitis } 'otro commit'

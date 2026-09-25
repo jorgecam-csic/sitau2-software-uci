@@ -47,9 +47,9 @@ if ($Action -ne 'Check') {
     if ($version -notmatch '2022\.2') { throw 'Se necesita Vitis Classic 2022.2.' }
 }
 # La huella incluye recetas y configuracion; los fuentes pueden editarse normalmente.
-$inputs = @(Get-ChildItem -LiteralPath (Join-Path $repo 'config'),$PSScriptRoot -Recurse -File | Sort-Object FullName)
+$inputs = @(Get-InputFiles @((Join-Path $repo 'config'),$PSScriptRoot) | Sort-Object FullName)
 $recipe = @($lockPath) + @($inputs.FullName)
-$sourcePaths = @(Get-ChildItem -LiteralPath (Join-Path $repo 'src') -Recurse -File | ForEach-Object { $_.FullName.Substring($repo.Length) } | Sort-Object)
+$sourcePaths = @(Get-InputFiles @((Join-Path $repo 'src')) | ForEach-Object { $_.FullName.Substring($repo.Length) } | Sort-Object)
 $fingerprintText = (($recipe | ForEach-Object { $_.Substring($repo.Length) + ':' + (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash }) -join "`n")
 $fingerprintText += "`n" + ($sourcePaths -join "`n")
 $sha = [Security.Cryptography.SHA256]::Create()
