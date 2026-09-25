@@ -2,7 +2,7 @@
 
 Firmware bare-metal para los dos Cortex-A9 de la unidad de control e interfaz (UCI) de SITAU2. CPU0 gestiona Ethernet y la carga de programas; CPU1 controla la adquisición y los periféricos FPGA.
 
-**CPU1 se envía por red y se ejecuta en RAM; nunca se incluye en la imagen de flash.** El repositorio contiene los fuentes, las recetas de generación y los artefactos hardware necesarios. Vitis trabaja en una carpeta externa que se puede reconstruir desde cero.
+**CPU1 se envía por red y se ejecuta en RAM; nunca se incluye en la imagen de flash.** El repositorio contiene los fuentes, las recetas de generación, los artefactos hardware necesarios y las entregas software numeradas de output. Vitis trabaja en una carpeta externa que se puede reconstruir desde cero.
 
 ## Índice
 
@@ -10,6 +10,8 @@ Firmware bare-metal para los dos Cortex-A9 de la unidad de control e interfaz (U
 - [Descargar en un directorio limpio](#descargar-en-un-directorio-limpio)
 - [Generar el workspace](#generar-el-workspace)
 - [Compilar y empaquetar](#compilar-y-empaquetar)
+- [Recorrido completo sin GUI](#recorrido-completo-sin-gui)
+- [Generar una versión para entregar](#generar-una-versión-para-entregar)
 - [Trabajar desde Vitis](#trabajar-desde-vitis)
 - [Trabajo diario y cambios de rama](#trabajo-diario-y-cambios-de-rama)
 - [Dependencias hardware y lwIP](#dependencias-hardware-y-lwip)
@@ -60,7 +62,7 @@ El clon normal obtiene la rama predeterminada de GitHub. **Mientras esta PR no e
 git switch artifacts-refactor
 ```
 
-Para otra rama o versión, hacer el cambio antes de generar. Comprobar con `git status` que se está en el directorio y rama previstos. Los XSA y el paquete MK32 están incluidos en el repositorio; no se necesita copiar nada del ordenador del programador. Un ZIP debe corresponder igualmente a la rama correcta, aunque clonar permite el trabajo habitual con Git.
+Para otra rama o versión, hacer el cambio antes de generar. Comprobar con `git status` que se está en el directorio y rama previstos. Los XSA y el paquete MK32 están incluidos en el repositorio; no se necesita copiar nada del ordenador del programador. Utilizar un clon Git: el build y las entregas registran el commit de origen, por lo que un ZIP sin historial Git no sirve para este recorrido.
 
 Comprobar la dependencia UCI antes de abrir Xilinx:
 
@@ -88,7 +90,7 @@ La disposición resultante es:
 
 ```text
 D:/sitau2/
-  sitau2-software-uci/             # Git: fuentes, config, scripts, artifacts, documents
+  sitau2-software-uci/             # Git: fuentes, recetas, artifacts, output y documentos
   sitau2-software-uci-work/        # entorno local, fuera de Git
     workspace/                    # Platform, CPU0, CPU1 y proyectos de sistema
       software-repository/        # biblioteca lwIP personalizada
@@ -121,7 +123,7 @@ Guardar los cambios y **cerrar Vitis antes de ejecutar el flujo por consola**, p
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1 -Action Build
 ```
 
-`Build` requiere un workspace ya generado y coherente con las recetas actuales. Compila CPU0 y CPU1 en **Debug**, comprueba los ELF y ejecuta el empaquetado. No genera ni actualiza automáticamente un workspace desactualizado. La compilación puede ser incremental; generar un workspace nuevo y ejecutar `Build` es el procedimiento completo desde cero.
+`Build` requiere un workspace ya generado y coherente con las recetas actuales. Limpia y recompila CPU0 y CPU1 en **Debug**, comprueba los ELF, registra la procedencia del build y ejecuta el empaquetado. No genera ni actualiza automáticamente un workspace desactualizado. El build por consola recompila las aplicaciones desde cero para registrar una procedencia fiable; la plataforma se preparó al generar el workspace. El script elimina los objetos y dependencias de las aplicaciones antes de compilar; evita `app clean`, que en Vitis también limpia la plataforma y puede invalidarla. Las compilaciones de desarrollo desde GUI pueden ser incrementales.
 
 El log de XSCT debe contener **`SITAU_OK:build`**. La operación completa debe terminar además con **`Paquetes verificados: ...`**; el marcador de compilación por sí solo no confirma el empaquetado.
 
@@ -144,6 +146,63 @@ Se genera una carpeta nueva en cada empaquetado. Conservar el manifiesto junto a
 
 **No usar el `BOOT.BIN` automático de `CPU1_system` para enviarlo por red:** puede incluir FSBL y bitstream. Si el cliente exige un archivo llamado `BOOT.bin`, utilizar una copia de `cpu1-network.bin` con ese nombre. Los scripts crean y verifican archivos; no programan flash ni envían nada al equipo.
 
+## Recorrido completo sin GUI
+
+Sí: se puede clonar, generar el entorno, compilar y preparar una entrega **sin abrir manualmente Vitis gráfico**. Es obligatorio tener Vitis Classic 2022.2 instalado: XSCT utiliza sus herramientas y servicios internos. No ejecutar `abrir-vitis.bat` para este recorrido.
+
+En PowerShell, con la instalación predeterminada y un directorio nuevo:
+
+```powershell
+Set-Location D:\sitau2
+git clone https://github.com/jorgecam-csic/sitau2-software-uci.git
+Set-Location .\sitau2-software-uci
+# Mientras el refactor no este fusionado, seleccionar su rama:
+git switch artifacts-refactor
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1 -Action Verify
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1 -Action Setup
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1 -Action Build
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generar-nueva-version.ps1 -Version 0.1.0
+```
+
+Ejecutar cada orden después de comprobar el éxito de la anterior. `0.1.0` es un ejemplo: elegir un número superior a todas las versiones existentes. Con un clon nuevo Setup no pregunta nada; si el workspace ya existe pide confirmación antes de archivarlo. La variante PowerShell evita la pausa final del BAT. El número pasado con `-Version` evita la pregunta de versión. Así el primer recorrido puede ejecutarse completamente por consola sin interacción con el IDE. Para otra instalación, repetir `-VitisHome` en Setup, Build y generación de versión.
+
+Si se han editado fuentes o recetas después de clonar, **hacer commit antes de Build**. La creación de una versión exige Git limpio y un build del mismo commit. No pasar por `git commit` entre Build y la creación de la versión: incluso un commit documental distinto exige un nuevo Build para identificar inequívocamente su origen.
+
+## Generar una versión para entregar
+
+Los paquetes de `workspace/packages` son resultados de trabajo. Para crear una entrega numerada, ejecutar desde la raíz:
+
+```powershell
+.\generar_nueva_version.bat
+```
+
+El BAT pregunta `mayor.menor.parche` y reutiliza el empaquetador interno, sin compilar. Acepta únicamente tres componentes numéricos, sin prefijos, sufijos ni ceros iniciales. **No permite una versión igual o inferior a ninguna existente**; 0.10.0 es posterior a 0.9.0. No sobrescribe carpetas.
+
+Para publicar exige: Git limpio, workspace coherente, Vitis cerrado, registro `.sitau-build.json` del mismo commit y hashes de entradas/ELF/FSBL/bitstream sin cambios desde Build. Un cambio posterior, una compilación GUI que altere el ELF o un build fallido obligan a ejecutar de nuevo Build. El registro se genera automáticamente, no se debe editar a mano.
+
+La entrega se prepara temporalmente y solo aparece en su ubicación definitiva al terminar las validaciones:
+
+```text
+output/
+  README.md
+  0.1.0/
+    cpu0-boot.bin
+    cpu1-network.bin
+    manifest.json
+    README.md
+```
+
+**output se incluye en Git.** El manifiesto registra versión, fecha, commit de origen, entradas y salidas por hash, versión de herramientas, lock hardware y particiones. No certifica el funcionamiento en placa.
+
+Después de revisar la entrega:
+
+```powershell
+git add output/0.1.0
+git commit -m "Publica entrega 0.1.0"
+```
+
+Ese segundo commit guarda la entrega; el manifiesto referencia el commit anterior que produjo el software. El script no hace commit, push ni tag. Actualizar la rama antes de elegir una versión, conservar inmutables las entregas compartidas y resolver versiones concurrentes entre colaboradores antes de integrarlas. [Política y contenido de output](output/README.md).
+
 ## Trabajar desde Vitis
 
 Abrir siempre el entorno existente mediante:
@@ -165,7 +224,7 @@ El lanzador comprueba su coherencia, utiliza el PATH reducido y abre la ruta cal
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package.ps1 -Workspace 'D:\sitau2\sitau2-software-uci-work\workspace'
 ```
 
-`package.ps1` **no compila**: utiliza los ELF existentes y verifica las dependencias antes de empaquetar. Guardar y terminar los builds antes de invocarlo. Para una entrega con menos pasos manuales, cerrar Vitis y usar `Build` por consola.
+`package.ps1` **no compila**: utiliza los ELF existentes y verifica las dependencias antes de empaquetar. Estos paquetes sirven para desarrollo; una entrega en output requiere además el registro de procedencia del build por consola. Guardar y terminar los builds antes de invocarlo. Para una entrega con menos pasos manuales, cerrar Vitis y usar `Build` por consola.
 
 ## Trabajo diario y cambios de rama
 
@@ -175,7 +234,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package.ps1 -Workspa
 - Los fuentes abiertos en Vitis están enlazados al repositorio: **editar desde Vitis modifica Git**. Archivar o borrar el workspace no crea una copia de seguridad independiente de esos fuentes. Guardar cambios y hacer commit o stash antes de cambiar de rama.
 - Las modificaciones manuales de propiedades, BSP, bibliotecas o archivos generados dentro del workspace se pierden al regenerar. Si una configuración debe perdurar, trasladarla a las recetas mantenidas y validarla.
 - Conservar las codificaciones y finales de línea de los fuentes existentes. El proyecto establece Cp1252 en Vitis; `.gitattributes` protege los bytes heredados y `.editorconfig` no fuerza UTF-8 en el código. Los README nuevos se escriben en UTF-8. La normalización del firmware tiene un [plan separado](documents/plans/normalizacion-codificaciones.md).
-- No subir workspaces, objetos, ELF, logs o paquetes software generados. Los productos de entrega quedan fuera del repositorio. Los XSA/BIT/BIN de `artifacts` son entradas hardware mantenidas y sí se versionan.
+- No subir workspaces, objetos, ELF ni logs. Los paquetes de desarrollo quedan en el workspace; solo las entregas numeradas de `output` se incorporan a Git. Los XSA/BIT/BIN de `artifacts` son entradas hardware mantenidas y sí se versionan.
 
 ### Cuándo regenerar
 
@@ -188,7 +247,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package.ps1 -Workspa
 | Mover o renombrar el clon | Generar un workspace nuevo en la ubicación final; los enlaces antiguos apuntan a la ruta anterior. |
 | Cambiar solo documentación fuera de `config` y `scripts` | No requiere regeneración. |
 
-La huella del entorno incluye **todos los archivos de `config` y `scripts`, también sus README**, y el lock hardware. Por tanto, esta actualización documental puede invalidar un workspace creado con las recetas anteriores. La lista de fuentes no forma parte de esa huella: regenerar conscientemente si cambia su estructura.
+La huella del entorno incluye **todos los archivos de `config` y `scripts`, también sus README**, y el lock hardware. Por tanto, esta actualización documental puede invalidar un workspace creado con las recetas anteriores. La huella incluye también la lista de archivos fuente: si cambia su estructura se detecta y hay que regenerar.
 
 Después de `git pull` o `git switch`, revisar qué cambió y ejecutar:
 
@@ -226,6 +285,9 @@ Regenerar el BSP recupera los cambios desde esa biblioteca personalizada. Los co
 | Mensajes rojos `NativeCommandError` o `RemoteException` | PowerShell 5 puede envolver notas/avisos enviados a stderr. Leer el diagnóstico real y comprobar el marcador final y el código de salida; el color no determina el resultado. |
 | `Nothing to be done` | Un build incremental no encontró tareas; no acredita una recompilación desde cero. |
 | Error al generar | Conservar el log, corregir la causa y generar de nuevo; un workspace incompleto no debe marcarse manualmente como listo. |
+| Git sucio al generar una versión | Revisar y hacer commit de los cambios. Si cambia el commit, repetir Build antes de generar la versión. |
+| Falta registro o cambió el commit/ELF | Ejecutar Build desde consola con el workspace coherente y Vitis cerrado. No editar el registro para saltar el control. |
+| Versión existente o inferior | Elegir una versión superior a todas las entregas de output; no borrar carpetas para reutilizar números. |
 
 Los logs del motor están en `<repo>-work/logs`; Vitis también escribe `workspace/IDE.log` y `workspace/.metadata/.log`. Los avisos heredados conocidos se describen en los informes de validación.
 
@@ -241,10 +303,12 @@ Cada directorio versionable tiene un README con su propósito, archivos y conten
 | [config](config/README.md) | Aplicaciones, parámetros BSP, parches lwIP y plantillas BIF. |
 | [scripts](scripts/README.md) | Automatización PowerShell/XSCT del flujo reproducible. |
 | [artifacts](artifacts/README.md) | Paquetes hardware inmutables y lock del XSA activo. |
+| [output](output/README.md) | Entregas software versionadas e inmutables, incluidas en Git. |
+| [tests](tests/README.md) | Pruebas aisladas de versiones y procedencia. |
 | [documents](documents/README.md) | Planes e informes fechados con evidencias de validación. |
 
-En la raíz, `generar-workspace.bat` genera el entorno y `abrir-vitis.bat` lo abre. `.gitignore` excluye productos/restos; `.gitattributes` y `.editorconfig` establecen las políticas de archivos. No hay proyectos Eclipse/Vitis mantenidos en la raíz: se reconstruyen en el workspace.
+En la raíz, `generar-workspace.bat` genera el entorno, `abrir-vitis.bat` lo abre y `generar_nueva_version.bat` prepara una entrega numerada. `.gitignore` excluye productos/restos; `.gitattributes` y `.editorconfig` establecen las políticas de archivos. No hay proyectos Eclipse/Vitis mantenidos en la raíz: se reconstruyen en el workspace.
 
-Se han probado generación limpia, compilación de ambas CPU, empaquetado, reconstrucción del BSP y rechazo de lwIP ausente/alterada. Consultar [validación del refactor](documents/reports/validacion-refactor.md), [empaquetado](documents/reports/empaquetado-red-cpu1.md) y [lwIP](documents/reports/lwip-version-sitau2.md). Los informes son históricos: sus rutas antiguas describen las pruebas de su fecha, no instrucciones vigentes.
+Se han probado generación limpia, compilación de ambas CPU, empaquetado, reconstrucción del BSP, rechazo de lwIP ausente/alterada y publicación de entregas numeradas con sus controles. Consultar [validación del refactor](documents/reports/validacion-refactor.md), [empaquetado](documents/reports/empaquetado-red-cpu1.md), [lwIP](documents/reports/lwip-version-sitau2.md) y [versionado de output](documents/reports/versionado-output.md). Los informes son históricos: sus rutas antiguas describen las pruebas de su fecha, no instrucciones vigentes.
 
 Quedan fuera de la validación de compilación: funcionamiento en placa, preparación de depuración JTAG portable y, si se necesita, recarga de CPU1 en caliente. La normalización de codificaciones sigue pendiente. No se afirma que compilar y validar cabeceras equivalga a haber probado la entrega en hardware.

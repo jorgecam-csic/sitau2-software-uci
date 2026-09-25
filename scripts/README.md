@@ -6,6 +6,8 @@ Automatización mantenida para Windows PowerShell 5.1 y Vitis Classic 2022.2. Aq
 
 | Archivo | Función |
 | --- | --- |
+| [build-record.ps1](build-record.ps1) | Funciones de procedencia de build, hashes, Git limpio, estado de IDE y comparación numérica de versiones. |
+| [generar-nueva-version.ps1](generar-nueva-version.ps1) | Publica una entrega validada en output/versión, con Git limpio y registro de build coincidente. No compila ni hace commit. |
 | [create-workspace.tcl](create-workspace.tcl) | Receta XSCT: crea plataforma, BSP/FSBL, lwIP personalizada y aplicaciones con fuentes enlazados; en modo build compila y comprueba los ELF. Invocarla mediante setup.ps1. |
 | [generar-workspace.ps1](generar-workspace.ps1) | Entrada de generación sin parámetros, utilizada por el BAT de la raíz. |
 | [setup.ps1](setup.ps1) | Motor de acciones y controles: paquetes, huella del entorno, integridad lwIP, bloqueo de ejecuciones y lanzamiento Xilinx. |
@@ -27,7 +29,7 @@ Cambiar la acción según lo necesario:
 | `Setup` | Genera siempre desde cero. Si existe un workspace propio, pide archivarlo; si se cancela, lo deja intacto. Requiere cerrar Vitis. |
 | `Check` | Verifica un workspace ya preparado: estado, huella, selección y hashes de lwIP. No compila ni corrige archivos. |
 | `Open` | Comprueba y abre el workspace existente. No genera automáticamente. |
-| `Build` | Comprueba el entorno, compila CPU0/CPU1 en Debug y empaqueta. Cerrar Vitis para evitar acceso simultáneo. No crea el workspace. |
+| `Build` | Comprueba el entorno, limpia y recompila CPU0/CPU1 en Debug, registra procedencia y empaqueta. Cerrar Vitis para evitar acceso simultáneo. No crea el workspace. |
 
 Los lanzadores habituales son `generar-workspace.bat` y `abrir-vitis.bat`. El primero no admite parámetros. El segundo pasa opciones al motor para abrir un entorno alternativo.
 
@@ -55,11 +57,25 @@ Se resuelven las plantillas de [config/bootimage](../config/bootimage/README.md)
 
 ## Controles y mantenimiento
 
-- La huella incluye `dependencies-lock.json` y todos los archivos de `config` y `scripts`, incluidos sus README. Modificarlos requiere generar otra vez. La estructura de fuentes se revisa manualmente: un alta, baja o movimiento exige regenerar sus enlaces.
+- La huella incluye `dependencies-lock.json` y todos los archivos de `config` y `scripts`, incluidos sus README. Modificarlos requiere generar otra vez. La huella incluye también la lista de archivos de src: un alta, baja o movimiento exige regenerar sus enlaces.
 - lwIP debe ser exactamente `lwip211 1.08.s`; se verifican el MLD, los dos MSS y los parches del repositorio software y del BSP. Los makefiles de las aplicaciones/sistemas incluyen el mismo control para las compilaciones GUI.
 - Se auditan los archivos originales de la instalación Xilinx antes de construir la variante; no se escribe sobre Vitis.
 - Setup no archiva workspaces ajenos ni abiertos. `workflow.lock` evita operaciones simultáneas del motor; además debe cerrarse la GUI al usar XSCT por consola.
-- El PATH reducido solo dura durante la ejecución. Los logs XSCT se guardan en WorkRoot/logs. Se exige código de salida correcto y marcador `SITAU_OK:<acción>`; Build exige además empaquetado correcto.
+- El PATH reducido incluye también el directorio de Git para los controles de procedencia y solo dura durante la ejecución. Los logs XSCT se guardan en WorkRoot/logs. Se exige código de salida correcto y marcador `SITAU_OK:<acción>`; Build exige además empaquetado correcto.
 - No cambiar manualmente `.sitau-workspace.json` para eludir una comprobación. Cambiar las entradas mantenidas y generar desde cero.
+
+## Versionar una entrega sin GUI
+
+El BAT de raíz `generar_nueva_version.bat` no admite parámetros y pregunta la versión. Por consola, el equivalente automatizable es:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generar-nueva-version.ps1 -Version 0.1.0
+```
+
+Admite `-VitisHome` y `-WorkRoot` con los mismos valores que Setup/Build; si se omite Version, pregunta. Requiere Git limpio, workspace coherente, Vitis cerrado y `.sitau-build.json` con commit, entradas y productos coincidentes. Todos los archivos de entrada deben estar versionados. El registro se elimina al comenzar Build y solo se escribe tras una compilación correcta con entradas estables. No editarlo ni copiar uno de otro entorno.
+
+Build elimina los objetos `.o` y dependencias `.d` de las aplicaciones y exige un ELF nuevo, conservando sus BSP. No utiliza `app clean`, que puede invalidar la plataforma en Vitis 2022.2; las compilaciones GUI pueden seguir siendo incrementales para desarrollo. El empaquetador interno mantiene `workspace/packages` y admite `-PassThru` para devolver al publicador el directorio que acaba de generar. Las entregas oficiales se guardan en [output](../output/README.md), con números estrictamente crecientes.
+
+Las comprobaciones rápidas de versiones y procedencia están en [tests](../tests/README.md).
 
 [Guía completa de uso](../README.md) · [Volver](../README.md)

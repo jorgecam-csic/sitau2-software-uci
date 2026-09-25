@@ -23,3 +23,7 @@ Release/
 /xicom_zynq_bin*
 *.bak
 *~
+
+# Entregas versionadas se incluyen; solo excluir bloqueo y preparacion temporal.
+/output/.release.lock
+/output/.pending-*/

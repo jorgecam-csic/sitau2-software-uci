@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory=$true)][string]$Workspace,
-    [string]$VitisHome = 'E:\Xilinx\Vitis\2022.2'
+    [string]$VitisHome = 'E:\Xilinx\Vitis\2022.2',
+    [switch]$PassThru
 )
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -21,6 +22,8 @@ $inputs = @{
     CPU1 = Join-Path $Workspace 'CPU1/Debug/CPU1.elf'
 }
 foreach ($path in $inputs.Values) { if (!(Test-Path -LiteralPath $path -PathType Leaf)) { throw "Falta entrada: $path" } }
+$beforeHashes = @{}
+foreach ($key in $inputs.Keys) { $beforeHashes[$key] = (Get-FileHash -LiteralPath $inputs[$key] -Algorithm SHA256).Hash }
 $bootgen = Join-Path $VitisHome 'bin/bootgen.bat'
 if (!(Test-Path -LiteralPath $bootgen)) { throw "No se encuentra $bootgen" }
 function Read-Partitions([string]$Path) {
@@ -51,7 +54,7 @@ try {
         $bifPath = Join-Path $run "$name.bif"
         [IO.File]::WriteAllText($bifPath, $bif, [Text.UTF8Encoding]::new($false))
         $bin = Join-Path $run "$name.bin"
-        & $bootgen -arch zynq -image $bifPath -o $bin -w on
+        & $bootgen -arch zynq -image $bifPath -o $bin -w on | Out-Host
         if ($LASTEXITCODE -ne 0 -or !(Test-Path -LiteralPath $bin)) { throw "Bootgen fallo: $name" }
         $parts = @(Read-Partitions $bin)
         if ($name -eq 'cpu1-network') {
@@ -61,9 +64,13 @@ try {
         }
         $products += @{file="$name.bin";sha256=(Get-FileHash -LiteralPath $bin -Algorithm SHA256).Hash;partitions=$parts}
     }
+    foreach ($key in $inputs.Keys) {
+        if ((Get-FileHash -LiteralPath $inputs[$key] -Algorithm SHA256).Hash -ne $beforeHashes[$key]) { throw 'Entradas modificadas durante el empaquetado.' }
+    }
     $inputHashes = @{}
     foreach ($key in $inputs.Keys) { $inputHashes[$key] = @{path=$inputs[$key];sha256=(Get-FileHash -LiteralPath $inputs[$key] -Algorithm SHA256).Hash} }
     @{inputs=$inputHashes;products=$products;hardwareValidated=$false} | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $run 'manifest.json') -Encoding UTF8
     [IO.File]::WriteAllText((Join-Path $output 'latest.txt'), $run, [Text.UTF8Encoding]::new($false))
     Write-Host "Paquetes verificados: $run"
+    if ($PassThru) { return $run }
 } finally { $env:PATH = $oldPath }

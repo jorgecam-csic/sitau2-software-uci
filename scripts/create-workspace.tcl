@@ -32,6 +32,20 @@ proc copy_tree {source target} {
         if {[file isdirectory $p]} {copy_tree $p $dest} else {file copy -force $p $dest}
     }
 }
+proc clean_app_objects {directory} {
+    # Solo objetos/dependencias de la aplicacion; nunca limpiar el BSP de Vitis.
+    if {![file exists $directory]} {return}
+    if {[file type $directory] eq "link"} {error "Directorio de objetos enlazado: $directory"}
+    foreach p [glob -nocomplain -directory $directory *] {
+        if {[file tail $p] eq "_sdk"} {continue}
+        if {[file type $p] eq "link"} {error "Salida generada enlazada: $p"}
+        if {[file isdirectory $p]} {
+            clean_app_objects $p
+        } elseif {[file extension $p] in {.o .d}} {
+            file delete $p
+        }
+    }
+}
 proc main {mode repo workspace xsa vitis_home} {
     setws $workspace
     set software_repo [file join $workspace software-repository]
@@ -76,7 +90,11 @@ proc main {mode repo workspace xsa vitis_home} {
         # La plataforma se genera durante setup. Una configuracion distinta
         # exige un workspace nuevo; no reconstruir todos los BSP en cada build.
         foreach name {CPU0 CPU1} {
-            set output [file join $workspace $name Debug $name.elf]
+            set app_root [file normalize [file join $workspace $name]]
+            set build_root [file normalize [file join $app_root Debug]]
+            if {[file dirname $app_root] ne [file normalize $workspace] || [file dirname $build_root] ne $app_root} {error "Ruta de objetos fuera del workspace"}
+            clean_app_objects $build_root
+            set output [file join $build_root $name.elf]
             # XSCT puede devolver exito aunque falle el builder de Eclipse.
             # Retirar solo esta salida generada obliga a comprobar el enlace.
             file delete -force $output

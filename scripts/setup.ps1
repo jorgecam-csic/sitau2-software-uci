@@ -10,6 +10,7 @@ Set-StrictMode -Version Latest
 # Cargar los modulos de la instancia que ejecuta realmente esta receta.
 Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Utility') -ErrorAction Stop
 Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Management') -ErrorAction Stop
+. (Join-Path $PSScriptRoot 'build-record.ps1')
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 if (!$WorkRoot) { $WorkRoot = Join-Path (Split-Path $repo) ((Split-Path $repo -Leaf) + '-work') }
 $WorkRoot = [IO.Path]::GetFullPath($WorkRoot)
@@ -48,7 +49,9 @@ if ($Action -ne 'Check') {
 # La huella incluye recetas y configuracion; los fuentes pueden editarse normalmente.
 $inputs = @(Get-ChildItem -LiteralPath (Join-Path $repo 'config'),$PSScriptRoot -Recurse -File | Sort-Object FullName)
 $recipe = @($lockPath) + @($inputs.FullName)
+$sourcePaths = @(Get-ChildItem -LiteralPath (Join-Path $repo 'src') -Recurse -File | ForEach-Object { $_.FullName.Substring($repo.Length) } | Sort-Object)
 $fingerprintText = (($recipe | ForEach-Object { $_.Substring($repo.Length) + ':' + (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash }) -join "`n")
+$fingerprintText += "`n" + ($sourcePaths -join "`n")
 $sha = [Security.Cryptography.SHA256]::Create()
 try { $fingerprint = ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($fingerprintText)))).Replace('-','') } finally { $sha.Dispose() }
 function Assert-CustomLwip {
@@ -121,7 +124,7 @@ try {
         New-Item -ItemType Directory -Path $workspace | Out-Null
         @{repo=$repo;fingerprint=$fingerprint;ready=$false} | ConvertTo-Json | Set-Content -LiteralPath $statePath -Encoding UTF8
     }
-    $env:PATH = "$VitisHome\gnuwin\bin;$env:SystemRoot\System32;$env:SystemRoot;$env:SystemRoot\System32\Wbem"
+    $env:PATH = "$VitisHome\gnuwin\bin;$env:SystemRoot\System32;$env:SystemRoot;$env:SystemRoot\System32\Wbem;$(Split-Path $script:SitauGit)"
     $logs = Join-Path $WorkRoot 'logs'
     New-Item -ItemType Directory -Path $logs -Force | Out-Null
     function Invoke-Recipe([string]$Mode) {
@@ -166,8 +169,21 @@ endif
       }
     }
     if ($Action -eq 'Build') {
+        Assert-ClosedIde $workspace
+        $buildRecordPath = Join-Path $workspace '.sitau-build.json'
+        if (Test-Path -LiteralPath $buildRecordPath) { Remove-Item -LiteralPath $buildRecordPath }
+        $buildCommit = Get-RepoCommit $repo
+        $buildInputs = Get-BuildInputs $repo
         Invoke-Recipe 'build'
         Assert-CustomLwip
+        Assert-SameMap $buildInputs (Get-BuildInputs $repo) 'Entradas modificadas durante Build; repetir compilacion'
+        if ($buildCommit -ne (Get-RepoCommit $repo)) { throw 'Git cambio durante Build; repetir compilacion.' }
+        $buildRecord = [ordered]@{
+            schemaVersion=1;commit=$buildCommit;completedUtc=[DateTime]::UtcNow.ToString('o')
+            inputs=$buildInputs;products=(Get-BuildProducts $workspace)
+            toolchain=[ordered]@{version='2022.2';versionFileSha256=(Get-FileHash -LiteralPath (Join-Path $VitisHome 'data/version.bat') -Algorithm SHA256).Hash.ToLowerInvariant()}
+        }
+        $buildRecord | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $buildRecordPath -Encoding UTF8
         & (Join-Path $PSScriptRoot 'package.ps1') -Workspace $workspace -VitisHome $VitisHome
     }
     if ($Action -eq 'Open') {

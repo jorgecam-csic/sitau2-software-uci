@@ -28,5 +28,7 @@ Resultados de auditoría, inventarios, hashes y validaciones. Aquí se esperan i
 | [packaging-build-manifest.json](packaging-build-manifest.json) | Entradas, salidas, particiones y hashes del build que validó el empaquetado nuevo. |
 | [referencia-compilacion.md](referencia-compilacion.md) | Evidencias de compilación del workspace heredado antes del refactor. |
 | [validacion-refactor.md](validacion-refactor.md) | Validación de fuentes, BSP, compilación y entorno reproducible, con sus límites. |
+| [versionado-output.md](versionado-output.md) | Entregas numeradas en Git, procedencia del build y validación del flujo por consola. |
+| [versionado-output.json](versionado-output.json) | Commit de la copia de pruebas, hashes, particiones y resultados de la entrega aislada. |
 
 [Volver](../README.md)
