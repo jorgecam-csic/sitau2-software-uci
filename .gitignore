@@ -27,3 +27,7 @@ Release/
 # Entregas versionadas se incluyen; solo excluir bloqueo y preparacion temporal.
 /output/.release.lock
 /output/.pending-*/
+!/output/*/programming/
+!/output/*/programming/*.elf
+!/output/*/debug/
+!/output/*/debug/*.elf

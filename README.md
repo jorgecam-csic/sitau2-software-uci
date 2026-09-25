@@ -140,13 +140,15 @@ Dentro del workspace:
 | `Platform/export/Platform/sw/Platform/boot/fsbl.elf` | FSBL generado de la plataforma. |
 | `packages/<fecha>/cpu0-boot.bin` | FSBL + bitstream UCI + CPU0: imagen de arranque para flash. |
 | `packages/<fecha>/cpu1-network.bin` | Solo CPU1: entrega por red para ejecutar en RAM. |
+| `packages/<fecha>/programming/fsbl.elf` | Auxiliar que Vitis ejecuta temporalmente para grabar la QSPI por JTAG. |
+| `packages/<fecha>/debug/*.elf` | Ejecutables exactos de CPU0/CPU1 con simbolos para depuracion. |
 | `packages/<fecha>/*.bif` | Recetas de empaquetado con las rutas de esa ejecución. |
 | `packages/<fecha>/manifest.json` | Hashes de entradas/salidas y particiones verificadas. |
 | `packages/latest.txt` | Identifica el último empaquetado que terminó correctamente. |
 
 Se genera una carpeta nueva en cada empaquetado. Conservar el manifiesto junto a los BIN cuando se prepare una entrega y anotar también el commit del software y la selección de hardware.
 
-**No usar el `BOOT.BIN` automático de `CPU1_system` para enviarlo por red:** puede incluir FSBL y bitstream. Si el cliente exige un archivo llamado `BOOT.bin`, utilizar una copia de `cpu1-network.bin` con ese nombre. Los scripts crean y verifican archivos; no programan flash ni envían nada al equipo.
+**No usar el `BOOT.BIN` automático de `CPU1_system` para enviarlo por red:** puede incluir FSBL y bitstream. Si el cliente exige un archivo llamado `BOOT.bin`, utilizar una copia de `cpu1-network.bin` con ese nombre. La generación y el empaquetado no programan flash ni envían nada al equipo; `grabar-flash.bat` es una acción posterior, explícita y con confirmación.
 
 ## Recorrido completo sin GUI
 
@@ -190,6 +192,9 @@ output/
   0.1.0/
     cpu0-boot.bin
     cpu1-network.bin
+    programming/fsbl.elf
+    debug/CPU0.elf
+    debug/CPU1.elf
     manifest.json
     README.md
 ```
@@ -204,6 +209,22 @@ git commit -m "Publica entrega 0.1.0"
 ```
 
 Ese segundo commit guarda la entrega; el manifiesto referencia el commit anterior que produjo el software. El script no hace commit, push ni tag. Actualizar la rama antes de elegir una versión, conservar inmutables las entregas compartidas y resolver versiones concurrentes entre colaboradores antes de integrarlas. [Política y contenido de output](output/README.md).
+
+### Grabar CPU0 en la QSPI
+
+Conectar una unica placa por JTAG y ejecutar desde la raiz:
+
+```powershell
+.\grabar-flash.bat
+```
+
+El lanzador ordena numericamente las entregas de `output`, permite elegir una, verifica los hashes de la imagen, el FSBL auxiliar y los ELF, detecta Vitis 2022.2 y muestra los destinos JTAG. Solo borra y programa la QSPI despues de escribir `PROGRAMAR`. Graba `cpu0-boot.bin` en el offset cero como `qspi-x2-single` y verifica el contenido; nunca ofrece `cpu1-network.bin` para flash. Tras el exito, configurar la placa en modo de arranque QSPI y reiniciarla. La posicion fisica de los selectores depende de la placa y debe comprobarse en su documentacion.
+
+Para validar una entrega sin acceder a la placa:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/grabar-flash.ps1 -Version 0.1.0 -Check
+```
 
 ## Trabajar desde Vitis
 
@@ -312,7 +333,7 @@ Cada directorio versionable tiene un README con su propósito, archivos y conten
 | [tests](tests/README.md) | Pruebas aisladas de versiones y procedencia. |
 | [documents](documents/README.md) | Planes e informes fechados con evidencias de validación. |
 
-En la raíz, `generar-workspace.bat` genera el entorno, `compilar.bat` recompila ambas CPU y empaqueta los resultados de desarrollo, `abrir-vitis.bat` abre el IDE y `generar_nueva_version.bat` prepara una entrega numerada en output sin compilar. `.gitignore` excluye productos/restos; `.gitattributes` y `.editorconfig` establecen las políticas de archivos. No hay proyectos Eclipse/Vitis mantenidos en la raíz: se reconstruyen en el workspace.
+En la raíz, `generar-workspace.bat` genera el entorno, `compilar.bat` recompila ambas CPU y empaqueta los resultados de desarrollo, `abrir-vitis.bat` abre el IDE, `generar_nueva_version.bat` prepara una entrega numerada en output sin compilar y `grabar-flash.bat` permite seleccionar y programar una entrega validada en la QSPI. `.gitignore` excluye productos/restos; `.gitattributes` y `.editorconfig` establecen las políticas de archivos. No hay proyectos Eclipse/Vitis mantenidos en la raíz: se reconstruyen en el workspace.
 
 Se han probado generación limpia, compilación de ambas CPU, empaquetado, reconstrucción del BSP, rechazo de lwIP ausente/alterada y publicación de entregas numeradas con sus controles. Consultar [validación del refactor](documents/reports/validacion-refactor.md), [empaquetado](documents/reports/empaquetado-red-cpu1.md), [lwIP](documents/reports/lwip-version-sitau2.md) y [versionado de output](documents/reports/versionado-output.md). Los informes son históricos: sus rutas antiguas describen las pruebas de su fecha, no instrucciones vigentes.
 

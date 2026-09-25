@@ -66,12 +66,30 @@ try {
         }
         $products += @{file="$name.bin";sha256=(Get-FileHash -LiteralPath $bin -Algorithm SHA256).Hash;partitions=$parts}
     }
+    $artifactDefinitions = @(
+        @{input='FSBL';file='programming/fsbl.elf';purpose='flash-programmer'},
+        @{input='CPU0';file='debug/CPU0.elf';purpose='debug-symbols-cpu0'},
+        @{input='CPU1';file='debug/CPU1.elf';purpose='debug-symbols-cpu1'}
+    )
+    $releaseArtifacts = @()
+    foreach ($definition in $artifactDefinitions) {
+        $destination = Join-Path $run $definition.file
+        New-Item -ItemType Directory -Path (Split-Path $destination) -Force | Out-Null
+        Copy-Item -LiteralPath $inputs[$definition.input] -Destination $destination
+        $hash = (Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash
+        if ($hash -ne $beforeHashes[$definition.input]) { throw "Copia de artefacto incorrecta: $($definition.file)" }
+        $releaseArtifacts += @{file=$definition.file;purpose=$definition.purpose;sha256=$hash}
+    }
     foreach ($key in $inputs.Keys) {
         if ((Get-FileHash -LiteralPath $inputs[$key] -Algorithm SHA256).Hash -ne $beforeHashes[$key]) { throw 'Entradas modificadas durante el empaquetado.' }
     }
     $inputHashes = @{}
     foreach ($key in $inputs.Keys) { $inputHashes[$key] = @{path=$inputs[$key];sha256=(Get-FileHash -LiteralPath $inputs[$key] -Algorithm SHA256).Hash} }
-    @{inputs=$inputHashes;products=$products;hardwareValidated=$false} | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $run 'manifest.json') -Encoding UTF8
+    $deployment = @{
+        flash=@{image='cpu0-boot.bin';fsbl='programming/fsbl.elf';type='qspi-x2-single';offset=0}
+        cpu1=@{image='cpu1-network.bin';transport='network';loadAddress='0x18000000'}
+    }
+    @{inputs=$inputHashes;products=$products;artifacts=$releaseArtifacts;deployment=$deployment;hardwareValidated=$false} | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $run 'manifest.json') -Encoding UTF8
     [IO.File]::WriteAllText((Join-Path $output 'latest.txt'), $run, [Text.UTF8Encoding]::new($false))
     Write-Host "Paquetes verificados: $run"
     if ($PassThru) { return $run }

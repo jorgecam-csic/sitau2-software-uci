@@ -43,20 +43,48 @@ try {
         Copy-Item -LiteralPath (Join-Path $package $product.file) -Destination $destination
         if ((Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash -ne $product.sha256) { throw 'Hash de salida incorrecto.' }
     }
+    $expectedArtifacts = @{
+        'programming/fsbl.elf'='flash-programmer'
+        'debug/CPU0.elf'='debug-symbols-cpu0'
+        'debug/CPU1.elf'='debug-symbols-cpu1'
+    }
+    if (@($packageManifest.artifacts).Count -ne $expectedArtifacts.Count) { throw 'Numero de artefactos de entrega inesperado.' }
+    $seenArtifacts = @{}
+    foreach ($artifact in $packageManifest.artifacts) {
+        $relative = [string]$artifact.file
+        if (!$expectedArtifacts.ContainsKey($relative) -or $seenArtifacts.ContainsKey($relative) -or
+            $artifact.purpose -cne $expectedArtifacts[$relative] -or [IO.Path]::IsPathRooted($relative)) { throw "Artefacto inesperado o duplicado: $relative" }
+        $seenArtifacts[$relative] = $true
+        $source = [IO.Path]::GetFullPath((Join-Path $package $relative))
+        $destination = [IO.Path]::GetFullPath((Join-Path $stage $relative))
+        if (!$source.StartsWith($package.TrimEnd('\') + '\',[StringComparison]::OrdinalIgnoreCase) -or
+            !$destination.StartsWith($stage.TrimEnd('\') + '\',[StringComparison]::OrdinalIgnoreCase)) { throw "Ruta de artefacto no valida: $relative" }
+        New-Item -ItemType Directory -Path (Split-Path $destination) -Force | Out-Null
+        Copy-Item -LiteralPath $source -Destination $destination
+        if ((Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash -ne $artifact.sha256) { throw "Hash de artefacto incorrecto: $relative" }
+    }
+    if ($packageManifest.deployment.flash.image -cne 'cpu0-boot.bin' -or
+        $packageManifest.deployment.flash.fsbl -cne 'programming/fsbl.elf' -or
+        $packageManifest.deployment.flash.type -cne 'qspi-x2-single' -or
+        [uint64]$packageManifest.deployment.flash.offset -ne 0 -or
+        $packageManifest.deployment.cpu1.image -cne 'cpu1-network.bin' -or
+        $packageManifest.deployment.cpu1.transport -cne 'network' -or
+        $packageManifest.deployment.cpu1.loadAddress -cne '0x18000000') { throw 'Configuracion de despliegue inesperada.' }
     $inputHashes = [ordered]@{}
     foreach ($key in @('FSBL','BITSTREAM','CPU0','CPU1')) {
         $inputHashes[$key] = $packageManifest.inputs.$key.sha256.ToLowerInvariant()
     }
     Assert-SameMap $record.products $inputHashes 'El paquete no corresponde al build registrado'
     $manifest = [ordered]@{
-        schemaVersion=1; version=$Version; createdUtc=[DateTime]::UtcNow.ToString('o')
+        schemaVersion=2; version=$Version; createdUtc=[DateTime]::UtcNow.ToString('o')
         software=[ordered]@{commit=$record.commit;dirty=$false;buildCompletedUtc=$record.completedUtc;inputs=$record.inputs}
         toolchain=$record.toolchain
         hardware=(Get-Content -LiteralPath (Join-Path $repo 'artifacts/dependencies-lock.json') -Raw | ConvertFrom-Json)
-        inputs=$inputHashes; products=$packageManifest.products; hardwareValidated=$false
+        inputs=$inputHashes; products=$packageManifest.products; artifacts=$packageManifest.artifacts
+        deployment=$packageManifest.deployment; hardwareValidated=$false
     }
     $manifest | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath (Join-Path $stage 'manifest.json') -Encoding UTF8
-    $readme = "# Entrega $Version`n`nCommit de origen: $($record.commit).`n`n- cpu0-boot.bin: FSBL + bitstream UCI + CPU0; arranque en flash.`n- cpu1-network.bin: solo CPU1; carga por red en RAM. No grabar CPU1 en flash.`n- manifest.json: procedencia, herramientas, entradas, hashes y particiones.`n`nLa generacion no certifica pruebas en placa. Conservar esta carpeta sin modificar.`n`n[Volver](../README.md)`n"
+    $readme = "# Entrega $Version`n`nCommit de origen: $($record.commit).`n`n- cpu0-boot.bin: FSBL + bitstream UCI + CPU0; arranque en flash.`n- cpu1-network.bin: solo CPU1; carga por red en RAM. No grabar CPU1 en flash.`n- programming/fsbl.elf: auxiliar temporal para grabar la QSPI mediante JTAG.`n- debug/CPU0.elf y debug/CPU1.elf: ejecutables con simbolos de esta compilacion.`n- manifest.json: procedencia, herramientas, entradas, hashes, despliegue y particiones.`n`nDesde la raiz del repositorio, usar grabar-flash.bat para seleccionar y programar una entrega. La generacion no certifica pruebas en placa. Conservar esta carpeta sin modificar.`n`n[Volver](../README.md)`n"
     [IO.File]::WriteAllText((Join-Path $stage 'README.md'),$readme,[Text.UTF8Encoding]::new($false))
     Assert-CleanRepo $repo
     $null = Assert-BuildRecord $repo $workspace $VitisHome

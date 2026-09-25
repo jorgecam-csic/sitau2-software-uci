@@ -1,6 +1,6 @@
 # output
 
-Entregas software versionadas, incluidas en Git. Cada directorio `mayor.menor.parche` contiene CPU0 para arranque, CPU1 para carga por red, manifiesto y README. No guardar aquí resultados intermedios ni cada compilación de desarrollo.
+Entregas software versionadas, incluidas en Git. Cada directorio `mayor.menor.parche` contiene CPU0 para arranque, CPU1 para carga por red, el FSBL auxiliar de programacion, los ELF con simbolos, manifiesto y README. No guardar aquí resultados intermedios ni cada compilación de desarrollo.
 
 ## Generar una entrega
 
@@ -17,12 +17,17 @@ Solo se aceptan tres componentes numéricos entre 0 y 2147483647, sin ceros inic
 | --- | --- |
 | `cpu0-boot.bin` | FSBL + bitstream UCI + CPU0; imagen de arranque para flash. |
 | `cpu1-network.bin` | Solo CPU1; envío por red y ejecución en RAM, nunca flash. |
+| `programming/fsbl.elf` | FSBL que `program_flash` ejecuta temporalmente por JTAG para acceder a la QSPI. |
+| `debug/CPU0.elf` | Ejecutable y simbolos exactos de CPU0 para diagnosticar esta entrega. |
+| `debug/CPU1.elf` | Ejecutable y simbolos exactos de CPU1 para diagnosticar esta entrega. |
 | `manifest.json` | Versión, fecha UTC, commit limpio, hashes de entradas de build y binarios, herramientas, lock hardware y particiones verificadas. No contiene rutas absolutas del equipo. |
 | `README.md` | Identificación y uso de esa entrega. |
 
 El empaquetado se prepara en el workspace; la copia final se monta en `.pending-*` y solo se renombra a la versión al terminar todas las comprobaciones. Git ignora únicamente esas carpetas temporales y `.release.lock`, no las entregas. Un fallo no publica una versión parcial.
 
 Las entregas son inmutables: no editar ni borrar versiones ya compartidas para reutilizar sus números. Los BIN incrementan el tamaño del historial Git. Antes de distribuirlos, validar sobre el equipo; `hardwareValidated: false` indica que el generador no certifica esas pruebas.
+
+Para grabar CPU0, ejecutar `grabar-flash.bat` desde la raiz del repositorio. El selector comprueba el manifiesto y los hashes antes de ofrecer la programacion. Los ELF conservan los simbolos exactos, pero no sustituyen Vitis, el cable JTAG ni un workspace cuando se necesita recompilar o realizar una sesion de depuracion completa.
 
 Los cambios de fuente posteriores al build, otro commit, un ELF recompilado desde GUI o una dependencia alterada invalidan la entrega. Ejecutar de nuevo el build por consola. Una compilación GUI sigue siendo útil para desarrollo, pero no crea por sí misma el registro de procedencia exigido para publicar.
 
