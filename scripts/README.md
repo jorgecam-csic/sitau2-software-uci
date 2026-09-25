@@ -64,8 +64,10 @@ Se resuelven las plantillas de [config/bootimage](../config/bootimage/README.md)
 
 ## Controles y mantenimiento
 
-- La huella incluye `dependencies-lock.json` y los archivos de `config` y `scripts`, incluidos sus README, salvo respaldos `*.bak`. Modificarlos requiere generar otra vez. La huella incluye también la lista de archivos de src sin `*.bak`: un alta, baja o movimiento de entradas exige regenerar sus enlaces.
-- Los respaldos `*.bak` se conservan en disco pero no se registran como entradas de compilación ni de la huella. No deben incluirse desde el código ni utilizarse como dependencias. El resto de entradas sigue verificándose, aunque Git las ignore: una cabecera ignorada y no versionada debe bloquear una entrega.
+- La huella incluye `dependencies-lock.json` y las entradas de `config` y `scripts`, además de la lista de entradas de src. Modificar recetas/configuración o añadir, retirar o mover una entrada de src requiere regenerar; editar su contenido requiere recompilar.
+- Tanto la huella como el registro de build excluyen `*.md`, `*.markdown`, `README.txt`, `*.bak`, `*.log`, `*.tmp`, `*.swp`, `*.swo`, nombres terminados en `~`, `.DS_Store`, `Thumbs.db` y `desktop.ini`, sin distinguir mayúsculas. Se conservan en disco y no deben utilizarse como dependencias del código. Añadir, editar o retirar documentación ya no invalida la huella del workspace.
+- No se excluyen formatos ambiguos o desconocidos: `.txt` distintos de README.txt, `.json`, `.html`, `.in`, fuentes, linker scripts, recetas y artefactos siguen comprobándose. Tampoco se descarta todo lo ignorado por Git: una cabecera ignorada y no versionada debe bloquear una entrega.
+- Esta selección no cambia la política de publicación: se exige Git limpio y el mismo commit del build. Un commit solo documental no exige regenerar el workspace, pero sí repetir Build para publicar desde ese nuevo commit.
 - lwIP debe ser exactamente `lwip211 1.08.s`; se verifican el MLD, los dos MSS y los parches del repositorio software y del BSP. Los makefiles de las aplicaciones/sistemas incluyen el mismo control para las compilaciones GUI.
 - Se auditan los archivos originales de la instalación Xilinx antes de construir la variante; no se escribe sobre Vitis.
 - Setup no archiva workspaces ajenos ni abiertos. `workflow.lock` evita operaciones simultáneas del motor; además debe cerrarse la GUI al usar XSCT por consola.

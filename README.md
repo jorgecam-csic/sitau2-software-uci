@@ -249,7 +249,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package.ps1 -Workspa
 | Mover o renombrar el clon | Generar un workspace nuevo en la ubicación final; los enlaces antiguos apuntan a la ruta anterior. |
 | Cambiar solo documentación fuera de `config` y `scripts` | No requiere regeneración. |
 
-La huella del entorno incluye **todos los archivos de `config` y `scripts`, también sus README**, y el lock hardware. Por tanto, esta actualización documental puede invalidar un workspace creado con las recetas anteriores. La huella incluye también la lista de archivos fuente: si cambia su estructura se detecta y hay que regenerar.
+La huella del entorno incluye las entradas de `config` y `scripts`, el lock hardware y la lista de entradas de `src`. Cambiar recetas, configuración o la estructura de fuentes exige regenerar. **Markdown, README.txt, respaldos, logs y temporales conocidos quedan fuera de la huella y del registro de compilación**; su edición no obliga a regenerar. La [lista exacta de exclusiones](scripts/README.md#controles-y-mantenimiento) es conservadora: fuentes, configuración, recursos y formatos ambiguos siguen comprobándose.
+
+Los workspaces creados con el criterio anterior necesitan una regeneración para adoptar esta regla. Se mantiene la política de publicación: Git limpio y build del mismo commit. Hacer un commit documental requiere repetir Build antes de publicar, aunque no requiera regenerar el workspace.
 
 Después de `git pull` o `git switch`, revisar qué cambió y ejecutar:
 
@@ -282,7 +284,7 @@ Regenerar el BSP recupera los cambios desde esa biblioteca personalizada. Los co
 | Vitis tarda o parece bloqueado al arrancar | Usar nuestros lanzadores con PATH reducido; comprobar el log antes de iniciar otra instancia. |
 | `No se encuentra Vitis` | Revisar instalación y `-VitisHome`. |
 | `Falta dependencia` o hash incorrecto | Restaurar el paquete correspondiente al lock; no desactivar la verificación. |
-| `Workspace desactualizado` | Cerrar Vitis y generar uno nuevo; incluye cambios en README de config/scripts. |
+| `Workspace desactualizado` | Cerrar Vitis y generar uno nuevo si cambiaron recetas, configuración, estructura de entradas o el criterio de huella. Los README ya no forman parte de esa huella. |
 | Error de lwIP personalizada | Ejecutar `Check`; reconstruir desde las recetas verificadas en vez de seleccionar la original manualmente. |
 | Mensajes rojos `NativeCommandError` o `RemoteException` | PowerShell 5 puede envolver notas/avisos enviados a stderr. Leer el diagnóstico real y comprobar el marcador final y el código de salida; el color no determina el resultado. |
 | `Nothing to be done` | Un build incremental no encontró tareas; no acredita una recompilación desde cero. |

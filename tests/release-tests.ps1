@@ -52,6 +52,20 @@ try {
     $null = Assert-BuildRecord $repo $workspace $vitis; $count++
     foreach ($name in @('src','config','scripts','artifacts')) { Remove-Item -LiteralPath (Join-Path $repo "$name/input.txt.bak") }
     $null = Assert-BuildRecord $repo $workspace $vitis; $count++
+    foreach ($auxiliary in @('notes.MD','notes.markdown','README.txt','trace.log','edit.tmp','edit.swp','edit.swo','source.h~','.DS_Store','Thumbs.db','desktop.ini')) {
+        foreach ($name in @('src','config','scripts','artifacts')) { Write-Text (Join-Path $repo "$name/$auxiliary") 'auxiliary' }
+        $null = Assert-BuildRecord $repo $workspace $vitis; $count++
+        foreach ($name in @('src','config','scripts','artifacts')) { Write-Text (Join-Path $repo "$name/$auxiliary") 'changed auxiliary' }
+        $null = Assert-BuildRecord $repo $workspace $vitis; $count++
+        foreach ($name in @('src','config','scripts','artifacts')) { Remove-Item -LiteralPath (Join-Path $repo "$name/$auxiliary") }
+        $null = Assert-BuildRecord $repo $workspace $vitis; $count++
+    }
+    foreach ($inputName in @('src/check.c','src/check.h','src/check.S','src/check.ld','src/check.spec','src/resource.txt','config/settings.json','config/cpu.mss','config/boot.bif.in','scripts/recipe.ps1','scripts/recipe.tcl','artifacts/hardware.xsa','artifacts/image.bit','artifacts/boot.bin','artifacts/init.html')) {
+        $inputPath = Join-Path $repo $inputName
+        Write-Text $inputPath 'meaningful input'
+        Expect-Failure { Assert-BuildRecord $repo $workspace $vitis } 'Entradas cambiadas'
+        Remove-Item -LiteralPath $inputPath
+    }
     Write-Text (Join-Path $repo 'src/input.txt') 'changed'
     Expect-Failure { Assert-BuildRecord $repo $workspace $vitis } 'Entradas cambiadas'
     Write-Text (Join-Path $repo 'src/input.txt') 'src'

@@ -14,6 +14,6 @@ Configuración mantenida con la que se reconstruyen aplicaciones, BSP y paquetes
 - [bsp](bsp/README.md): Parámetros MSS de los dominios BSP de CPU0, CPU1 y FSBL.
 - [lwip211](lwip211/README.md): Personalizaciones auditadas de lwIP 2.1.1, basadas en Xilinx 1.8 y registradas como lwip211 1.08.s.
 
-Los cambios en esta carpeta, incluidos los README, invalidan la huella del workspace. Guardarlos en Git y generar desde cero antes de compilar. Los cambios de propiedades hechos solo en el IDE no se incorporan automáticamente a estas recetas.
+Los cambios en las recetas y configuración de esta carpeta invalidan la huella del workspace. Guardarlos en Git y generar desde cero antes de compilar. Los README y auxiliares documentados en [scripts](../scripts/README.md#controles-y-mantenimiento) quedan fuera de la huella. Los cambios de propiedades hechos solo en el IDE no se incorporan automáticamente a estas recetas.
 
 [Volver](../README.md)

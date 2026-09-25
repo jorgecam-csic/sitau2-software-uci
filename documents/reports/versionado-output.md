@@ -44,4 +44,12 @@ En el repositorio de trabajo aparecieron cuatro `*.bak` heredados, ignorados por
 
 Los cuatro respaldos se conservan y sus hashes coinciden con el registro anterior. La suite ampliada pasa 29 pruebas: añadir, modificar o retirar respaldos no afecta a las entradas; una cabecera ignorada sin versionar sigue bloqueando la publicación. `Verify` del paquete hardware también pasa. No se ha repetido un build nativo tras esta corrección: el workspace habitual debe regenerarse y compilarse para producir un registro con el nuevo criterio. No se modifican los registros anteriores para hacerlos pasar.
 
+## Exclusión de documentación y auxiliares
+
+El inventario compartido por la huella del workspace y el registro de build excluye ahora Markdown (`.md` y `.markdown`), `README.txt`, `.bak`, `.log`, `.tmp`, `.swp`, `.swo`, nombres terminados en `~`, `.DS_Store`, `Thumbs.db` y `desktop.ini`. Los archivos no se borran. Se conservan en el control los formatos ambiguos, como otros `.txt`, `.json`, `.html` e `.in`, además de fuentes, recetas y artefactos.
+
+Esta regla sustituye el criterio anterior que incluía README en la huella. Exige regenerar una vez los workspaces anteriores, pero las siguientes ediciones de documentación no exigirán regenerarlos. Los requisitos de Git limpio y mismo commit para publicar se mantienen; un nuevo commit documental requiere Build para publicar con esa identidad.
+
+La suite ampliada pasa 77 pruebas en Windows PowerShell 5.1. Comprueba altas, modificaciones y bajas de cada tipo de auxiliar en las cuatro raíces de entrada; también verifica la detección de fuentes C/ASM, cabeceras, linker scripts, especificaciones, JSON, MSS, BIF, PS1/Tcl, XSA/BIT/BIN, TXT de recursos y HTML. No se ha repetido la compilación nativa para este cambio de selección de entradas.
+
 [Volver](README.md)

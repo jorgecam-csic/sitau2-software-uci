@@ -13,9 +13,16 @@ function Assert-CleanRepo([string]$Repo) {
     if ($status.Count) { throw 'Git tiene cambios pendientes. Haz commit de los cambios antes de generar una version (incluidas entregas anteriores).' }
 }
 function Get-InputFiles([string[]]$Roots) {
-    # Los respaldos *.bak no son entradas del proyecto. No excluir de forma
-    # general lo ignorado por Git: una cabecera ignorada si puede compilarse.
-    Get-ChildItem -LiteralPath $Roots -Recurse -File | Where-Object { $_.Extension -ine '.bak' }
+    # Documentacion y auxiliares conocidos no son entradas del proyecto.
+    # Conservar formatos ambiguos/desconocidos y archivos ignorados por Git:
+    # una cabecera o un recurso sin versionar tambien puede afectar al build.
+    $auxiliaryExtensions = @('.md','.markdown','.bak','.log','.tmp','.swp','.swo')
+    $auxiliaryNames = @('README.txt','.DS_Store','Thumbs.db','desktop.ini')
+    Get-ChildItem -LiteralPath $Roots -Recurse -File | Where-Object {
+        $_.Extension -notin $auxiliaryExtensions -and
+        $_.Name -notin $auxiliaryNames -and
+        !$_.Name.EndsWith('~')
+    }
 }
 function Get-BuildInputs([string]$Repo) {
     $result = [ordered]@{}
