@@ -20,6 +20,11 @@ function Resolve-VitisHome([string]$VitisHome, [string]$Version = '2022.2') {
     function Add-VitisCandidate([string]$Path) {
         if (![string]::IsNullOrWhiteSpace($Path)) { $candidates.Add($Path) }
     }
+    function Get-OptionalRegistryValue($Entry, [string]$Name) {
+        $property = $Entry.PSObject.Properties[$Name]
+        if ($null -ne $property) { return [string]$property.Value }
+        return $null
+    }
 
     # El instalador unificado registra la raiz (por ejemplo D:\Xilinx), no el
     # directorio Vitis completo. Se consultan las vistas de 32 y 64 bits.
@@ -32,13 +37,18 @@ function Resolve-VitisHome([string]$VitisHome, [string]$Version = '2022.2') {
         if (!(Test-Path -LiteralPath $root)) { continue }
         foreach ($key in (Get-ChildItem -LiteralPath $root -ErrorAction SilentlyContinue)) {
             $entry = Get-ItemProperty -LiteralPath $key.PSPath -ErrorAction SilentlyContinue
-            if (!$entry -or $entry.DisplayName -notmatch '(?i)\b(Vitis|Xilinx Design Tools)\b' -or
-                (($entry.DisplayVersion -ne $Version) -and ($entry.DisplayName -notmatch ([regex]::Escape($Version))))) { continue }
-            if ($entry.InstallLocation) {
-                Add-VitisCandidate $entry.InstallLocation
-                Add-VitisCandidate ([IO.Path]::Combine([string]$entry.InstallLocation, 'Vitis', $Version))
+            if (!$entry) { continue }
+            $displayName = Get-OptionalRegistryValue $entry 'DisplayName'
+            $displayVersion = Get-OptionalRegistryValue $entry 'DisplayVersion'
+            $installLocation = Get-OptionalRegistryValue $entry 'InstallLocation'
+            $displayIcon = Get-OptionalRegistryValue $entry 'DisplayIcon'
+            if ($displayName -notmatch '(?i)\b(Vitis|Xilinx Design Tools)\b' -or
+                (($displayVersion -ne $Version) -and ($displayName -notmatch ([regex]::Escape($Version))))) { continue }
+            if ($installLocation) {
+                Add-VitisCandidate $installLocation
+                Add-VitisCandidate ([IO.Path]::Combine($installLocation, 'Vitis', $Version))
             }
-            if ($entry.DisplayIcon -and ([string]$entry.DisplayIcon) -match '^(.*?)[\\/]\.xinstall[\\/]') {
+            if ($displayIcon -and $displayIcon -match '^(.*?)[\\/]\.xinstall[\\/]') {
                 Add-VitisCandidate ([IO.Path]::Combine($Matches[1], 'Vitis', $Version))
             }
         }
