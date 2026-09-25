@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [ValidateSet('Setup','Build','Open','Verify','Check')][string]$Action = 'Setup',
-    [string]$VitisHome = 'E:\Xilinx\Vitis\2022.2',
+    [string]$VitisHome,
     [string]$WorkRoot
 )
 $ErrorActionPreference = 'Stop'
@@ -11,6 +11,7 @@ Set-StrictMode -Version Latest
 Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Utility') -ErrorAction Stop
 Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Management') -ErrorAction Stop
 . (Join-Path $PSScriptRoot 'build-record.ps1')
+. (Join-Path $PSScriptRoot 'vitis.ps1')
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 if (!$WorkRoot) { $WorkRoot = Join-Path (Split-Path $repo) ((Split-Path $repo -Leaf) + '-work') }
 $WorkRoot = [IO.Path]::GetFullPath($WorkRoot)
@@ -39,13 +40,6 @@ if ((Get-FileHash -LiteralPath $xsa -Algorithm SHA256).Hash -ne $lock.uci.sha256
 if (@($manifest.files | Where-Object { $_.path -eq $lock.uci.file -and $_.sha256 -eq $lock.uci.sha256 }).Count -ne 1) { throw 'Lock y manifiesto no coinciden.' }
 Write-Host "Dependencia verificada: $($manifest.id)"
 if ($Action -eq 'Verify') { return }
-$xsct = Join-Path $VitisHome 'bin/xsct.bat'
-$vitis = Join-Path $VitisHome 'bin/vitis.bat'
-if ($Action -ne 'Check') {
-    if (!(Test-Path -LiteralPath $xsct) -or !(Test-Path -LiteralPath $vitis)) { throw "No se encuentra Vitis: $VitisHome" }
-    $version = Get-Content -LiteralPath (Join-Path $VitisHome 'data/version.bat') -Raw
-    if ($version -notmatch '2022\.2') { throw 'Se necesita Vitis Classic 2022.2.' }
-}
 # La huella incluye recetas y configuracion; los fuentes pueden editarse normalmente.
 $inputs = @(Get-InputFiles @((Join-Path $repo 'config'),$PSScriptRoot) | Sort-Object FullName)
 $recipe = @($lockPath) + @($inputs.FullName)
@@ -83,6 +77,9 @@ if ($Action -eq 'Check') {
     Assert-CustomLwip
     return
 }
+$VitisHome = Resolve-VitisHome $VitisHome '2022.2'
+$xsct = Join-Path $VitisHome 'bin/xsct.bat'
+$vitis = Join-Path $VitisHome 'bin/vitis.bat'
 foreach ($patch in (Get-Content -LiteralPath (Join-Path $repo 'config/lwip211/manifest.json') -Raw | ConvertFrom-Json)) {
     $stock = Join-Path $VitisHome ('data/embeddedsw/ThirdParty/sw_services/lwip211_v1_8/src/contrib/ports/xilinx/netif/' + $patch.file)
     if ((Get-FileHash -LiteralPath $stock -Algorithm SHA256).Hash -ne $patch.stockSha256) { throw "Biblioteca de Vitis distinta de la auditada: $($patch.file)" }

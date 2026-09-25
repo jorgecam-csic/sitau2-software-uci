@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string]$Version,
-    [string]$VitisHome = 'E:\Xilinx\Vitis\2022.2',
+    [string]$VitisHome,
     [string]$WorkRoot
 )
 $ErrorActionPreference = 'Stop'
@@ -9,11 +9,13 @@ Set-StrictMode -Version Latest
 Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Utility') -ErrorAction Stop
 Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Management') -ErrorAction Stop
 . (Join-Path $PSScriptRoot 'build-record.ps1')
+. (Join-Path $PSScriptRoot 'vitis.ps1')
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 if (!$WorkRoot) { $WorkRoot = Join-Path (Split-Path $repo) ((Split-Path $repo -Leaf) + '-work') }
 $WorkRoot = [IO.Path]::GetFullPath($WorkRoot)
 if ($WorkRoot -eq $repo -or $WorkRoot.StartsWith($repo+'\',[StringComparison]::OrdinalIgnoreCase)) { throw 'WorkRoot debe estar fuera del repositorio.' }
 $workspace = Join-Path $WorkRoot 'workspace'
+$VitisHome = Resolve-VitisHome $VitisHome '2022.2'
 $output = Join-Path $repo 'output'
 if (!$Version) { $Version = Read-Host 'Nueva version (mayor.menor.parche)' }
 $null = ConvertTo-ReleaseVersion $Version

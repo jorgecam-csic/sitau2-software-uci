@@ -1,16 +1,18 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory=$true)][string]$Workspace,
-    [string]$VitisHome = 'E:\Xilinx\Vitis\2022.2',
+    [string]$VitisHome,
     [switch]$PassThru
 )
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
+. (Join-Path $PSScriptRoot 'vitis.ps1')
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $Workspace = [IO.Path]::GetFullPath($Workspace)
 if ($Workspace -eq $repo -or $Workspace.StartsWith($repo + '\', [StringComparison]::OrdinalIgnoreCase)) { throw 'Workspace debe estar fuera del repositorio.' }
 if ((Split-Path $Workspace -Leaf) -ne 'workspace') { throw 'Se requiere el workspace generado por setup.ps1.' }
 & (Join-Path $PSScriptRoot 'setup.ps1') -Action Check -WorkRoot (Split-Path $Workspace)
+$VitisHome = Resolve-VitisHome $VitisHome '2022.2'
 $output = Join-Path $Workspace 'packages'
 # Cada ejecucion conserva los paquetes anteriores y publica solo si ambos validan.
 $run = Join-Path $output (Get-Date -Format 'yyyyMMdd-HHmmss-fff')

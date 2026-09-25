@@ -36,7 +36,7 @@ El flujo está preparado y probado para **Windows y Vitis Classic 2022.2**. No s
 2. Descargar **AMD/Xilinx Unified Installer 2022.2: Windows Self Extracting Web Installer**. El acceso a la descarga puede requerir una cuenta AMD.
 3. Ejecutar el instalador y seleccionar **Vitis / Vitis Unified Software Platform**, manteniendo los componentes asociados que requiera el instalador, incluido Vivado. No basta con instalar únicamente Vivado.
 4. Incluir soporte para **Zynq-7000** (la UCI usa XC7Z045). Para trabajar con una sonda, incluir también los controladores de cable. Model Composer, plataformas Alveo/Kria y familias ajenas a este hardware no son requisitos de este flujo.
-5. Los lanzadores del repositorio utilizan por defecto **`E:\Xilinx\Vitis\2022.2`**. Para usar directamente los BAT sin parámetros, instalar bajo `E:\Xilinx`. Si se elige otra unidad, utilizar las órdenes con `-VitisHome` indicadas más abajo.
+5. Los lanzadores detectan **Vitis 2022.2** mediante la entrada de desinstalación de Windows. También reconocen `XILINX_VITIS` y las ubicaciones `Xilinx/Vitis/2022.2` o `AMD/Vitis/2022.2` de las unidades locales. Si hay que forzar otra instalación, utilizar `-VitisHome` como se indica más abajo.
 6. Verificar que existen `bin/vitis.bat`, `bin/xsct.bat`, `bin/bootgen.bat` y `data/embeddedsw` dentro de la instalación Vitis.
 
 La [guía de instalación Vitis 2022.2](https://docs.amd.com/r/2022.2-English/ug1400-vitis-embedded/Installation) describe la instalación oficial. El XSA activo fue exportado con **Vivado 2022.2.2**; ese dato describe el productor del hardware, no una orden de actualizar Vitis. No hacen falta PetaLinux, un proyecto Vivado hermano ni una placa conectada para generar y compilar este software.
@@ -105,15 +105,15 @@ El generador verifica el XSA, prepara `lwip211 1.08.s`, crea `Platform`, sus BSP
 
 El éxito se confirma con **`SITAU_OK:setup`** y la ruta final del workspace. Esta acción prepara y compila la plataforma/FSBL; **todavía no equivale a compilar CPU0/CPU1 ni a generar los paquetes de entrega**.
 
-### Si Vitis está instalado en otra ruta
+### Seleccionar Vitis explícitamente
 
-El motor interno permite seleccionar la instalación sin editar el BAT:
+Normalmente no es necesario indicar la ruta. Si hay varias instalaciones o la detección no encuentra una instalación trasladada manualmente, el motor interno permite seleccionarla sin editar el BAT:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1 -Action Setup -VitisHome 'C:\Xilinx\Vitis\2022.2'
 ```
 
-Tiene el mismo comportamiento de generación desde cero y confirmación antes de archivar. Añadir el mismo `-VitisHome` a las órdenes posteriores de `Open`, `Build` y al empaquetado directo. También existe `-WorkRoot` para un entorno externo alternativo; si se utiliza, hay que repetirlo en todas las acciones. [Referencia de parámetros](scripts/README.md).
+Tiene el mismo comportamiento de generación desde cero y confirmación antes de archivar. Si se fuerza `-VitisHome`, añadirlo también a las órdenes posteriores de `Open`, `Build` y al empaquetado directo. También existe `-WorkRoot` para un entorno externo alternativo; si se utiliza, hay que repetirlo en todas las acciones. [Referencia de parámetros](scripts/README.md).
 
 ## Compilar y empaquetar
 
@@ -282,7 +282,7 @@ Regenerar el BSP recupera los cambios desde esa biblioteca personalizada. Los co
 | Síntoma | Comprobación o siguiente paso |
 | --- | --- |
 | Vitis tarda o parece bloqueado al arrancar | Usar nuestros lanzadores con PATH reducido; comprobar el log antes de iniciar otra instancia. |
-| `No se encuentra Vitis` | Revisar instalación y `-VitisHome`. |
+| `No se encuentra Vitis` | Revisar la instalación registrada y, para una ubicación no estándar, indicar `-VitisHome`. |
 | `Falta dependencia` o hash incorrecto | Restaurar el paquete correspondiente al lock; no desactivar la verificación. |
 | `Workspace desactualizado` | Cerrar Vitis y generar uno nuevo si cambiaron recetas, configuración, estructura de entradas o el criterio de huella. Los README ya no forman parte de esa huella. |
 | Error de lwIP personalizada | Ejecutar `Check`; reconstruir desde las recetas verificadas en vez de seleccionar la original manualmente. |

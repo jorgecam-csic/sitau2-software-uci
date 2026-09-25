@@ -14,7 +14,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tests/release-tests.ps1
 La prueba Tcl se puede ejecutar con Tcl 8.6 o con XSCT de la instalación Xilinx:
 
 ```powershell
-& 'E:\Xilinx\Vitis\2022.2\bin\xsct.bat' tests/clean-app-tests.tcl
+. .\scripts\vitis.ps1
+$vitis = Resolve-VitisHome
+& (Join-Path $vitis 'bin\xsct.bat') tests/clean-app-tests.tcl
 ```
 
 La generación, compilación y Bootgen reales se validan aparte en un clon/workspace de pruebas con Vitis 2022.2. Estas pruebas rápidas no sustituyen la integración ni la validación en placa.

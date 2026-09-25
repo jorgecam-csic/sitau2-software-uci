@@ -42,7 +42,7 @@ Los tres primeros no admiten parámetros y hacen una pausa al terminar. Para aut
 
 ## Rutas alternativas
 
-Los valores predeterminados son Vitis `E:/Xilinx/Vitis/2022.2` y la carpeta hermana `<nombre-del-repositorio>-work`. Para otra instalación o un entorno independiente:
+Vitis 2022.2 se detecta en el registro de Windows; como alternativas se consultan `XILINX_VITIS` y las ubicaciones habituales de las unidades locales. La carpeta de trabajo predeterminada es la hermana `<nombre-del-repositorio>-work`. Para seleccionar otra instalación o un entorno independiente:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1 -Action Setup -VitisHome 'C:\Xilinx\Vitis\2022.2' -WorkRoot 'D:\sitau2\uci-prueba-work'
