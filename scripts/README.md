@@ -31,7 +31,14 @@ Cambiar la acción según lo necesario:
 | `Open` | Comprueba y abre el workspace existente. No genera automáticamente. |
 | `Build` | Comprueba el entorno, limpia y recompila CPU0/CPU1 en Debug, registra procedencia y empaqueta. Cerrar Vitis para evitar acceso simultáneo. No crea el workspace. |
 
-Los lanzadores habituales son `generar-workspace.bat` y `abrir-vitis.bat`. El primero no admite parámetros. El segundo pasa opciones al motor para abrir un entorno alternativo.
+Los lanzadores habituales están en la raíz:
+
+- `generar-workspace.bat`: genera el entorno desde cero.
+- `compilar.bat`: ejecuta `setup.ps1 -Action Build` sobre el workspace existente y genera los paquetes de desarrollo.
+- `generar_nueva_version.bat`: prepara una entrega numerada en output, sin compilar.
+- `abrir-vitis.bat`: abre el IDE y permite pasar opciones para un entorno alternativo.
+
+Los tres primeros no admiten parámetros y hacen una pausa al terminar. Para automatización sin pausa o rutas alternativas, usar directamente los PS1. `setup.ps1` sigue siendo el motor interno de varias acciones, no solo de compilación.
 
 ## Rutas alternativas
 

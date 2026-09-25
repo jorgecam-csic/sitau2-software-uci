@@ -120,8 +120,10 @@ Tiene el mismo comportamiento de generación desde cero y confirmación antes de
 Guardar los cambios y **cerrar Vitis antes de ejecutar el flujo por consola**, para no abrir dos procesos sobre el mismo workspace. Desde la raíz del repositorio:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1 -Action Build
+.\compilar.bat
 ```
+
+También se puede abrir con doble clic. No admite parámetros y deja la ventana abierta con una pausa al terminar para revisar el resultado. Ejecuta internamente `setup.ps1 -Action Build`; no crea una versión en `output`.
 
 `Build` requiere un workspace ya generado y coherente con las recetas actuales. Limpia y recompila CPU0 y CPU1 en **Debug**, comprueba los ELF, registra la procedencia del build y ejecuta el empaquetado. No genera ni actualiza automáticamente un workspace desactualizado. El build por consola recompila las aplicaciones desde cero para registrar una procedencia fiable; la plataforma se preparó al generar el workspace. El script elimina los objetos y dependencias de las aplicaciones antes de compilar; evita `app clean`, que en Vitis también limpia la plataforma y puede invalidarla. Las compilaciones de desarrollo desde GUI pueden ser incrementales.
 
@@ -150,7 +152,7 @@ Se genera una carpeta nueva en cada empaquetado. Conservar el manifiesto junto a
 
 Sí: se puede clonar, generar el entorno, compilar y preparar una entrega **sin abrir manualmente Vitis gráfico**. Es obligatorio tener Vitis Classic 2022.2 instalado: XSCT utiliza sus herramientas y servicios internos. No ejecutar `abrir-vitis.bat` para este recorrido.
 
-En PowerShell, con la instalación predeterminada y un directorio nuevo:
+En PowerShell, con la instalación predeterminada y un directorio nuevo (se usan los motores directamente para evitar las pausas finales de los BAT):
 
 ```powershell
 Set-Location D:\sitau2
@@ -164,7 +166,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1 -Action Bu
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generar-nueva-version.ps1 -Version 0.1.0
 ```
 
-Ejecutar cada orden después de comprobar el éxito de la anterior. `0.1.0` es un ejemplo: elegir un número superior a todas las versiones existentes. Con un clon nuevo Setup no pregunta nada; si el workspace ya existe pide confirmación antes de archivarlo. La variante PowerShell evita la pausa final del BAT. El número pasado con `-Version` evita la pregunta de versión. Así el primer recorrido puede ejecutarse completamente por consola sin interacción con el IDE. Para otra instalación, repetir `-VitisHome` en Setup, Build y generación de versión.
+Ejecutar cada orden después de comprobar el éxito de la anterior. `0.1.0` es un ejemplo: elegir un número superior a todas las versiones existentes. Con un clon nuevo Setup no pregunta nada; si el workspace ya existe pide confirmación antes de archivarlo. La orden `setup.ps1 -Action Build` equivale a `compilar.bat`, sin su pausa final. El número pasado con `-Version` evita la pregunta de versión. Así el primer recorrido puede ejecutarse completamente por consola sin interacción con el IDE. Para otra instalación, repetir `-VitisHome` en Setup, Build y generación de versión.
 
 Si se han editado fuentes o recetas después de clonar, **hacer commit antes de Build**. La creación de una versión exige Git limpio y un build del mismo commit. No pasar por `git commit` entre Build y la creación de la versión: incluso un commit documental distinto exige un nuevo Build para identificar inequívocamente su origen.
 
@@ -307,7 +309,7 @@ Cada directorio versionable tiene un README con su propósito, archivos y conten
 | [tests](tests/README.md) | Pruebas aisladas de versiones y procedencia. |
 | [documents](documents/README.md) | Planes e informes fechados con evidencias de validación. |
 
-En la raíz, `generar-workspace.bat` genera el entorno, `abrir-vitis.bat` lo abre y `generar_nueva_version.bat` prepara una entrega numerada. `.gitignore` excluye productos/restos; `.gitattributes` y `.editorconfig` establecen las políticas de archivos. No hay proyectos Eclipse/Vitis mantenidos en la raíz: se reconstruyen en el workspace.
+En la raíz, `generar-workspace.bat` genera el entorno, `compilar.bat` recompila ambas CPU y empaqueta los resultados de desarrollo, `abrir-vitis.bat` abre el IDE y `generar_nueva_version.bat` prepara una entrega numerada en output sin compilar. `.gitignore` excluye productos/restos; `.gitattributes` y `.editorconfig` establecen las políticas de archivos. No hay proyectos Eclipse/Vitis mantenidos en la raíz: se reconstruyen en el workspace.
 
 Se han probado generación limpia, compilación de ambas CPU, empaquetado, reconstrucción del BSP, rechazo de lwIP ausente/alterada y publicación de entregas numeradas con sus controles. Consultar [validación del refactor](documents/reports/validacion-refactor.md), [empaquetado](documents/reports/empaquetado-red-cpu1.md), [lwIP](documents/reports/lwip-version-sitau2.md) y [versionado de output](documents/reports/versionado-output.md). Los informes son históricos: sus rutas antiguas describen las pruebas de su fecha, no instrucciones vigentes.
 

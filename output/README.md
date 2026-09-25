@@ -5,7 +5,7 @@ Entregas software versionadas, incluidas en Git. Cada directorio `mayor.menor.pa
 ## Generar una entrega
 
 1. Guardar y hacer commit de los cambios del software y de las recetas. El árbol Git debe quedar limpio.
-2. Con Vitis cerrado, generar el workspace si cambió su configuración y ejecutar `scripts/setup.ps1 -Action Build` desde la raíz. Esto limpia y recompila ambas CPU y registra procedencia en el workspace.
+2. Con Vitis cerrado, generar el workspace si cambió su configuración y ejecutar `.\compilar.bat` desde la raíz. Esto limpia y recompila ambas CPU y registra procedencia en el workspace. Para automatización sin pausa, usar `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1 -Action Build`.
 3. Ejecutar `generar_nueva_version.bat`. Pide una versión y no compila. Para automatizar, usar `scripts/generar-nueva-version.ps1 -Version 0.1.0`.
 4. Revisar `output/<versión>` y hacer un segundo commit que incluya la entrega. El manifiesto identifica el commit de origen del software, anterior al commit de la propia entrega. No se hace commit, push ni tag automáticamente.
 
