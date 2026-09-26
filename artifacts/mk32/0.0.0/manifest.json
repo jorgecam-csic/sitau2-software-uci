@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "0.0.0",
+  "version": "0.0.0",
+  "component": "mk32",
+  "producer": "Vivado (version no identificada)",
+  "producerCommit": null,
+  "sourceSetId": "736cb3958cdb",
+  "selectedBy": "Usuario: trio de la raiz BIN",
+  "files": [
+    {
+      "path": "MK32CH_basics_wrapper.bin",
+      "sha256": "51c4097777358061a5f0bc37d091946bafa83e6574583afefbec03eb238daf82",
+      "size": 6692572,
+      "originalPath": "CPU1_system/_ide/bootimage/BIN/MK32CH_basics_wrapper.bin"
+    },
+    {
+      "path": "MK32CH_basics_wrapper.bit",
+      "sha256": "dcd88f6c880cc74239df734637c86df34410d06fd8e2df735f7ba3c6066c6811",
+      "size": 6692692,
+      "originalPath": "CPU1_system/_ide/bootimage/BIN/MK32CH_basics_wrapper.bit"
+    },
+    {
+      "path": "MK32CH_basics_wrapper.ltx",
+      "sha256": "75ba1420ebea56d65bef2cb31b8235b654f335b9711c96a98adfa9575ed7f1fe",
+      "size": 369653,
+      "originalPath": "CPU1_system/_ide/bootimage/BIN/MK32CH_basics_wrapper.ltx"
+    }
+  ],
+  "hardwareValidated": false
+}

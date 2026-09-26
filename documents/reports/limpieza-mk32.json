@@ -1,0 +1,735 @@
+{
+  "date": "2026-09-24",
+  "package": "artifacts/mk32/0.0.0",
+  "copied": [
+    {
+      "path": "MK32CH_basics_wrapper.bin",
+      "sha256": "51c4097777358061a5f0bc37d091946bafa83e6574583afefbec03eb238daf82",
+      "size": 6692572,
+      "originalPath": "CPU1_system/_ide/bootimage/BIN/MK32CH_basics_wrapper.bin"
+    },
+    {
+      "path": "MK32CH_basics_wrapper.bit",
+      "sha256": "dcd88f6c880cc74239df734637c86df34410d06fd8e2df735f7ba3c6066c6811",
+      "size": 6692692,
+      "originalPath": "CPU1_system/_ide/bootimage/BIN/MK32CH_basics_wrapper.bit"
+    },
+    {
+      "path": "MK32CH_basics_wrapper.ltx",
+      "sha256": "75ba1420ebea56d65bef2cb31b8235b654f335b9711c96a98adfa9575ed7f1fe",
+      "size": 369653,
+      "originalPath": "CPU1_system/_ide/bootimage/BIN/MK32CH_basics_wrapper.ltx"
+    }
+  ],
+  "originalTrioPreserved": false,
+  "removed": [
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/Bitstream_mod_beamformers/MK32CH_basics_wrapper.bin",
+      "sha256": "8817868fb6c9cec7e168ebe25671427d797d0ce59b5fc7319b74d6b185d18bc2",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/Bitstream_mod_beamformers/MK32CH_basics_wrapper.bit",
+      "sha256": "dc23edd61578a61a52ecef613561b9034adb8a7ef68f655e1d42b1cf680aa837",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/Bitstream_mod_beamformers/MK32CH_basics_wrapper.ltx",
+      "sha256": "8bf369d6f84424a9083155bfe88c41c9a87e16b19507fe401b752657c75f0812",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/Bitstream_mod_beamformers/README.md",
+      "sha256": "ce6ffbee20e3131c458eb8c4f67c3f93bba9b9113bfadc2cc4f0a79346e973f1",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/impl_1/MK32CH_basics_wrapper.bin",
+      "sha256": "48c32d376caf6aa63ead803c9d6d3ae4110bd2ff5041874d7e45d04ec8493d70",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/impl_1/MK32CH_basics_wrapper.bit",
+      "sha256": "f3e105d12a77c28176c60da974064f6627dbb5c75b3108fef9a7f60bfc030ef5",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/impl_1/MK32CH_basics_wrapper.ltx",
+      "sha256": "7bab51eb5f0b231cd5df911b6555e27de32fc2dbea1c47949598054641fce8ed",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/impl_1/README.md",
+      "sha256": "0ddbda29cdf116d01157356e7710c1015b20802057075a41486484ec29c79e75",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/impl_1_zip/MK32CH_basics_wrapper.bin",
+      "sha256": "81ee94f6b85fd0b129f5788b5d1a58756a0e46ca4d073b1915249c1a16cdd6d2",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/impl_1_zip/MK32CH_basics_wrapper.bit",
+      "sha256": "9b468d10d4dfa608a52c093643206cd42ad886c449caab6afc963a20f6e7bd25",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/impl_1_zip/MK32CH_basics_wrapper.ltx",
+      "sha256": "4ff309e9dc602ad3c86169ce38673a8a22e69be765fd8fe128889ec417ba393c",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/impl_1_zip/README.md",
+      "sha256": "02e85386358e99a3ccefb031b4caee88f8f736a972fd0ce274d7fc5a2c5d510e",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/Mailyn/MK32CH_basics_wrapper.bin",
+      "sha256": "45af77f2b4b469789c7f16270862b82defd6a0034e95562e22acf692f128159e",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/Mailyn/MK32CH_basics_wrapper.bit",
+      "sha256": "01c1cbd3f1237aae50c546e99b10b3ddd34df1a017fd23cf1d9701c1db4966ab",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/Mailyn/MK32CH_basics_wrapper.ltx",
+      "sha256": "12fa2695c2c74357a1cd3c4e9c91de28aef4b87a3e82fedb5d59e0b195465dec",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/Mailyn/README.md",
+      "sha256": "f29ed41769f449b9841af1ddd0933a72c6581f7795e5719197026d17f5a19afc",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK2_mucho_Debug/MK32CH_basics_wrapper.bin",
+      "sha256": "62af265f83ab7584a6490d7f1828a8a80c85bc5acf943bc566f213b62a80620a",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK2_mucho_Debug/MK32CH_basics_wrapper.bit",
+      "sha256": "5091b0c0224f14f9d0c753988b79c4ab92567e9d99debd558a1f15367320b566",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK2_mucho_Debug/MK32CH_basics_wrapper.ltx",
+      "sha256": "f48bf4b8a68462a2fb295a5da6bd1ce762dcfb156259cd833a7b735e4492beba",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK2_mucho_Debug/README.md",
+      "sha256": "c8914ed4be839314f9a1a19091ba43084174bf950135b6fd95759b5b7b556e88",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_a_ver/MK32CH_basics_wrapper.bin",
+      "sha256": "1f202a3c8e0d30d1c358a12b7781d5121f1fa81bbb897fb7c8d0b72a89abfe38",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_a_ver/MK32CH_basics_wrapper.bit",
+      "sha256": "048ff832e7b1eb08d7d11a686408a1addddb932cd143afba8df01642780b270d",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_a_ver/MK32CH_basics_wrapper.ltx",
+      "sha256": "ca1d2ecb5e0ec44d732103da6f4de25177ab41e0c5836513d4f136671454cf11",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_a_ver/README.md",
+      "sha256": "4afb5fd122f97efeda1612043d33f1ddd461d6ab69a6a83165add3eace67f549",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_arreglos y debug conformadores/MK32CH_basics_wrapper.bin",
+      "sha256": "06e596755ec4c6857d82634c798f4042028784113659e18d95be0a9daa64014c",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_arreglos y debug conformadores/MK32CH_basics_wrapper.bit",
+      "sha256": "7b037faa41f915bd614c4446d0b9ede4cf504296d260c3733c878c5c37a0523d",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_arreglos y debug conformadores/MK32CH_basics_wrapper.ltx",
+      "sha256": "c393a72c2593c2765cb1362ee2d5f9aaa40ccef951abf5398833ffbce57ddfc8",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_arreglos y debug conformadores/README.md",
+      "sha256": "22a2080aa60fa0e973aca427928f9aed7ab526892ec4bc7cc67f0e50c3224598",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer/MK32CH_basics_wrapper.bin",
+      "sha256": "89535fad25d32b03f5e707e0aad03996c2bf14ce63a6d37916a01d61205af83b",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer/MK32CH_basics_wrapper.bit",
+      "sha256": "3174b76eb61affe1b28d29b6e72cb8658357e9c24656f2791ecc937c38352eaf",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer/MK32CH_basics_wrapper.ltx",
+      "sha256": "159ccf73e6e2de581f8afc45fe660cf09b768b1d5e70df13c211ef57697a4707",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer/README.md",
+      "sha256": "66971f2616c1ae08c04cd7e31bfdc3607cbbbfcf7b4b41e945c849e5ddbbfe3f",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer_debug_4fallostemporales/MK32CH_basics_wrapper.bin",
+      "sha256": "2bbe75cc1bc63b3834bd9b0c9189a16f68c46e4ae6bb27ea8e493ee024bab94d",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer_debug_4fallostemporales/MK32CH_basics_wrapper.bit",
+      "sha256": "4044ced6e29cc1abece723c505025b19f25ce7620875d28de900829fa1c0afcf",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer_debug_4fallostemporales/MK32CH_basics_wrapper.ltx",
+      "sha256": "c12929674e4f9388fa9ba638f6354bb9974d321bbefd38f1faa1f95bf9bf23d1",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer_debug_4fallostemporales/README.md",
+      "sha256": "9ded2eefc9841714ae815b7526e825d78c78a568165f917de3893486acaa6cf7",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_alineamiento/MK32CH_basics_wrapper.bin",
+      "sha256": "1a8e206dc88fd91cb4962c5df51ad9d80d9526c2425144b5afb00062505dc2da",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_alineamiento/MK32CH_basics_wrapper.bit",
+      "sha256": "d62cc543a3a61d1f285b93d9bf55b90334807bc4616fdadfff1f8a75bbb16913",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_alineamiento/MK32CH_basics_wrapper.ltx",
+      "sha256": "37bdc7cad9ea0a587494e78e1bd8002acdb6bb3862cf64ef19b580a3e3d02dab",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_alineamiento/README.md",
+      "sha256": "56ba81877c60ccbfa6351001a5f85e75170c8a3bbc7aec32b816e0d4f9e4c8f1",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_conformador_sin_fallos/MK32CH_basics_wrapper.bin",
+      "sha256": "a1128d84ad9b06ee5793cf0dadd53a6c281ade256c2b3ab462485cc4c679e0e2",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_conformador_sin_fallos/MK32CH_basics_wrapper.bit",
+      "sha256": "deee71c0728ebcb9d2ae588b9339df5b9e29e0e27a96ba3d1983ef53f1a2de1b",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_conformador_sin_fallos/MK32CH_basics_wrapper.ltx",
+      "sha256": "177c82a092797a61d6e64ef3e48177d693562048e8149ed81c54936255256184",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_conformador_sin_fallos/README.md",
+      "sha256": "2ff64b85c14987be1e2e2b94a58325be33434de59cea120655903ac3c5dd1c56",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_con2DMAs/MK32CH_basics_wrapper.bin",
+      "sha256": "527ac7827fe48b14600778c9ea08f19aa4f5c24bd7747f7fcc89371f8eb2ccca",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_con2DMAs/MK32CH_basics_wrapper.bit",
+      "sha256": "5bac540b36923d8e1002d7986aa19a1b38baff0b1f745726c829bb6f5c38771e",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_con2DMAs/MK32CH_basics_wrapper.ltx",
+      "sha256": "4b13e55c1380bf8edc5d48c219fd533eec4657364aea51cfc53467aeee433541",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_con2DMAs/README.md",
+      "sha256": "8e456ae16b382b126a5d31519b6213aeb61d045a740d4313660630ea78181db6",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_confarreglado/MK32CH_basics_wrapper.bin",
+      "sha256": "83199a2aa5a202335ccf52d14607a9d7c9c1b4903fd78f6b2ab73af421413a51",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_confarreglado/MK32CH_basics_wrapper.bit",
+      "sha256": "b396815dcb00388ed7ac534719c02d7c886b34b1937009d27a429925b4113cf8",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_confarreglado/MK32CH_basics_wrapper.ltx",
+      "sha256": "ea4327ca56e03e408b7cf53c4ac32a3f9fd2baec287df404232ff3712e9e485d",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_confarreglado/README.md",
+      "sha256": "3ae637c278925c367580e519dcdbe9b96dc7cb456c1e74615ecf9b49d322c9b1",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_conformador_arreglado_error_datos_entrada_acabados/MK32CH_basics_wrapper.bin",
+      "sha256": "5ea300d338aaa7cd4a90683b20b10fbf415120c8bb7679a1db8710da49595469",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_conformador_arreglado_error_datos_entrada_acabados/MK32CH_basics_wrapper.bit",
+      "sha256": "62b128d3b8103be443fc5f10f710114f5015071e57e62241af93ff47f64b7fe9",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_conformador_arreglado_error_datos_entrada_acabados/MK32CH_basics_wrapper.ltx",
+      "sha256": "8f94a45ab27a042d6934ca9c764d3f5aec7dbeda1a2605607ba5fb783a76531c",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_conformador_arreglado_error_datos_entrada_acabados/README.md",
+      "sha256": "03bc8624438c3873f6979d68017be10d1625889df33543e09ce7b02bcbd9f6c3",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_DATAMOVER_PARA_TFM_8_FALLOS/MK32CH_basics_wrapper.bin",
+      "sha256": "0905638d7ebe430bad93a5b48f74cf6833829c864ed35c696c29384417fd848d",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_DATAMOVER_PARA_TFM_8_FALLOS/MK32CH_basics_wrapper.bit",
+      "sha256": "aec58e75d956a6fb13f6254a1a0a0dad7289d35843bef9a8b29d408267df79e7",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_DATAMOVER_PARA_TFM_8_FALLOS/MK32CH_basics_wrapper.ltx",
+      "sha256": "79151d4b188f0e4952fa07301e5a09ac6c95317179581252dd9e3c59497adccd",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_DATAMOVER_PARA_TFM_8_FALLOS/README.md",
+      "sha256": "7b31a048d02708b7cc8ce22d0723435d35842a4ac83196363102e6e2d9a7c17b",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_512bits/MK32CH_basics_wrapper.bin",
+      "sha256": "d275ec0e9ddb23745b2fa42328e1f6cfb13cc456075fc02c41c1b18b7694b877",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_512bits/MK32CH_basics_wrapper.bit",
+      "sha256": "027e14d4d07e860282479005135633e7a917def6b64bda15e731974885cdc359",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_512bits/MK32CH_basics_wrapper.ltx",
+      "sha256": "be8ec3f08851e24ad25e2eb78e79d22048ba8f5319f31f81e3f80eb902f262b7",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_512bits/README.md",
+      "sha256": "33b1158754fd3cf542c9cc9662490015911b895c9e51c74eac0cbf1c42305041",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_addr_ida_0fallos/MK32CH_basics_wrapper.bin",
+      "sha256": "fd9165414cb1a77450714a5114f801fd393eb1ecaccf2338a82174a5ec3f6e22",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_addr_ida_0fallos/MK32CH_basics_wrapper.bit",
+      "sha256": "7803dec627a60a46853f2caadd4f72173ca525e700a22f852b0c395f6c3a1d78",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_addr_ida_0fallos/MK32CH_basics_wrapper.ltx",
+      "sha256": "ca1d2ecb5e0ec44d732103da6f4de25177ab41e0c5836513d4f136671454cf11",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_addr_ida_0fallos/README.md",
+      "sha256": "64738d266f3c79f1c9269de014514db9d672950596ec3d1bf96e209d3042c16b",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_mem/MK32CH_basics_wrapper.bin",
+      "sha256": "51c4097777358061a5f0bc37d091946bafa83e6574583afefbec03eb238daf82",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_mem/MK32CH_basics_wrapper.bit",
+      "sha256": "dcd88f6c880cc74239df734637c86df34410d06fd8e2df735f7ba3c6066c6811",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_mem/MK32CH_basics_wrapper.ltx",
+      "sha256": "75ba1420ebea56d65bef2cb31b8235b654f335b9711c96a98adfa9575ed7f1fe",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_mem/README.md",
+      "sha256": "c67d9a824a782ad54dc1684e00d2adc80acbcc65c496e32fa794dac102794910",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_T0_I/MK32CH_basics_wrapper.bin",
+      "sha256": "8e61d870afde91a12914c0d8d970b0fe98408e858e51d61a70a57c900aa92368",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_T0_I/MK32CH_basics_wrapper.bit",
+      "sha256": "cb46791969ec20411ffee887b2f0ab77bfd51a1aa2661883b505a09f9abdf939",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_T0_I/MK32CH_basics_wrapper.ltx",
+      "sha256": "7bd5094ed446b5b98d06e87f418582d2ecf6a2aa4e20e97d3223415b43175d7c",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debug_T0_I/README.md",
+      "sha256": "34c28be694a8806e56a3a181fad60458db6d9c39719ead759db093349c5cae24",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debugprom2lineasmal/MK32CH_basics_wrapper.bin",
+      "sha256": "eefcbe86f322c339af15692ede4bc9d728e215ec5edd0642c21f543140ed516d",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debugprom2lineasmal/MK32CH_basics_wrapper.bit",
+      "sha256": "c0eb0a75f3ffb9b37e014909d6bc79dca91773c0004f5e5577a2821e80ed2eb2",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debugprom2lineasmal/MK32CH_basics_wrapper.ltx",
+      "sha256": "b9214ca240cd3787254f93794031fb4ad7488443677b20441900938f09f78254",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debugprom2lineasmal/README.md",
+      "sha256": "26c2d93f278545aadf0f36187cb2cc28de49936f317673eb4a9fb4f38f97d280",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debugpromediado/MK32CH_basics_wrapper.bin",
+      "sha256": "48c32d376caf6aa63ead803c9d6d3ae4110bd2ff5041874d7e45d04ec8493d70",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debugpromediado/MK32CH_basics_wrapper.bit",
+      "sha256": "f3e105d12a77c28176c60da974064f6627dbb5c75b3108fef9a7f60bfc030ef5",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debugpromediado/MK32CH_basics_wrapper.ltx",
+      "sha256": "7bab51eb5f0b231cd5df911b6555e27de32fc2dbea1c47949598054641fce8ed",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_debugpromediado/README.md",
+      "sha256": "835865a7b2a0c58e30f9d88537bdaedac89079935617ac347425353045927c8c",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_funciona_ulti/MK32CH_basics_wrapper.bin",
+      "sha256": "0905638d7ebe430bad93a5b48f74cf6833829c864ed35c696c29384417fd848d",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_funciona_ulti/MK32CH_basics_wrapper.bit",
+      "sha256": "aec58e75d956a6fb13f6254a1a0a0dad7289d35843bef9a8b29d408267df79e7",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_funciona_ulti/MK32CH_basics_wrapper.ltx",
+      "sha256": "79151d4b188f0e4952fa07301e5a09ac6c95317179581252dd9e3c59497adccd",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_funciona_ulti/README.md",
+      "sha256": "0283a980514e0216ec4025292194c3c8bf2ea538685462701caf1edd9b1a52f0",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_intento_arreglo_promediado/MK32CH_basics_wrapper.bin",
+      "sha256": "2437b32ffcc09e3d2cfab4fb7372fbf469f62bf1dd69410f06dba017ff25b929",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_intento_arreglo_promediado/MK32CH_basics_wrapper.bit",
+      "sha256": "38007ba832fe78bc7d2786fbe738c0cfb81f371d77393aeb3b922c67b00cd891",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_intento_arreglo_promediado/MK32CH_basics_wrapper.ltx",
+      "sha256": "c393a72c2593c2765cb1362ee2d5f9aaa40ccef951abf5398833ffbce57ddfc8",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_intento_arreglo_promediado/README.md",
+      "sha256": "2bbf2e286ef03ab3a91ec6d335bf4d9c03e3303b6b78ab9f8239fd11be52fe88",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_mem_ida_0fallos/MK32CH_basics_wrapper.bin",
+      "sha256": "120d8fa2e9dab8cf3e1ba746b843624fdc46549d824cd5ab6d725f4e5697399b",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_mem_ida_0fallos/MK32CH_basics_wrapper.bit",
+      "sha256": "9ca8ba117f6993bfccc3be9d8e4975032fc5bb9fd15b597d2b80b3d96558dfce",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_mem_ida_0fallos/MK32CH_basics_wrapper.ltx",
+      "sha256": "ca1d2ecb5e0ec44d732103da6f4de25177ab41e0c5836513d4f136671454cf11",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_mem_ida_0fallos/README.md",
+      "sha256": "944d0c5dcb657916c8165829ebb03ae5d0016968c66446c626dc599b49a842e4",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_1lineamal/MK32CH_basics_wrapper.bin",
+      "sha256": "45af77f2b4b469789c7f16270862b82defd6a0034e95562e22acf692f128159e",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_1lineamal/MK32CH_basics_wrapper.bit",
+      "sha256": "01c1cbd3f1237aae50c546e99b10b3ddd34df1a017fd23cf1d9701c1db4966ab",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_1lineamal/MK32CH_basics_wrapper.ltx",
+      "sha256": "12fa2695c2c74357a1cd3c4e9c91de28aef4b87a3e82fedb5d59e0b195465dec",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_1lineamal/README.md",
+      "sha256": "78a5bab65edc70a4d4930c5c97ac70b9fd7164e69f2063a6306c105c8ed4e74b",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_7lineamal/MK32CH_basics_wrapper.bin",
+      "sha256": "5638c9b6d6c3c5187c0de03ebcbd8fe31725052ade07929b813541ad17e5f607",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_7lineamal/MK32CH_basics_wrapper.bit",
+      "sha256": "3bc0c5bf10b00aa3d4c9a0be337f05fc44aaed7c0bfc032468119fc4cecf6854",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_7lineamal/MK32CH_basics_wrapper.ltx",
+      "sha256": "c39a20f93fe84e7d480ff1a64993dec8b4ed4475fa0809f22bdb2c9fd3741788",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_7lineamal/README.md",
+      "sha256": "4c976cd38fc1a8d351eb5816f81d0a4186ad60507fa659ee9a1bff1df8fedc27",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_previo_a_arregloconformadores/MK32CH_basics_wrapper.bin",
+      "sha256": "48c32d376caf6aa63ead803c9d6d3ae4110bd2ff5041874d7e45d04ec8493d70",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_previo_a_arregloconformadores/MK32CH_basics_wrapper.bit",
+      "sha256": "f3e105d12a77c28176c60da974064f6627dbb5c75b3108fef9a7f60bfc030ef5",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_previo_a_arregloconformadores/MK32CH_basics_wrapper.ltx",
+      "sha256": "7bab51eb5f0b231cd5df911b6555e27de32fc2dbea1c47949598054641fce8ed",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/MK32_previo_a_arregloconformadores/README.md",
+      "sha256": "0cac17ddf22a4a58e9da2477f3ebf70fc1d213fe402abb13135a2dfda97ba95f",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/tmp/MK32CH_basics_wrapper.bin",
+      "sha256": "0905638d7ebe430bad93a5b48f74cf6833829c864ed35c696c29384417fd848d",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/tmp/MK32CH_basics_wrapper.bit",
+      "sha256": "aec58e75d956a6fb13f6254a1a0a0dad7289d35843bef9a8b29d408267df79e7",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/tmp/MK32CH_basics_wrapper.ltx",
+      "sha256": "79151d4b188f0e4952fa07301e5a09ac6c95317179581252dd9e3c59497adccd",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/tmp/README.md",
+      "sha256": "b3753400020edc18af920f38f3f508deff56271685140e042e7421e678b03472",
+      "reason": "variante MK32 descartada"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/BOOT.bin",
+      "sha256": "9acb0d5f70e4ef9d46adb0b268400fe0e0521337b0c7ff8e8d64f668d0707aea",
+      "reason": "imagen CPU regenerable"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/BOOT.bin_old",
+      "sha256": "cd842051051f5079d62c479dfd2e1205127e0d09748a031b22704597d34d09d2",
+      "reason": "imagen CPU regenerable"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/BOOT.binmal",
+      "sha256": "89c9b116902aceb773270d7faf77ad376711c5c701f9e2b8e09d4040aa3de24d",
+      "reason": "imagen CPU regenerable"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/BOOT_old.bin",
+      "sha256": "199b6e21ed7ea9d6b554a6ffe4d27c9721ee668261721171820c75a056c6a8c6",
+      "reason": "imagen CPU regenerable"
+    },
+    {
+      "path": "CPU1_system/_ide/bootimage/BIN/BOOT_UCI.bin",
+      "sha256": "d7ce4d795de5f08d94ab57d97bc92d453996c629572a3a768593f12083ffaea1",
+      "reason": "imagen CPU regenerable"
+    }
+  ],
+  "removedDirectories": [
+    "CPU1_system/_ide/bootimage/BIN/Bitstream_mod_beamformers",
+    "CPU1_system/_ide/bootimage/BIN/impl_1",
+    "CPU1_system/_ide/bootimage/BIN/impl_1_zip",
+    "CPU1_system/_ide/bootimage/BIN/Mailyn",
+    "CPU1_system/_ide/bootimage/BIN/MK2_mucho_Debug",
+    "CPU1_system/_ide/bootimage/BIN/MK32_a_ver",
+    "CPU1_system/_ide/bootimage/BIN/MK32_arreglos y debug conformadores",
+    "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer",
+    "CPU1_system/_ide/bootimage/BIN/MK32_ce_prom_emi_beamformer_debug_4fallostemporales",
+    "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_alineamiento",
+    "CPU1_system/_ide/bootimage/BIN/MK32_con_debug_conformador_sin_fallos",
+    "CPU1_system/_ide/bootimage/BIN/MK32_con2DMAs",
+    "CPU1_system/_ide/bootimage/BIN/MK32_confarreglado",
+    "CPU1_system/_ide/bootimage/BIN/MK32_conformador_arreglado_error_datos_entrada_acabados",
+    "CPU1_system/_ide/bootimage/BIN/MK32_DATAMOVER_PARA_TFM_8_FALLOS",
+    "CPU1_system/_ide/bootimage/BIN/MK32_debug_512bits",
+    "CPU1_system/_ide/bootimage/BIN/MK32_debug_addr_ida_0fallos",
+    "CPU1_system/_ide/bootimage/BIN/MK32_debug_mem",
+    "CPU1_system/_ide/bootimage/BIN/MK32_debug_T0_I",
+    "CPU1_system/_ide/bootimage/BIN/MK32_debugprom2lineasmal",
+    "CPU1_system/_ide/bootimage/BIN/MK32_debugpromediado",
+    "CPU1_system/_ide/bootimage/BIN/MK32_funciona_ulti",
+    "CPU1_system/_ide/bootimage/BIN/MK32_intento_arreglo_promediado",
+    "CPU1_system/_ide/bootimage/BIN/MK32_mem_ida_0fallos",
+    "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_1lineamal",
+    "CPU1_system/_ide/bootimage/BIN/MK32_pocodebug_7lineamal",
+    "CPU1_system/_ide/bootimage/BIN/MK32_previo_a_arregloconformadores",
+    "CPU1_system/_ide/bootimage/BIN/MK32_veremos",
+    "CPU1_system/_ide/bootimage/BIN/tmp"
+  ],
+  "backupUntouched": "D:/sitau2/sitau2_sw_uci",
+  "binRemoval": {
+    "date": "2026-09-24",
+    "files": [
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/_SITAU.XML",
+        "sha256": "7dfe34c579d36e9c909d2851bb28bda4cf23d143f587a5c07770ce696f3cffcc",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/impl_1.rar",
+        "sha256": "09d6bd467d92cc00e176f39e5610ee22a7c61fd64800c0ecbfd64bdca77ac42f",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/impl_1.zip",
+        "sha256": "82e5569b419b0701866082d7c91f1862598bc26253b6a6adfa059b7860bb39c2",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/LOG_SERVER_SEND.TXT",
+        "sha256": "c7a4a8c6a4e7036f03f7b80d0159c4b19adf88571549539681a898563ced6048",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/MK32CH_basics_wrapper.bin",
+        "sha256": "51c4097777358061a5f0bc37d091946bafa83e6574583afefbec03eb238daf82",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/MK32CH_basics_wrapper.bit",
+        "sha256": "dcd88f6c880cc74239df734637c86df34410d06fd8e2df735f7ba3c6066c6811",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/MK32CH_basics_wrapper.ltx",
+        "sha256": "75ba1420ebea56d65bef2cb31b8235b654f335b9711c96a98adfa9575ed7f1fe",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/orden_canales.csv",
+        "sha256": "ace9534b0b1d349d1cf2d9a1f676614168ddcf6fb99467451b5b29ba5e7a0b8c",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/output_dasel_2024-03-11T14-23-36.csv",
+        "sha256": "fa9f0d0b6464a635c0d459cb58c5f22a6f0eb8cb8aa9838deb906eddf4a9abd9",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/README.md",
+        "sha256": "47a44f5826533d79dfcb43fa0cc6fbef2849a06a8a2747c33798834f78ef9f95",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/SITAU_daqsonics.XML",
+        "sha256": "98c26597660e1a89b96419b655ca8f47d2516a94a0049b0557d41bb9d1ec09b5",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/SITAU_hypertronix.XML",
+        "sha256": "7dfe34c579d36e9c909d2851bb28bda4cf23d143f587a5c07770ce696f3cffcc",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/SITAU_NoAssignment.XML",
+        "sha256": "91bbb386886054fc1f83ac3248ec375d2adeb50de759dc9c70ebd9c9969bb882",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/SITAU_vernom.XML",
+        "sha256": "94cb2288e86088b50feee69baa65fc616a023583bc18c9dfa3f0fe2a4705db98",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/SITAU.TXT",
+        "sha256": "6a6fffd9c1fbeaea51ae741688e70e62c3a10f175ae9f988b75b2c4990935d41",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/SITAU.XML",
+        "sha256": "950e1394a9af820779fe42cb8a45cf7521cd1215969cc1d1af4f733855ef2eaf",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      },
+      {
+        "path": "CPU1_system/_ide/bootimage/BIN/Table.xlsx",
+        "sha256": "92dacef318d42c558ea73fd882f86fc22f3e516539d47cff868088fe33c44945",
+        "reason": "retirada completa de BIN autorizada por el usuario"
+      }
+    ],
+    "packageVerified": true
+  }
+}

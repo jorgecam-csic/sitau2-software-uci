@@ -1,0 +1,32 @@
+[
+  {
+    "path": "CPU0/Debug/CPU0.elf",
+    "sha256": "f791b76f1eaeb448bd07be9186d8591c05fd4a89f8a1dbaf68996f4a16880829",
+    "size": 1330932
+  },
+  {
+    "path": "CPU1/Debug/CPU1.elf",
+    "sha256": "2a2891baae767848997c5501a3877a0954301958d5203b863f8f81c6536399b9",
+    "size": 1277436
+  },
+  {
+    "path": "Platform/zynq_fsbl/fsbl.elf",
+    "sha256": "fb2c2207e5eb472e577e8fbdb59daab0e6947c1955505a33a819fe50d2dda767",
+    "size": 461252
+  },
+  {
+    "path": "Both_CPUs_system/Debug/sd_card/BOOT.BIN",
+    "sha256": "e8d10e7d8dcd76154eca03ce7bfe896a027a7f01d3f43b0b54baf57fb927f2b9",
+    "size": 13622280
+  },
+  {
+    "path": "CPU1_system/Debug/sd_card/BOOT.BIN",
+    "sha256": "9f2f3a34701adcef47f517353fb4fd8eb26ddb575e28a7376b1139e3efd544bd",
+    "size": 13786128
+  },
+  {
+    "path": "Platform/hw/design_1_wrapper.xsa",
+    "sha256": "3ed161d88aff0e0c9244fbacf1fc15ac816d9b40662f01281b2efc3adf6b8286",
+    "size": 3069525
+  }
+]

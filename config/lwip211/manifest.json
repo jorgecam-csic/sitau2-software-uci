@@ -1,0 +1,12 @@
+[
+  {
+    "file": "xadapter.c",
+    "sha256": "1ea10744bd801f479540b73ec93ee71536d4fefd12b7b7ded5d6cd745de25e6b",
+    "stockSha256": "1eb5fbba3427b9874c07378248b0667735595b2aa6735157852bab2c69529099"
+  },
+  {
+    "file": "xemacpsif_physpeed.c",
+    "sha256": "a141a9e70197200d7bade9902518f97aeec71e06a98995aec4807d4317914f3d",
+    "stockSha256": "2e05d7ae1ebe0094dab10742cc29868a1bef7b91a3a888f030ef96f4da68e7ad"
+  }
+]

@@ -1,0 +1,59 @@
+﻿{
+    "inputs":  {
+                   "FSBL":  {
+                                "sha256":  "3A77CCB3380CDCF67F6F51AA72177385F183B342499DFE91B14D4E4429AB3D74",
+                                "path":  "D:\\sitau2\\sitau2-software-uci-packaging-work\\workspace\\Platform\\export\\Platform\\sw\\Platform\\boot\\fsbl.elf"
+                            },
+                   "BITSTREAM":  {
+                                     "sha256":  "3AF1532DFF72BF0980DC3573CE26BD988A1168C66B8AAA1F6264EB9C21414CCF",
+                                     "path":  "D:\\sitau2\\sitau2-software-uci-packaging-work\\workspace\\Platform\\export\\Platform\\hw\\design_1_wrapper.bit"
+                                 },
+                   "CPU0":  {
+                                "sha256":  "71BE2ADC5347FED4F4E1551D2C9E24B43C498D1D89378AD39B4D6F35A12E87CB",
+                                "path":  "D:\\sitau2\\sitau2-software-uci-packaging-work\\workspace\\CPU0\\Debug\\CPU0.elf"
+                            },
+                   "CPU1":  {
+                                "sha256":  "402F79E72681654FDC51126171E89836FBF75359A48863015B17F14226AC140B",
+                                "path":  "D:\\sitau2\\sitau2-software-uci-packaging-work\\workspace\\CPU1\\Debug\\CPU1.elf"
+                            }
+               },
+    "products":  [
+                     {
+                         "sha256":  "78E02E2C0A7B601C009FE95197C8228F1723DBD4B5239D8DD40B84EBDBE45D33",
+                         "file":  "cpu0-boot.bin",
+                         "partitions":  [
+                                            {
+                                                "load":  0,
+                                                "attributes":  16,
+                                                "entry":  0,
+                                                "bytes":  98312
+                                            },
+                                            {
+                                                "load":  0,
+                                                "attributes":  32,
+                                                "entry":  0,
+                                                "bytes":  13321408
+                                            },
+                                            {
+                                                "load":  1048576,
+                                                "attributes":  16,
+                                                "entry":  1048576,
+                                                "bytes":  196616
+                                            }
+                                        ]
+                     },
+                     {
+                         "sha256":  "77DD1036395CC0C3CF470622BA869E4E11BE9F120D82C323D4202A7B17B2A266",
+                         "file":  "cpu1-network.bin",
+                         "partitions":  [
+                                            {
+                                                "load":  402653184,
+                                                "attributes":  16,
+                                                "entry":  402653184,
+                                                "bytes":  360464
+                                            }
+                                        ]
+                     }
+                 ],
+    "hardwareValidated":  false
+}

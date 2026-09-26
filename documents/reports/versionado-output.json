@@ -1,0 +1,82 @@
+{
+  "date": "2026-09-25",
+  "isolatedTestRelease": true,
+  "version": "0.1.0",
+  "fixtureCommit": "3b8c68fc04e6e1fc982003b69dc03f74a629b52b",
+  "toolchain": {
+    "version": "2022.2",
+    "versionFileSha256": "e4ab190ca504ef353c0b9f55b04f68909f6ad9d4aa8b6176d1cfeec62f12754a"
+  },
+  "hardware": {
+    "schemaVersion": 1,
+    "toolchain": "2022.2",
+    "uci": {
+      "package": "uci/imported-3ed161d88aff",
+      "file": "design_1_wrapper.xsa",
+      "sha256": "3ed161d88aff0e0c9244fbacf1fc15ac816d9b40662f01281b2efc3adf6b8286"
+    }
+  },
+  "inputs": {
+    "FSBL": "f7e5b0be85fdafafcc9263575a1c92bf3a6b0c10e3579d22200d226d1089fba7",
+    "BITSTREAM": "3af1532dff72bf0980dc3573ce26bd988a1168c66b8aaa1f6264eb9c21414ccf",
+    "CPU0": "94b828d05dbd5f22db18e0168d7e6f9afad8b98db5519744b5260e8e01366ec0",
+    "CPU1": "6de5c9f5a516df78c17ef58b75459493eb0c720c784f1de1b5849d9dc62ccce3"
+  },
+  "products": [
+    {
+      "sha256": "2A03B33CCC069A10254A97AE1E49520147394C819ABD7621F0E3B3A3EEAB8855",
+      "file": "cpu0-boot.bin",
+      "partitions": [
+        {
+          "load": 0,
+          "attributes": 16,
+          "entry": 0,
+          "bytes": 98312
+        },
+        {
+          "load": 0,
+          "attributes": 32,
+          "entry": 0,
+          "bytes": 13321408
+        },
+        {
+          "load": 1048576,
+          "attributes": 16,
+          "entry": 1048576,
+          "bytes": 196616
+        }
+      ]
+    },
+    {
+      "sha256": "2B903442F3DBA297932531F3A247114FFB4528948AF78F25AD8B1F8F96AEADEC",
+      "file": "cpu1-network.bin",
+      "partitions": [
+        {
+          "load": 402653184,
+          "attributes": 16,
+          "entry": 402653184,
+          "bytes": 360464
+        }
+      ]
+    }
+  ],
+  "hardwareValidated": false,
+  "checks": {
+    "unitTests": 26,
+    "objectCleanup": "passed",
+    "concurrentPublication": "rejected",
+    "dirtyGit": "rejected",
+    "alteredElf": "rejected",
+    "missingBuildRecord": "rejected",
+    "bootgenFailure": "rejected_without_publishing",
+    "publication": "passed",
+    "duplicateVersion": "rejected",
+    "olderVersion": "rejected",
+    "uncommittedPreviousRelease": "rejected",
+    "manifestHasNoAbsolutePaths": true,
+    "publishedHashes": "passed",
+    "repeatedBuild": "passed",
+    "recompiledObjects": 78,
+    "repeatedBuildRecord": "valid"
+  }
+}

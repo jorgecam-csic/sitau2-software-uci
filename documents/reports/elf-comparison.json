@@ -1,0 +1,146 @@
+{
+  "CPU0/Debug/CPU0.elf": {
+    "identicalAllocatedSections": [
+      ".handoff",
+      ".init",
+      ".fini",
+      ".mmu_tbl",
+      ".init_array",
+      ".fini_array",
+      ".bss",
+      ".heap",
+      ".stack"
+    ],
+    "differentAllocatedSections": {
+      ".data": {
+        "reference": {
+          "size": 2228,
+          "address": 1219384,
+          "sha256": "0c1a02bc9f201769d4ecc4e1330e016e7c42e8cfa0d70bbd5867a751effd3b02"
+        },
+        "generated": {
+          "size": 2228,
+          "address": 1219416,
+          "sha256": "bce83f5d9fd38c9e8d896e2dfd6bb67c0b79663580fe24e634021ac301a70e53"
+        }
+      },
+      ".text": {
+        "reference": {
+          "size": 163216,
+          "address": 1048576,
+          "sha256": "a875175b7c9b9c110e167e74ed4aa3ca3fb7843440ee408d5880d3912ed2d587"
+        },
+        "generated": {
+          "size": 163216,
+          "address": 1048576,
+          "sha256": "41fdc58b91b53832e9dbdd738e6dcfee025d2d9ff1ec2cb99bcb849a95c3fa08"
+        }
+      },
+      ".eh_frame": {
+        "reference": {
+          "size": 4,
+          "address": 1221612,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        "generated": {
+          "size": 4,
+          "address": 1221644,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        }
+      },
+      ".rodata": {
+        "reference": {
+          "size": 7488,
+          "address": 1211892,
+          "sha256": "4b14ffbda6c8603377a17acb6698427856667e129743cf522d84771a44a50393"
+        },
+        "generated": {
+          "size": 7520,
+          "address": 1211892,
+          "sha256": "81bb865be309ee54628378400a99ac6b972cafccf120cb274aadf9ac01b9d528"
+        }
+      }
+    }
+  },
+  "CPU1/Debug/CPU1.elf": {
+    "identicalAllocatedSections": [
+      ".init",
+      ".fini",
+      ".mmu_tbl",
+      ".ARM.exidx",
+      ".init_array",
+      ".fini_array",
+      ".bss",
+      ".heap",
+      ".stack"
+    ],
+    "differentAllocatedSections": {
+      ".data": {
+        "reference": {
+          "size": 7652,
+          "address": 402986928,
+          "sha256": "4d6637ad8ef6246298ceb20d1c300aa292d0b170032c17792478c7f27b17bf9a"
+        },
+        "generated": {
+          "size": 7652,
+          "address": 402987600,
+          "sha256": "8c25f82f0d89261a7a273cd81ce45e054fe4938c1e77f132d8b5ab68716d8f28"
+        }
+      },
+      ".text": {
+        "reference": {
+          "size": 289608,
+          "address": 402653184,
+          "sha256": "1a34c9da16e4b4bfd819ffd9e7d5fd680ee7985ea6bce026656bc1ce95d0b7f8"
+        },
+        "generated": {
+          "size": 289608,
+          "address": 402653184,
+          "sha256": "fcb5a5d6e6d459c4e0139078f4fb30217c0de37ab2a00ae0c9239c96ec2d40b2"
+        }
+      },
+      ".eh_frame": {
+        "reference": {
+          "size": 4,
+          "address": 402994580,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        "generated": {
+          "size": 4,
+          "address": 402995252,
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        }
+      },
+      ".rodata": {
+        "reference": {
+          "size": 44111,
+          "address": 402942816,
+          "sha256": "cd9e3c1b840633d8c0fc30effb5a4ad27554363e3332b96a50c531c9a66e4cdf"
+        },
+        "generated": {
+          "size": 44783,
+          "address": 402942816,
+          "sha256": "343f820ceb330e797fe12d8fcb82bf8ca4f0ebad8d233ea13eebd8b47ff4f7c6"
+        }
+      }
+    }
+  },
+  "Platform/zynq_fsbl/fsbl.elf": {
+    "identicalAllocatedSections": [
+      ".text",
+      ".handoff",
+      ".init",
+      ".fini",
+      ".rodata",
+      ".data",
+      ".mmu_tbl",
+      ".init_array",
+      ".fini_array",
+      ".rsa_ac",
+      ".bss",
+      ".heap",
+      ".stack"
+    ],
+    "differentAllocatedSections": {}
+  }
+}

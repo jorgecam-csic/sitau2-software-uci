@@ -1,0 +1,34 @@
+# output
+
+Entregas software versionadas, incluidas en Git. Cada directorio `mayor.menor.parche` contiene CPU0 para arranque, CPU1 para carga por red, el FSBL auxiliar de programacion, los ELF con simbolos, manifiesto y README. No guardar aquí resultados intermedios ni cada compilación de desarrollo.
+
+## Generar una entrega
+
+1. Guardar y hacer commit de los cambios del software y de las recetas. El árbol Git debe quedar limpio.
+2. Con Vitis cerrado, generar el workspace si cambió su estructura. Ejecutar `.\compilar.bat` si no existe un registro válido o cambiaron fuentes, BSP, lwIP o hardware activo. Para automatización sin pausa, usar `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1 -Action Build`.
+3. Ejecutar `generar_nueva_version.bat`. Pide una versión y no compila. Para automatizar, usar `scripts/generar-nueva-version.ps1 -Version 0.1.0`.
+4. Revisar `output/<versión>` y hacer un segundo commit que incluya la entrega. El manifiesto identifica el commit de origen del software, anterior al commit de la propia entrega. No se hace commit, push ni tag automáticamente.
+
+Solo se aceptan tres componentes numéricos entre 0 y 2147483647, sin ceros iniciales, prefijos ni sufijos. Se comparan numéricamente: 0.10.0 supera 0.9.0. La nueva versión debe superar todas las carpetas de versión presentes; una existente nunca se sobrescribe. Actualizar la rama antes de publicar para incorporar las versiones que hayan añadido otros colaboradores. El bloqueo evita publicaciones locales simultáneas, no coordina clones de distintos equipos.
+
+## Contenido de cada versión
+
+| Archivo | Uso |
+| --- | --- |
+| `cpu0-boot.bin` | FSBL + bitstream UCI + CPU0; imagen de arranque para flash. |
+| `cpu1-network.bin` | Solo CPU1; envío por red y ejecución en RAM, nunca flash. |
+| `programming/fsbl.elf` | FSBL que `program_flash` ejecuta temporalmente por JTAG para acceder a la QSPI. |
+| `debug/CPU0.elf` | Ejecutable y simbolos exactos de CPU0 para diagnosticar esta entrega. |
+| `debug/CPU1.elf` | Ejecutable y simbolos exactos de CPU1 para diagnosticar esta entrega. |
+| `manifest.json` | Versión, fecha UTC, commits de Build y empaquetado, hashes de sus entradas y binarios, herramientas, lock hardware y particiones verificadas. No contiene rutas absolutas del equipo. |
+| `README.md` | Identificación y uso de esa entrega. |
+
+El empaquetado se prepara en el workspace; la copia final se monta en `.pending-*` y solo se renombra a la versión al terminar todas las comprobaciones. Git ignora únicamente esas carpetas temporales y `.release.lock`, no las entregas. Un fallo no publica una versión parcial.
+
+Las entregas son inmutables: no editar ni borrar versiones ya compartidas para reutilizar sus números. Los BIN incrementan el tamaño del historial Git. Antes de distribuirlos, validar sobre el equipo; `hardwareValidated: false` indica que el generador no certifica esas pruebas.
+
+Para grabar CPU0, ejecutar `grabar-flash.bat` desde la raíz del repositorio. El selector permite elegir una versión, comprueba el manifiesto y los hashes y exige confirmar `PROGRAMAR` antes de escribir la QSPI. Los ELF conservan los símbolos exactos, pero no sustituyen Vitis, el cable JTAG ni un workspace cuando se necesita recompilar o realizar una sesión de depuración completa.
+
+Los cambios de fuentes, BSP, lwIP, hardware activo o binarios posteriores al Build invalidan su registro y exigen compilar de nuevo por consola. Un commit que solo cambie documentación, flash o empaquetado no invalida los binarios; el manifiesto deja separados el commit del Build y el de empaquetado. Una compilación GUI sigue siendo útil para desarrollo, pero no crea por sí misma el registro de procedencia exigido para publicar.
+
+[Volver](../README.md)
