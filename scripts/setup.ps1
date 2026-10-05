@@ -90,7 +90,8 @@ $xsct = Join-Path $VitisHome 'bin/xsct.bat'
 $vitis = Join-Path $VitisHome 'bin/vitis.bat'
 foreach ($patch in (Get-Content -LiteralPath (Join-Path $repo 'config/lwip211/manifest.json') -Raw | ConvertFrom-Json)) {
     $stock = Join-Path $VitisHome ('data/embeddedsw/ThirdParty/sw_services/lwip211_v1_8/src/contrib/ports/xilinx/netif/' + $patch.file)
-    if ((Get-FileHash -LiteralPath $stock -Algorithm SHA256).Hash -ne $patch.stockSha256) { throw "Biblioteca de Vitis distinta de la auditada: $($patch.file)" }
+    $stockHash = (Get-FileHash -LiteralPath $stock -Algorithm SHA256).Hash
+    if ($stockHash -notin @($patch.stockSha256,$patch.sha256)) { throw "Biblioteca de Vitis no reconocida: $stock. SHA-256: $stockHash; permitidos: $($patch.stockSha256), $($patch.sha256)" }
     $custom = Join-Path $repo ('config/lwip211/' + $patch.file)
     if ((Get-FileHash -LiteralPath $custom -Algorithm SHA256).Hash -ne $patch.sha256) { throw "Personalizacion modificada: $($patch.file). Revisa su manifiesto." }
 }
