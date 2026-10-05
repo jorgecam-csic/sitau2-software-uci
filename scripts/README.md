@@ -7,6 +7,7 @@ Automatización mantenida para Windows PowerShell 5.1 y Vitis Classic 2022.2. Aq
 | Archivo | Función |
 | --- | --- |
 | [build-record.ps1](build-record.ps1) | Funciones de procedencia de build, hashes, Git limpio, estado de IDE y comparación numérica de versiones. |
+| [lwip-source.ps1](lwip-source.ps1) | Valida los dos archivos de origen lwIP de Vitis: acepta el original auditado o la personalización SITAU2 exacta y rechaza cualquier otro contenido. No modifica archivos. |
 | [generar-nueva-version.ps1](generar-nueva-version.ps1) | Publica una entrega validada en output/versión, con Git limpio y entradas/productos del Build coincidentes. No compila ni hace commit. |
 | [grabar-flash.ps1](grabar-flash.ps1) | Selecciona y verifica una entrega autocontenida y programa `cpu0-boot.bin` en la QSPI mediante JTAG tras confirmación explícita. |
 | [create-workspace.tcl](create-workspace.tcl) | Receta XSCT: crea plataforma, BSP/FSBL, lwIP personalizada y aplicaciones con fuentes enlazados; en modo build compila y comprueba los ELF. Invocarla mediante setup.ps1. |
@@ -72,7 +73,7 @@ Se resuelven las plantillas de [config/bootimage](../config/bootimage/README.md)
 - No se excluyen formatos ambiguos o desconocidos: `.txt` distintos de README.txt, `.json`, `.html`, `.in`, fuentes, linker scripts, recetas y artefactos siguen comprobándose. Tampoco se descarta todo lo ignorado por Git: una cabecera ignorada y no versionada debe bloquear una entrega.
 - Para publicar se exige Git limpio, pero no que HEAD sea el commit exacto del Build. Se reutilizan los binarios únicamente si entradas de firmware, productos y herramienta coinciden; el manifiesto separa el commit del software del commit y las recetas de empaquetado.
 - lwIP debe ser exactamente `lwip211 1.08.s`; se verifican el MLD, los dos MSS y los parches del repositorio software y del BSP. Los makefiles de las aplicaciones/sistemas incluyen el mismo control para las compilaciones GUI.
-- Se auditan los archivos originales de la instalación Xilinx antes de construir la variante; no se escribe sobre Vitis.
+- Antes de construir la variante se comprueban los dos archivos de la instalación Xilinx: cada uno debe coincidir exactamente con el original auditado o la personalización SITAU2 conocida. Se informa de cuál se encontró y se rechaza cualquier otro contenido antes de tocar el workspace. No se escribe sobre Vitis.
 - Setup no archiva workspaces ajenos ni abiertos. `workflow.lock` evita operaciones simultáneas del motor; además debe cerrarse la GUI al usar XSCT por consola.
 - El PATH reducido incluye también el directorio de Git para los controles de procedencia y solo dura durante la ejecución. Los logs XSCT se guardan en WorkRoot/logs. Se exige código de salida correcto y marcador `SITAU_OK:<acción>`; Build exige además empaquetado correcto.
 - No cambiar manualmente `.sitau-workspace.json` para eludir una comprobación. Cambiar las entradas mantenidas y generar desde cero.
