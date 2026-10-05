@@ -24,8 +24,6 @@ Resultados de auditoría, inventarios, hashes y validaciones. Aquí se esperan i
 | [limpieza-mk32.json](limpieza-mk32.json) | Rutas y hashes de los archivos copiados y retirados. |
 | [limpieza-workspace-heredado.md](limpieza-workspace-heredado.md) | Registro de la retirada de restos del workspace antiguo. |
 | [lwip-version-sitau2.md](lwip-version-sitau2.md) | Implementación y pruebas de lwip211 1.08.s: ausencia, controles, regeneración y compilación. |
-| [lwip-origen-personalizado.md](lwip-origen-personalizado.md) | Aceptación de originales o personalizaciones conocidas en Vitis, pruebas e impacto en la release 0.0.0. |
-| [lwip-origen-personalizado.json](lwip-origen-personalizado.json) | Hashes antes/después, comparación de los dos builds y controles negativos del BSP y la biblioteca. |
 | [lwip-build-manifest.json](lwip-build-manifest.json) | Entradas, paquetes y hashes de la compilación con la variante lwIP. |
 | [packaging-build-manifest.json](packaging-build-manifest.json) | Entradas, salidas, particiones y hashes del build que validó el empaquetado nuevo. |
 | [referencia-compilacion.md](referencia-compilacion.md) | Evidencias de compilación del workspace heredado antes del refactor. |

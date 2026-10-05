@@ -295,9 +295,7 @@ Para actualizar hardware, añadir un paquete nuevo con manifiesto, seleccionar s
 
 ### Biblioteca Ethernet personalizada
 
-El generador copia la biblioteca Xilinx 1.8 de Vitis a un repositorio software del workspace, aplica los dos fuentes auditados y la registra como **`lwip211 1.08.s`**. El BSP pide esa versión exacta. No se modifica la instalación Xilinx.
-
-En la instalación Vitis, cada uno de los dos archivos comprobados (`xadapter.c` y `xemacpsif_physpeed.c`) puede ser el original auditado o la personalización SITAU2 exacta que mantiene este repositorio. Se admite también una combinación de ambos estados. El script indica el estado detectado; si falta un archivo o su contenido es distinto, se detiene antes de crear o archivar el workspace y muestra la ruta y los hashes. En todos los casos se copian al workspace nuestros dos fuentes mantenidos. Este control no certifica el resto de la biblioteca de una instalación ajena.
+El generador copia la biblioteca Xilinx 1.8 de Vitis a un repositorio software del workspace, aplica los dos fuentes auditados y la registra como **`lwip211 1.08.s`**. Los dos archivos de origen pueden ser los originales auditados o las personalizaciones SITAU2 conocidas. El BSP pide esa versión exacta. No se modifica la instalación Xilinx.
 
 Regenerar el BSP recupera los cambios desde esa biblioteca personalizada. Los controles comprueban su identidad, selección y hashes tanto en el repositorio software como en el BSP. Si falta la variante o cambian los archivos, el flujo se detiene; se probó que una petición de `1.08.s` sin la variante disponible no selecciona silenciosamente la `1.8` original. [Funcionamiento y mantenimiento](config/lwip211/README.md).
 

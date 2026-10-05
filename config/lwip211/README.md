@@ -12,11 +12,7 @@ Personalizaciones auditadas de lwIP 2.1.1, basadas en la biblioteca Xilinx 1.8 y
 
 El generador copia la biblioteca de Vitis a `workspace/software-repository/sw_services/lwip211_v1_08_s`, cambia versión y descripción en el MLD, aplica estos dos archivos y registra el repositorio antes de crear la plataforma. El BSP solicita exactamente `1.08.s`; no se modifica la instalación de Vitis ni se parchea únicamente una salida generada.
 
-Antes de generar, compilar o abrir el entorno, se valida cada uno de esos archivos en la instalación: se acepta únicamente su `stockSha256` original o su `sha256` personalizado, definidos en el manifiesto. Se permiten combinaciones mixtas, ya que ambos archivos siempre se sustituyen por las copias mantenidas. Los mensajes indican cuál se encontró. Un archivo ausente o distinto detiene la operación antes de crear o archivar el workspace; no se normalizan bytes ni se omite el control. Primero se valida también la integridad de nuestras copias.
-
-Esta comprobación reconoce instalaciones donde el workaround se aplicó directamente a Vitis, pero solo certifica esos dos archivos; no audita toda la biblioteca instalada. Los controles del BSP generado siguen exigiendo exclusivamente la variante personalizada.
-
-Las pruebas y el impacto sobre las entregas existentes se documentan en [validación de orígenes personalizados](../../documents/reports/lwip-origen-personalizado.md).
+Cada uno de los dos archivos de origen debe coincidir exactamente con su hash original (`stockSha256`) o personalizado (`sha256`) del manifiesto; se admiten combinaciones mixtas y se rechaza cualquier otro contenido. Ambos se sustituyen siempre por las copias mantenidas, cuya integridad también se comprueba. Esto permite usar instalaciones donde ya se aplicó el workaround SITAU2, sin certificar el resto de su biblioteca ni cambiar la variante generada.
 
 Al regenerar el BSP, la entrada es esa biblioteca personalizada. Las comprobaciones previas a compilar y empaquetar exigen su presencia, identidad, selección en los MSS y los hashes de ambos archivos tanto en el repositorio software como en el BSP. Si algo no coincide, el flujo se detiene.
 

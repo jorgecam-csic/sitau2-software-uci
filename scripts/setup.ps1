@@ -12,7 +12,6 @@ Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Utility') -ErrorA
 Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Management') -ErrorAction Stop
 . (Join-Path $PSScriptRoot 'build-record.ps1')
 . (Join-Path $PSScriptRoot 'vitis.ps1')
-. (Join-Path $PSScriptRoot 'lwip-source.ps1')
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 if (!$WorkRoot) { $WorkRoot = Join-Path (Split-Path $repo) ((Split-Path $repo -Leaf) + '-work') }
 $WorkRoot = [IO.Path]::GetFullPath($WorkRoot)
@@ -89,8 +88,12 @@ if ($Action -eq 'Check') {
 $VitisHome = Resolve-VitisHome $VitisHome '2022.2'
 $xsct = Join-Path $VitisHome 'bin/xsct.bat'
 $vitis = Join-Path $VitisHome 'bin/vitis.bat'
-foreach ($source in (Assert-LwipSource $repo $VitisHome)) {
-    Write-Host "lwIP $($source.file): $($source.kind)"
+foreach ($patch in (Get-Content -LiteralPath (Join-Path $repo 'config/lwip211/manifest.json') -Raw | ConvertFrom-Json)) {
+    $stock = Join-Path $VitisHome ('data/embeddedsw/ThirdParty/sw_services/lwip211_v1_8/src/contrib/ports/xilinx/netif/' + $patch.file)
+    $stockHash = (Get-FileHash -LiteralPath $stock -Algorithm SHA256).Hash
+    if ($stockHash -notin @($patch.stockSha256,$patch.sha256)) { throw "Biblioteca de Vitis no reconocida: $stock. SHA-256: $stockHash; permitidos: $($patch.stockSha256), $($patch.sha256)" }
+    $custom = Join-Path $repo ('config/lwip211/' + $patch.file)
+    if ((Get-FileHash -LiteralPath $custom -Algorithm SHA256).Hash -ne $patch.sha256) { throw "Personalizacion modificada: $($patch.file). Revisa su manifiesto." }
 }
 New-Item -ItemType Directory -Path $WorkRoot -Force | Out-Null
 $guard = [IO.File]::Open((Join-Path $WorkRoot 'workflow.lock'), [IO.FileMode]::OpenOrCreate, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
