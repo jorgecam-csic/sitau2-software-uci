@@ -102,7 +102,7 @@ D:/sitau2/
 
 La carpeta de trabajo se calcula como `../<nombre-del-repositorio>-work`. Las carpetas antiguas de auditoría o referencia pueden existir en equipos usados para el refactor; no son necesarias en una descarga limpia.
 
-El generador verifica el XSA, prepara `lwip211 1.08.s`, crea `Platform`, sus BSP y el FSBL, y crea las aplicaciones con los fuentes enlazados a `src/`. La primera ejecución puede tardar bastantes minutos. Consultar el log cuya ruta se muestra al principio, sin lanzar otra generación en paralelo.
+El generador verifica el XSA, prepara `lwip211 1.08.s`, crea `Platform`, sus BSP y el FSBL, y crea las aplicaciones con los fuentes enlazados a `src/`. También deja en CPU0 un perfil inicial `SITAU2 JTAG CPU0-CPU1` para Vitis. La primera ejecución puede tardar bastantes minutos. Consultar el log cuya ruta se muestra al principio, sin lanzar otra generación en paralelo.
 
 El éxito se confirma con **`SITAU_OK:setup`** y la ruta final del workspace. Esta acción prepara y compila la plataforma/FSBL; **todavía no equivale a compilar CPU0/CPU1 ni a generar los paquetes de entrega**.
 
@@ -250,6 +250,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package.ps1 -Workspa
 
 `package.ps1` **no compila**: utiliza los ELF existentes y verifica las dependencias antes de empaquetar. Estos paquetes sirven para desarrollo; una entrega en output requiere además el registro de procedencia del build por consola. Guardar y terminar los builds antes de invocarlo. Para una entrega con menos pasos manuales, cerrar Vitis y usar `Build` por consola.
 
+### Configuración de depuración JTAG
+
+Setup copia el perfil `SITAU2 JTAG CPU0-CPU1` al crear el workspace. Cada programador puede ajustarlo en Vitis: `Check` no lo inspecciona y los cambios en la plantilla solo afectan a workspaces nuevos.
+
+En la barra superior de Vitis, pulsar la **flecha pequeña junto al icono de depuración** (el insecto verde) y elegir **Debug Configurations…**. En la ventana, desplegar **Single Application Debug** y seleccionar **SITAU2 JTAG CPU0-CPU1**. La captura muestra esa configuración con la pestaña **Target Setup** abierta:
+
+![Configuración SITAU2 JTAG CPU0-CPU1 en Vitis Classic 2022.2](documents/vitis-configuracion-depuracion-jtag.png)
+
+Antes de iniciarla, comprobar **Main → Target Connection: Local**, los ELF de CPU0 y CPU1 en **Application**, y **Program FPGA** junto al bitstream e inicialización PS en **Target Setup**. Con los dos ELF compilados y una sola placa conectada por JTAG, pulsar **Debug**. El perfil restablece el sistema, programa la FPGA y descarga ambos ELF; no fija el número de serie de una sonda concreta. La primera ejecución real en placa sigue pendiente de validación.
+
 ## Trabajo diario y cambios de rama
 
 ### Qué editar y qué conservar
@@ -338,4 +348,4 @@ En la raíz, `generar-workspace.bat` genera el entorno, `compilar.bat` recompila
 
 Se han probado generación limpia, compilación de ambas CPU, empaquetado, reconstrucción del BSP, rechazo de lwIP ausente/alterada y publicación de entregas numeradas con sus controles. Consultar [validación del refactor](documents/reports/validacion-refactor.md), [empaquetado](documents/reports/empaquetado-red-cpu1.md), [lwIP](documents/reports/lwip-version-sitau2.md) y [versionado de output](documents/reports/versionado-output.md). Los informes son históricos: sus rutas antiguas describen las pruebas de su fecha, no instrucciones vigentes.
 
-Quedan fuera de la validación de compilación: funcionamiento en placa, preparación de depuración JTAG portable y, si se necesita, recarga de CPU1 en caliente. La normalización de codificaciones sigue pendiente. No se afirma que compilar y validar cabeceras equivalga a haber probado la entrega en hardware.
+Quedan fuera de la validación de compilación: funcionamiento en placa, prueba real del perfil JTAG y, si se necesita, recarga de CPU1 en caliente. La normalización de codificaciones sigue pendiente. No se afirma que compilar y validar cabeceras equivalga a haber probado la entrega en hardware.

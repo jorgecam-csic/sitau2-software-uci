@@ -51,7 +51,7 @@ function Test-WorkspaceState($State) {
         if (Test-Path -LiteralPath $legacyRecordPath -PathType Leaf) {
             $legacyRecord = Get-Content -LiteralPath $legacyRecordPath -Raw | ConvertFrom-Json
             $compatible = Test-LegacyWorkspaceCompatibility $repo $legacyRecord.inputs
-            if ($compatible) { Write-Host 'Workspace anterior compatible: solo cambiaron entradas ajenas a su estructura.' }
+            if ($compatible) { Write-Host 'Workspace anterior compatible: recetas y rutas de fuentes equivalentes.' }
         }
     }
     return $compatible
@@ -155,6 +155,12 @@ try {
     if ($create) {
         Invoke-Recipe 'setup'
         Assert-CustomLwip
+        # Perfil inicial de Vitis: se copia una sola vez y queda a cargo del usuario.
+        # No forma parte de la huella ni de Check para permitir ajustes locales.
+        $launchSource = Join-Path $repo 'config/jtag/CPU0-CPU1 JTAG.launch'
+        $launchTarget = Join-Path $workspace 'CPU0/SITAU2 JTAG CPU0-CPU1.launch'
+        if (Test-Path -LiteralPath $launchTarget) { throw "Vitis ya creo el perfil JTAG: $launchTarget" }
+        Copy-Item -LiteralPath $launchSource -Destination $launchTarget
         @{schemaVersion=2;repo=$repo;fingerprint=$fingerprint;ready=$true;xsaSha256=$lock.uci.sha256} | ConvertTo-Json | Set-Content -LiteralPath $statePath -Encoding UTF8
     }
     if (!$create) { Assert-CustomLwip }

@@ -12,17 +12,17 @@ function Assert-CleanRepo([string]$Repo) {
     $status = @(Invoke-RepoGit $Repo @('status','--porcelain','--untracked-files=all'))
     if ($status.Count) { throw 'Git tiene cambios pendientes. Haz commit de los cambios antes de generar una version (incluidas entregas anteriores).' }
 }
-function Get-InputFiles([string[]]$Roots) {
+function Test-InputName([string]$Name) {
     # Documentacion y auxiliares conocidos no son entradas del proyecto.
     # Conservar formatos ambiguos/desconocidos y archivos ignorados por Git:
     # una cabecera o un recurso sin versionar tambien puede afectar al build.
     $auxiliaryExtensions = @('.md','.markdown','.bak','.log','.tmp','.swp','.swo')
     $auxiliaryNames = @('README.txt','.DS_Store','Thumbs.db','desktop.ini')
-    Get-ChildItem -LiteralPath $Roots -Recurse -File | Where-Object {
-        $_.Extension -notin $auxiliaryExtensions -and
-        $_.Name -notin $auxiliaryNames -and
-        !$_.Name.EndsWith('~')
-    }
+    return ([IO.Path]::GetExtension($Name) -notin $auxiliaryExtensions -and
+        $Name -notin $auxiliaryNames -and !$Name.EndsWith('~'))
+}
+function Get-InputFiles([string[]]$Roots) {
+    Get-ChildItem -LiteralPath $Roots -Recurse -File | Where-Object { Test-InputName $_.Name }
 }
 function Get-HashMap([string]$Repo, $Files) {
     $result = [ordered]@{}
@@ -114,16 +114,34 @@ function Test-LegacyWorkspaceCompatibility([string]$Repo, $Inputs) {
     try {
         $legacy = ConvertTo-Map $Inputs
         $currentRecipe = Get-HashMap $Repo (Get-WorkspaceRecipeFiles $Repo)
-        $legacyRecipe = [ordered]@{}
+        $legacyLineEndingFiles = @('artifacts/dependencies-lock.json','config/applications.tcl','config/lwip211/manifest.json')
         foreach ($key in $currentRecipe.Keys) {
             if (!$legacy.ContainsKey($key)) { return $false }
-            $legacyRecipe[$key] = $legacy[$key]
+            if ($legacy[$key] -cne $currentRecipe[$key] -and
+                ($key -notin $legacyLineEndingFiles -or
+                !(Test-LegacyCrLfHash (Join-Path $Repo $key) $legacy[$key]))) { return $false }
         }
-        Assert-SameMap $legacyRecipe $currentRecipe 'Receta de workspace cambiada'
-        $legacySources = @($legacy.Keys | Where-Object { $_ -like 'src/*' } | Sort-Object)
+        $legacySources = @($legacy.Keys | Where-Object {
+            $_ -like 'src/*' -and (Test-InputName ([IO.Path]::GetFileName($_)))
+        } | Sort-Object)
         $currentSources = @(Get-SourceRelativeNames $Repo)
         return (($legacySources -join "`n") -ceq ($currentSources -join "`n"))
     } catch { return $false }
+}
+function Test-LegacyCrLfHash([string]$Path, [string]$Expected) {
+    # Algunos workspaces anteriores registraron CRLF antes de normalizar Git a LF.
+    # Aceptar solo esa transformacion exacta; cualquier otro cambio sigue bloqueado.
+    $bytes = [IO.File]::ReadAllBytes($Path)
+    $stream = [IO.MemoryStream]::new()
+    $sha = [Security.Cryptography.SHA256]::Create()
+    try {
+        foreach ($byte in $bytes) {
+            if ($byte -eq 10) { $stream.WriteByte(13) }
+            $stream.WriteByte($byte)
+        }
+        $hash = ([BitConverter]::ToString($sha.ComputeHash($stream.ToArray()))).Replace('-','').ToLowerInvariant()
+        return ($hash -ceq ([string]$Expected).ToLowerInvariant())
+    } finally { $sha.Dispose(); $stream.Dispose() }
 }
 function Get-PackageInputs([string]$Workspace) {
     return [ordered]@{
