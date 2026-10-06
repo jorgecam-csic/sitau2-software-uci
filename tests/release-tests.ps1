@@ -39,11 +39,12 @@ try {
     $workspace = Join-Path $root 'work/workspace'
     $vitis = Join-Path $root 'vitis'
     Write-Text (Join-Path $repo 'src/input.c') 'source'
-    Write-Text (Join-Path $repo 'config/applications.tcl') 'applications'
+    Write-Text (Join-Path $repo 'config/applications.tcl') "applications`nconfiguration`n"
     Write-Text (Join-Path $repo 'config/bsp/cpu0.mss') 'bsp'
     Write-Text (Join-Path $repo 'config/lwip211/manifest.json') '[]'
     Write-Text (Join-Path $repo 'config/lwip211/xadapter.c') 'lwip'
     Write-Text (Join-Path $repo 'config/bootimage/cpu0-boot.bif.in') 'bootimage'
+    Write-Text (Join-Path $repo 'config/jtag/CPU0-CPU1 JTAG.launch') 'profile'
     Write-Text (Join-Path $repo 'scripts/create-workspace.tcl') 'workspace recipe'
     Write-Text (Join-Path $repo 'scripts/package.ps1') 'package recipe'
     Write-Text (Join-Path $repo 'scripts/generar-nueva-version.ps1') 'release recipe'
@@ -71,6 +72,9 @@ try {
     Write-Text (Join-Path $repo 'config/bootimage/cpu0-boot.bif.in') 'bootimage edited'
     Assert-Equal $baseFingerprint (Get-WorkspaceFingerprint $repo) 'Bootimage no debe regenerar el workspace.'
     Write-Text (Join-Path $repo 'config/bootimage/cpu0-boot.bif.in') 'bootimage'
+    Write-Text (Join-Path $repo 'config/jtag/CPU0-CPU1 JTAG.launch') 'profile edited'
+    Assert-Equal $baseFingerprint (Get-WorkspaceFingerprint $repo) 'JTAG no debe regenerar el workspace.'
+    Write-Text (Join-Path $repo 'config/jtag/CPU0-CPU1 JTAG.launch') 'profile'
     Write-Text (Join-Path $repo 'config/bsp/cpu0.mss') 'bsp edited'
     Assert-Different $baseFingerprint (Get-WorkspaceFingerprint $repo) 'BSP debe regenerar el workspace.'
     Write-Text (Join-Path $repo 'config/bsp/cpu0.mss') 'bsp'
@@ -140,6 +144,19 @@ try {
     $legacy | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $recordPath -Encoding UTF8
     $null = Assert-BuildRecord $repo $workspace $vitis; $count++
     if (!(Test-LegacyWorkspaceCompatibility $repo $legacyInputs)) { throw 'El workspace anterior compatible fue rechazado.' }
+    $count++
+    $legacyWithAux = @{}
+    foreach ($key in $legacyInputs.Keys) { $legacyWithAux[$key] = $legacyInputs[$key] }
+    $legacyWithAux['src/README.md'] = 'hash auxiliar antiguo'
+    $sha = [Security.Cryptography.SHA256]::Create()
+    try {
+        $crlf = [Text.Encoding]::UTF8.GetBytes("applications`r`nconfiguration`r`n")
+        $legacyWithAux['config/applications.tcl'] = ([BitConverter]::ToString($sha.ComputeHash($crlf))).Replace('-','').ToLowerInvariant()
+    } finally { $sha.Dispose() }
+    if (!(Test-LegacyWorkspaceCompatibility $repo $legacyWithAux)) { throw 'CRLF y README del workspace anterior fueron rechazados.' }
+    $count++
+    $legacyWithAux['config/applications.tcl'] = 'hash de un cambio real'
+    if (Test-LegacyWorkspaceCompatibility $repo $legacyWithAux) { throw 'Un cambio real de receta fue aceptado.' }
     $count++
 
     Write-Host "PASS: $count pruebas de versiones, alcance del workspace y procedencia. No requieren Xilinx."
